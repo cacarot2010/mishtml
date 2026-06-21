@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏆 Mundial 2026 - Simulador</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:#0d1117;color:#e6edf3;min-height:100vh}
+.header{background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);padding:20px;text-align:center;border-bottom:3px solid #FFD700}
+.header h1{font-size:2em;color:#FFD700;text-shadow:2px 2px 4px rgba(0,0,0,.5)}
+.header p{color:#8b949e;margin-top:5px}
+.tabs{display:flex;justify-content:center;gap:10px;padding:15px;background:#161b22;border-bottom:1px solid #30363d}
+.tab{padding:10px 24px;border:2px solid #30363d;border-radius:8px;cursor:pointer;background:#21262d;color:#8b949e;font-weight:600;transition:.2s}
+.tab:hover{border-color:#FFD700;color:#FFD700}
+.tab.active{background:#FFD700;color:#0d1117;border-color:#FFD700}
+.content{max-width:1400px;margin:0 auto;padding:20px}
+.btn{padding:10px 20px;border:none;border-radius:8px;cursor:pointer;font-weight:600;font-size:.9em;transition:.2s}
+.btn-gold{background:linear-gradient(135deg,#FFD700,#FFA500);color:#0d1117}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 4px 15px rgba(255,215,0,.3)}
+.btn-outline{background:transparent;border:2px solid #30363d;color:#8b949e}
+.btn-outline:hover{border-color:#FFD700;color:#FFD700}
+.btn-red{background:#da3633;color:#fff}
+.controls{display:flex;gap:10px;margin:15px 0;flex-wrap:wrap;align-items:center}
+.groups-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:15px}
+.group-card{background:#161b22;border:1px solid #30363d;border-radius:12px;overflow:hidden;transition:.2s}
+.group-card:hover{border-color:#FFD700}
+.group-card h3{background:linear-gradient(135deg,#1a1a2e,#16213e);color:#FFD700;padding:10px 15px;font-size:1em}
+.group-card table{width:100%;border-collapse:collapse;font-size:.85em}
+.group-card th{padding:6px 8px;text-align:left;color:#8b949e;border-bottom:1px solid #30363d;font-weight:600}
+.group-card td{padding:6px 8px;border-bottom:1px solid #21262d}
+.group-card tr.qualified{background:rgba(35,139,69,.15)}
+.group-card tr.third{background:rgba(255,215,0,.1)}
+.group-card .pts{font-weight:700;color:#FFD700}
+.bracket{display:flex;flex-direction:column;align-items:center;gap:20px;padding:20px 0}
+.round{display:flex;flex-direction:column;gap:10px;align-items:center}
+.round-title{color:#FFD700;font-weight:700;font-size:1.1em;margin-bottom:10px;text-align:center}
+.match-card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:8px 12px;min-width:220px;text-align:center}
+.match-card .team{display:flex;justify-content:space-between;align-items:center;padding:3px 0}
+.match-card .score{color:#FFD700;font-weight:700;min-width:25px;text-align:center}
+.match-card .winner{color:#3fb950;font-weight:700}
+.final-match{border:2px solid #FFD700!important;background:linear-gradient(135deg,#1a1a2e,#16213e)!important}
+.trophy{text-align:center;font-size:4em;padding:20px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:15px}
+.stat-card{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:15px}
+.stat-card h3{color:#FFD700;margin-bottom:10px}
+.stat-item{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #21262d}
+.third-table{width:100%;border-collapse:collapse;margin:15px 0}
+.third-table th,.third-table td{padding:8px 12px;text-align:left;border-bottom:1px solid #30363d}
+.third-table th{color:#FFD700}
+.third-table tr.qualified{background:rgba(255,215,0,.1)}
+.hidden{display:none}
+.page-title{color:#FFD700;font-size:1.5em;margin-bottom:15px;text-align:center}
+bracket-rounds{display:flex;gap:30px;overflow-x:auto;padding:20px}
+.b-section{display:flex;flex-direction:column;gap:8px;min-width:200px}
+.flag{font-size:1.2em;margin-right:5px}
+</style>
+</head>
+<body>
+
+<div class="header">
+<h1>🏆 Copa Mundial FIFA 2026</h1>
+<p>USA · Canadá · México | 48 Equipos · 12 Grupos · 104 Partidos</p>
+</div>
+
+<div class="tabs">
+<div class="tab active" onclick="showTab('groups')">📋 Grupos</div>
+<div class="tab" onclick="showTab('knockout')">⚔️ Eliminatorias</div>
+<div class="tab" onclick="showTab('stats')">📊 Estadísticas</div>
+</div>
+
+<div class="content">
+<!-- GROUPS TAB -->
+<div id="tab-groups">
+<p class="page-title">Fase de Grupos</p>
+<div class="controls">
+<button class="btn btn-gold" onclick="simulateAllGroups()">⚡ Simular Todos los Grupos</button>
+<button class="btn btn-outline" onclick="resetGroups()">🔄 Reiniciar</button>
+<span id="groups-status" style="color:#8b949e;margin-left:10px"></span>
+</div>
+<div class="groups-grid" id="groups-container"></div>
+<div id="thirds-section" class="hidden" style="margin-top:20px">
+<h3 style="color:#FFD700;text-align:center">📊 Comparación de Terceros Clasificados</h3>
+<table class="third-table" id="thirds-table">
+<thead><tr><th>#</th><th>Equipo</th><th>Grupo</th><th>Pts</th><th>DG</th><th>GF</th></tr></thead>
+<tbody></tbody>
+</table>
+</div>
+</div>
+
+<!-- KNOCKOUT TAB -->
+<div id="tab-knockout" class="hidden">
+<p class="page-title">Fase Eliminatoria</p>
+<div class="controls">
+<button class="btn btn-gold" onclick="simulateNextRound()">▶️ Simular Siguiente Ronda</button>
+<button class="btn btn-outline" onclick="simulateAllKnockout()">⚡ Simular Todo</button>
+<button class="btn btn-outline" onclick="resetKnockout()">🔄 Reiniciar</button>
+</div>
+<div id="champion-display" class="hidden">
+<div class="trophy">🏆</div>
+<h2 style="text-align:center;color:#FFD700;font-size:1.8em" id="champion-name"></h2>
+<p style="text-align:center;color:#8b949e">¡Campeón del Mundo 2026!</p>
+</div>
+<div id="bracket-container" style="overflow-x:auto"></div>
+</div>
+
+<!-- STATS TAB -->
+<div id="tab-stats" class="hidden">
+<p class="page-title">Estadísticas del Torneo</p>
+<div class="stats-grid" id="stats-container"></div>
+</div>
+</div>
+
+<script>
+const GROUPS_DATA={
+A:["Mexico","South Africa","South Korea","Czechia"],
+B:["Canada","Bosnia","Qatar","Switzerland"],
+C:["Brazil","Morocco","Haiti","Scotland"],
+D:["USA","Paraguay","Australia","Türkiye"],
+E:["Germany","Curaçao","Côte d\'Ivoire","Ecuador"],
+F:["Netherlands","Japan","Sweden","Tunisia"],
+G:["Belgium","Egypt","IR Iran","New Zealand"],
+H:["Spain","Cabo Verde","Saudi Arabia","Uruguay"],
+I:["France","Senegal","Iraq","Norway"],
+J:["Argentina","Algeria","Austria","Jordan"],
+K:["Portugal","Congo DR","Uzbekistan","Colombia"],
+L:["England","Croatia","Ghana","Panama"]
+};
+
+const FLAGS={Mexico:"🇲🇽",SouthAfrica:"🇿🇦",SouthKorea:"🇰🇷",Czechia:"🇨🇿",Canada:"🇨🇦",Bosnia:"🇧🇦",Qatar:"🇶🇦",Switzerland:"🇨🇭",Brazil:"🇧🇷",Morocco:"🇲🇦",Haiti:"🇭🇹",Scotland:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",USA:"🇺🇸",Paraguay:"🇵🇾",Australia:"🇦🇺",Türkiye:"🇹🇷",Germany:"🇩🇪",Curaçao:"🇨🇼","Côte d\'Ivoire":"🇨🇮",Ecuador:"🇪🇨",Netherlands:"🇳🇱",Japan:"🇯🇵",Sweden:"🇸🇪",Tunisia:"🇹🇳",Belgium:"🇧🇪",Egypt:"🇪🇬","IR Iran":"🇮🇷",NewZealand:"🇳🇿",Spain:"🇪🇸","Cabo Verde":"🇨🇻",SaudiArabia:"🇸🇦",Uruguay:"🇺🇾",France:"🇫🇷",Senegal:"🇸🇳",Iraq:"🇮🇶",Norway:"🇳🇴",Argentina:"🇦🇷",Algeria:"🇩🇿",Austria:"🇦🇹",Jordan:"🇯🇴",Portugal:"🇵🇹","Congo DR":"🇨🇩",Uzbekistan:"🇺🇿",Colombia:"🇨🇴",England:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",Croatia:"🇭🇷",Ghana:"🇬🇭",Panama:"🇵🇦"};
+
+const STRENGTHS={Mexico:7,SouthAfrica:4,SouthKorea:7,Czechia:4,Canada:5,Bosnia:4,Qatar:5,Switzerland:7,Brazil:9,Morocco:8,Haiti:4,Scotland:6,USA:7,Paraguay:6,Australia:7,Türkiye:7,Germany:8,Curaçao:4,"Côte d\'Ivoire":6,Ecuador:7,Netherlands:8,Japan:8,Sweden:7,Tunisia:6,Belgium:8,Egypt:7,"IR Iran":5,NewZealand:5,Spain:9,"Cabo Verde":4,SaudiArabia:6,Uruguay:8,France:10,Senegal:7,Iraq:6,Norway:6,Argentina:9,Algeria:6,Austria:7,Jordan:4,Portugal:9,"Congo DR":5,Uzbekistan:5,Colombia:8,England:9,Croatia:7,Ghana:6,Panama:5};
+
+let groupResults={};
+let knockoutData={currentRound:0,brackets:{},matches:{}};
+let allMatches=[];
+
+function getFlag(team){return FLAGS[team.replace(/ /g,'')]||"🏳️"}
+
+function genScore(t1,t2){
+let s1=STRENGTHS[t1]||5,s2=STRENGTHS[t2]||5;
+let diff=s1-s2;
+let r=Math.random();
+let g1=0,g2=0;
+if(r<.15){g1=0;g2=Math.random()<.3?1:0}
+else if(r<.35){g1=1;g2=0}
+else if(r<.5){g1=1;g2=1}
+else if(r<.65){g1=2;g2=1}
+else if(r<.75){g1=2;g2=0}
+else if(r<.85){g1=3;g2=1}
+else{g1=Math.floor(Math.random()*3)+2;g2=Math.floor(Math.random()*3)}
+if(diff>2&&Math.random()<.4){g1+=1}
+if(diff<-2&&Math.random()<.4){g2+=1}
+if(g1===g2&&Math.random()<.3+diff*.05){g1+=1}
+return[Math.max(0,g1),Math.max(0,g2)];
+}
+
+function showTab(name){
+document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+document.querySelectorAll('[id^="tab-"]').forEach(t=>t.classList.add('hidden'));
+document.getElementById('tab-'+name).classList.remove('hidden');
+event.target.classList.add('active');
+if(name==='stats')updateStats();
+}
+
+function renderGroups(){
+let c=document.getElementById('groups-container');
+c.innerHTML='';
+for(let g of Object.keys(GROUPS_DATA)){
+let card=document.createElement('div');
+card.className='group-card';
+card.id='group-'+g;
+card.innerHTML=`<h3>Grupo ${g}</h3><table><thead><tr><th>#</th><th>Equipo</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DG</th><th>Pts</th></tr></thead><tbody id="tbody-${g}"></tbody></table>`;
+c.appendChild(card);
+updateGroupTable(g);
+}
+}
+
+function updateGroupTable(g){
+let teams=GROUPS_DATA[g];
+let table=[];
+if(!groupResults[g]){
+table=teams.map(t=>({name:t,p:0,w:0,d:0,l:0,gf:0,gc:0,dg:0,pts:0}));
+}else{
+let s={};
+teams.forEach(t=>s[t]={name:t,p:0,w:0,d:0,l:0,gf:0,gc:0,dg:0,pts:0});
+(groupResults[g]||[]).forEach(m=>{
+s[m.t1].p++;s[m.t2].p++;
+s[m.t1].gf+=m.s1;s[m.t1].gc+=m.s2;
+s[m.t2].gf+=m.s2;s[m.t2].gc+=m.s1;
+if(m.s1>m.s2){s[m.t1].w++;s[m.t2].l++;s[m.t1].pts+=3}
+else if(m.s1<m.s2){s[m.t2].w++;s[m.t1].l++;s[m.t2].pts+=3}
+else{s[m.t1].d++;s[m.t2].d++;s[m.t1].pts++;s[m.t2].pts++}
+});
+table=Object.values(s);
+}
+table.sort((a,b)=>b.pts-a.pts||b.dg-a.dg||b.gf-a.gf);
+table.forEach((t,i)=>{t.dg=t.gf-t.gc});
+let tbody=document.getElementById('tbody-'+g);
+if(!tbody)return;
+tbody.innerHTML=table.map((t,i)=>{
+let cls=i<2?'qualified':(i===2?'third':'');
+return`<tr class="${cls}"><td>${i+1}</td><td>${getFlag(t.name)} ${t.name}</td><td>${t.p}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gf}</td><td>${t.gc}</td><td>${t.dg>0?'+':''}${t.dg}</td><td class="pts">${t.pts}</td></tr>`;
+}).join('');
+}
+
+function simulateAllGroups(){
+allMatches=[];
+for(let g of Object.keys(GROUPS_DATA)){
+let teams=GROUPS_DATA[g];
+groupResults[g]=[];
+for(let i=0;i<teams.length;i++){
+for(let j=i+1;j<teams.length;j++){
+let[s1,s2]=genScore(teams[i],teams[j]);
+let m={t1:teams[i],t2:teams[j],s1,s2,group:g};
+groupResults[g].push(m);
+allMatches.push(m);
+}
+}
+updateGroupTable(g);
+}
+document.getElementById('groups-status').textContent='✅ Fase de grupos simulada (72 partidos)';
+updateThirds();
+}
+
+function resetGroups(){
+groupResults={};
+allMatches=[];
+knockoutData={currentRound:0,brackets:{},matches:{}};
+document.getElementById('groups-status').textContent='';
+document.getElementById('thirds-section').classList.add('hidden');
+document.getElementById('champion-display').classList.add('hidden');
+renderGroups();
+document.getElementById('bracket-container').innerHTML='';
+}
+
+function updateThirds(){
+let thirds=[];
+for(let g of Object.keys(GROUPS_DATA)){
+let teams=GROUPS_DATA[g];
+let table=[];
+let s={};
+teams.forEach(t=>s[t]={name:t,p:0,w:0,d:0,l:0,gf:0,gc:0,dg:0,pts:0});
+(groupResults[g]||[]).forEach(m=>{
+s[m.t1].p++;s[m.t2].p++;
+s[m.t1].gf+=m.s1;s[m.t1].gc+=m.s2;
+s[m.t2].gf+=m.s2;s[m.t2].gc+=m.s1;
+if(m.s1>m.s2){s[m.t1].w++;s[m.t2].l++;s[m.t1].pts+=3}
+else if(m.s1<m.s2){s[m.t2].w++;s[m.t1].l++;s[m.t2].pts+=3}
+else{s[m.t1].d++;s[m.t2].d++;s[m.t1].pts++;s[m.t2].pts++}
+});
+table=Object.values(s);
+table.sort((a,b)=>b.pts-a.pts||b.dg-a.dg||b.gf-a.gf);
+table.forEach((t,i)=>t.dg=t.gf-t.gc);
+if(table[2])thirds.push({...table[2],group:g});
+}
+thirds.sort((a,b)=>b.pts-a.pts||b.dg-a.dg||b.gf-a.gf);
+let best8=thirds.slice(0,8);
+let tb=document.querySelector('#thirds-table tbody');
+tb.innerHTML=thirds.map((t,i)=>{
+let q=i<8;
+return`<tr class="${q?'qualified':''}"><td>${i+1}</td><td>${getFlag(t.name)} ${t.name}</td><td>Grupo ${t.group}</td><td>${t.pts}</td><td>${t.dg>0?'+':''}${t.dg}</td><td>${t.gf}</td></tr>`;
+}).join('');
+document.getElementById('thirds-section').classList.remove('hidden');
+}
+
+function getQualified(){
+let qualified=[];
+for(let g of Object.keys(GROUPS_DATA)){
+let teams=GROUPS_DATA[g];
+let table=[];
+let s={};
+teams.forEach(t=>s[t]={name:t,p:0,w:0,d:0,l:0,gf:0,gc:0,dg:0,pts:0});
+(groupResults[g]||[]).forEach(m=>{
+s[m.t1].p++;s[m.t2].p++;
+s[m.t1].gf+=m.s1;s[m.t1].gc+=m.s2;
+s[m.t2].gf+=m.s2;s[m.t2].gc+=m.s1;
+if(m.s1>m.s2){s[m.t1].w++;s[m.t2].l++;s[m.t1].pts+=3}
+else if(m.s1<m.s2){s[m.t2].w++;s[m.t1].l++;s[m.t2].pts+=3}
+else{s[m.t1].d++;s[m.t2].d++;s[m.t1].pts++;s[m.t2].pts++}
+});
+table=Object.values(s);
+table.sort((a,b)=>b.pts-a.pts||b.dg-a.dg||b.gf-a.gf);
+table.forEach((t,i)=>t.dg=t.gf-t.gc);
+qualified.push(table[0].name,table[1].name);
+}
+// thirds
+let thirds=[];
+for(let g of Object.keys(GROUPS_DATA)){
+let teams=GROUPS_DATA[g];
+let s={};
+teams.forEach(t=>s[t]={name:t,p:0,w:0,d:0,l:0,gf:0,gc:0,dg:0,pts:0});
+(groupResults[g]||[]).forEach(m=>{
+s[m.t1].p++;s[m.t2].p++;
+s[m.t1].gf+=m.s1;s[m.t1].gc+=m.s2;
+s[m.t2].gf+=m.s2;s[m.t2].gc+=m.s1;
+if(m.s1>m.s2){s[m.t1].w++;s[m.t2].l++;s[m.t1].pts+=3}
+else if(m.s1<m.s2){s[m.t2].w++;s[m.t1].l++;s[m.t2].pts+=3}
+else{s[m.t1].d++;s[m.t2].d++;s[m.t1].pts++;s[m.t2].pts++}
+});
+let table=Object.values(s);
+table.sort((a,b)=>b.pts-a.pts||b.dg-a.dg||b.gf-a.gf);
+table.forEach((t,i)=>t.dg=t.gf-t.gc);
+thirds.push(table[2]);
+}
+thirds.sort((a,b)=>b.pts-a.pts||b.dg-a.dg||b.gf-a.gf);
+thirds.slice(0,8).forEach(t=>qualified.push(t.name));
+return qualified;
+}
+
+function simulateNextRound(){
+if(!knockoutData.brackets[0]){
+let q=getQualified();
+if(q.length<32){alert('Primero simula la fase de grupos');return}
+// R32 matchups
+let m=[];
+for(let i=0;i<16;i++){m.push({t1:q[i],t2:q[31-i],s1:0,s2:0,played:false})}
+knockoutData.brackets[0]=m;
+knockoutData.currentRound=0;
+}
+let round=knockoutData.currentRound;
+let matches=knockoutData.brackets[round];
+if(!matches||matches.length===0)return;
+matches.forEach(m=>{
+if(!m.played){
+let[s1,s2]=genScore(m.t1,m.t2);
+if(s1===s2){s1+=1;s2=0}
+m.s1=s1;m.s2=s2;m.played=true;
+}
+});
+if(round<4)knockoutData.currentRound=round+1;
+let next=[];
+for(let i=0;i<matches.length;i+=2){
+let w1=matches[i].s1>matches[i].s2?matches[i].t1:matches[i].t2;
+let w2=matches[i+1].s1>matches[i+1].s2?matches[i+1].t1:matches[i+1].t2;
+next.push({t1:w1,t2:w2,s1:0,s2:0,played:false});
+}
+if(next.length>0)knockoutData.brackets[round+1]=next;
+renderBracket();
+}
+
+function simulateAllKnockout(){
+let safety=0;
+while(knockoutData.currentRound<=4&&safety<10){
+simulateNextRound();
+safety++;
+}
+}
+
+function resetKnockout(){
+knockoutData={currentRound:0,brackets:{},matches:{}};
+document.getElementById('bracket-container').innerHTML='';
+document.getElementById('champion-display').classList.add('hidden');
+}
+
+function renderBracket(){
+let c=document.getElementById('bracket-container');
+let roundNames=['Octavos de Final','Cuartos de Final','Semifinal','Gran Final','🏆 Campeón'];
+let html='<div style="display:flex;gap:20px;padding:10px;overflow-x:auto">';
+for(let r=0;r<=4;r++){
+let matches=knockoutData.brackets[r];
+if(!matches||matches.length===0)continue;
+let isFinal=(r===4);
+html+=`<div class="b-section"><div class="round-title">${roundNames[r]||('Ronda '+r)}</div>`;
+matches.forEach(m=>{
+if(!m.played&&r>0)continue;
+let cls=m.played?(isFinal?'match-card final-match':'match-card'):'match-card';
+let w1=m.played&&(m.s1>m.s2);
+let w2=m.played&&(m.s2>m.s1);
+html+=`<div class="${cls}" style="margin:5px 0">
+<div class="team"><span>${getFlag(m.t1)} ${m.t1}</span><span class="score ${w1?'winner':''}">${m.played?m.s1:''}</span></div>
+<div class="team"><span>${getFlag(m.t2)} ${m.t2}</span><span class="score ${w2?'winner':''}">${m.played?m.s2:''}</span></div>
+</div>`;
+});
+html+='</div>';
+}
+html+='</div>';
+c.innerHTML=html;
+// Show champion
+let final=knockoutData.brackets[4];
+if(final&&final[0]&&final[0].played){
+let champ=final[0].s1>final[0].s2?final[0].t1:final[0].t2;
+document.getElementById('champion-name').textContent=getFlag(champ)+' '+champ;
+document.getElementById('champion-display').classList.remove('hidden');
+}
+}
+
+function updateStats(){
+let c=document.getElementById('stats-container');
+let goals={};
+let wins={};
+let biggestWin={margin:0};
+allMatches.forEach(m=>{
+goals[m.t1]=(goals[m.t1]||0)+m.s1;
+goals[m.t2]=(goals[m.t2]||0)+m.s2;
+let w=m.s1>m.s2?m.t1:m.s2>m.s1?m.t2:null;
+if(w)wins[w]=(wins[w]||0)+1;
+let margin=Math.abs(m.s1-m.s2);
+if(margin>biggestWin.margin){biggestWin={margin,t1:m.t1,t2:m.t2,s1:m.s1,s2:m.s2}}
+});
+let scorers=Object.entries(goals).sort((a,b)=>b[1]-a[1]).slice(0,10);
+let winList=Object.entries(wins).sort((a,b)=>b[1]-a[1]).slice(0,10);
+c.innerHTML=`
+<div class="stat-card"><h3>⚽ Más Goles en el Torneo</h3>${scorers.map(([t,g],i)=>`<div class="stat-item"><span>${getFlag(t)} ${t}</span><span style="color:#FFD700">${g} goles</span></div>`).join('')}</div>
+<div class="stat-card"><h3>🏆 Más Victorias</h3>${winList.map(([t,w],i)=>`<div class="stat-item"><span>${getFlag(t)} ${t}</span><span style="color:#FFD700">${w} victorias</span></div>`).join('')}</div>
+<div class="stat-card"><h3>💥 Mayor Goleada</h3>${biggestWin.margin>0?`<div class="stat-item"><span>${getFlag(biggestWin.t1)} ${biggestWin.t1} ${biggestWin.s1} - ${biggestWin.s2} ${biggestWin.t2} ${getFlag(biggestWin.t2)}</span><span style="color:#FFD700">+${biggestWin.margin}</span></div>`:'<p style="color:#8b949e">Simula la fase de grupos primero</p>'}</div>
+`;
+}
+
+renderGroups();
+</script>
+</body>
+</html>

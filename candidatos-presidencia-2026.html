@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🇨🇴 Planes de Gobierno Colombia 2026 — Comparativo de Candidatos</title>
+<style>
+  /* Google Fonts removed for Chrome compatibility */
+
+  :root {
+    --col-yellow: #FCD116;
+    --col-blue: #003893;
+    --col-red: #CE1126;
+    --col-yellow-light: #FFF3B0;
+    --col-blue-light: #E8EEF9;
+    --col-red-light: #FDEAED;
+    --bg-dark: #0a0e1a;
+    --bg-card: #111827;
+    --bg-card-hover: #1a2236;
+    --text-primary: #f0f4fc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --border: #1e293b;
+    --shadow: 0 4px 24px rgba(0,0,0,0.4);
+    --radius: 16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* === HERO HEADER === */
+  .hero {
+    position: relative;
+    background: linear-gradient(135deg, var(--col-blue) 0%, #001d4a 50%, var(--col-red) 100%);
+    padding: 48px 24px 40px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--col-yellow) 33%, var(--col-blue) 33% 66%, var(--col-red) 66%);
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--col-yellow) 33%, var(--col-blue) 33% 66%, var(--col-red) 66%);
+  }
+  .hero h1 {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(1.8rem, 5vw, 3.2rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+  .hero h1 .flag-emoji { font-size: 1.1em; }
+  .hero .subtitle {
+    font-size: clamp(0.85rem, 2vw, 1.05rem);
+    color: rgba(255,255,255,0.75);
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+  .hero .tagline {
+    font-size: 0.8rem;
+    color: var(--col-yellow);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-top: 12px;
+  }
+
+  /* === STATS BAR === */
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    padding: 16px 24px;
+    background: rgba(0,56,147,0.15);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .stat-item {
+    text-align: center;
+  }
+  .stat-item .num {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--col-yellow);
+  }
+  .stat-item .label {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* === CONTROLS === */
+  .controls {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,14,26,0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+  }
+  .controls-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .controls-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .filter-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  .filter-btn {
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+  }
+  .filter-btn:hover {
+    border-color: var(--col-blue);
+    color: var(--text-primary);
+    background: rgba(0,56,147,0.2);
+  }
+  .filter-btn.active {
+    background: var(--col-blue);
+    border-color: var(--col-blue);
+    color: #fff;
+    font-weight: 600;
+  }
+  .filter-btn.cat-all.active { background: linear-gradient(135deg, var(--col-blue), var(--col-red)); }
+
+  /* === CANDIDATE TABS === */
+  .candidate-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .candidate-tab {
+    padding: 8px 18px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .candidate-tab .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .candidate-tab:hover { border-color: #475569; }
+  .candidate-tab.active { border-color: var(--col-yellow); background: rgba(252,209,22,0.08); color: var(--col-yellow); }
+
+  /* === MAIN CONTENT === */
+  .main { max-width: 1280px; margin: 0 auto; padding: 24px; }
+
+  /* === CATEGORY SECTION === */
+  .category-section { margin-bottom: 32px; }
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
+  }
+  .category-icon {
+    font-size: 1.4rem;
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0,56,147,0.2);
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+  .category-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .category-count {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    background: var(--border);
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: auto;
+  }
+
+  /* === PROPOSAL CARDS === */
+  .proposals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+  }
+  .proposal-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .proposal-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+  }
+  .proposal-card:hover {
+    background: var(--bg-card-hover);
+    border-color: #334155;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+  .proposal-card[data-candidate="CEPEDA"]::before { background: var(--col-red); }
+  .proposal-card[data-candidate="FAJARDO"]::before { background: var(--col-blue); }
+  .proposal-card[data-candidate="ABELARDO"]::before { background: #f59e0b; }
+  .proposal-card[data-candidate="PALOMA"]::before { background: #10b981; }
+
+  .card-candidate {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+  }
+  .card-candidate[data-c="CEPEDA"] { background: rgba(206,17,38,0.15); color: #f87171; }
+  .card-candidate[data-c="FAJARDO"] { background: rgba(0,56,147,0.2); color: #60a5fa; }
+  .card-candidate[data-c="ABELARDO"] { background: rgba(245,158,11,0.15); color: #fbbf24; }
+  .card-candidate[data-c="PALOMA"] { background: rgba(16,185,129,0.15); color: #34d399; }
+
+  .card-title {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+  .card-desc {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  /* === COMPARATIVE VIEW === */
+  .compare-section {
+    margin-bottom: 36px;
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .compare-header {
+    padding: 16px 20px;
+    background: linear-gradient(135deg, rgba(0,56,147,0.15), rgba(206,17,38,0.1));
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+  }
+  .compare-header:hover { background: linear-gradient(135deg, rgba(0,56,147,0.25), rgba(206,17,38,0.15)); }
+  .compare-header h3 {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  .compare-header .toggle-icon {
+    margin-left: auto;
+    font-size: 1.2rem;
+    transition: transform 0.3s;
+    color: var(--text-muted);
+  }
+  .compare-header.open .toggle-icon { transform: rotate(180deg); }
+  .compare-body {
+    display: none;
+    padding: 0;
+  }
+  .compare-body.open { display: block; }
+  .compare-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-bottom: 1px solid var(--border);
+  }
+  .compare-row:last-child { border-bottom: none; }
+  .compare-cell {
+    padding: 14px 16px;
+    border-right: 1px solid var(--border);
+    min-height: 80px;
+  }
+  .compare-cell:last-child { border-right: none; }
+  .compare-cell .cc-name {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .compare-cell .cc-text {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    line-height: 1.45;
+  }
+  .compare-cell:nth-child(1) .cc-name { color: #f87171; }
+  .compare-cell:nth-child(2) .cc-name { color: #60a5fa; }
+  .compare-cell:nth-child(3) .cc-name { color: #fbbf24; }
+  .compare-cell:nth-child(4) .cc-name { color: #34d399; }
+
+  @media (max-width: 768px) {
+    .compare-row { grid-template-columns: 1fr; }
+    .compare-cell { border-right: none; border-bottom: 1px solid var(--border); }
+    .compare-cell:last-child { border-bottom: none; }
+    .proposals-grid { grid-template-columns: 1fr; }
+  }
+
+  /* === FOOTER === */
+  .footer {
+    text-align: center;
+    padding: 32px 24px;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+  .footer a { color: var(--col-blue); text-decoration: none; }
+
+  /* === NO RESULTS === */
+  .no-results {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--text-muted);
+  }
+  .no-results .emoji { font-size: 2.5rem; margin-bottom: 12px; }
+  .no-results p { font-size: 0.9rem; }
+
+  /* === SCROLLBAR === */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg-dark); }
+  ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+
+  /* === ANIMATIONS === */
+  .fade-in {
+    animation: fadeIn 0.4s ease-out;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* === SEARCH === */
+  .search-wrap {
+    position: relative;
+    margin-bottom: 12px;
+  }
+  .search-input {
+    width: 100%;
+    padding: 10px 16px 10px 40px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-input:focus { border-color: var(--col-blue); }
+  .search-input::placeholder { color: var(--text-muted); }
+  .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  /* === LEGEND === */
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h1><span class="flag-emoji">🇨🇴</span> Planes de Gobierno<br>Elecciones Colombia 2026</h1>
+  <p class="subtitle">Comparativo interactivo de propuestas presidenciales por candidato y eje temático</p>
+  <p class="tagline">Iván Cepeda · Sergio Fajardo · Abelardo de la Espriella · Paloma Valencia</p>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar" id="statsBar">
+  <div class="stat-item"><div class="num" id="totalProposals">0</div><div class="label">Propuestas</div></div>
+  <div class="stat-item"><div class="num">4</div><div class="label">Candidatos</div></div>
+  <div class="stat-item"><div class="num" id="totalCategories">0</div><div class="label">Categorías</div></div>
+  <div class="stat-item"><div class="num">2026</div><div class="label">Elecciones</div></div>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="controls-inner">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" class="search-input" id="searchInput" placeholder="Buscar propuestas... (ej: educación, seguridad, vivienda)">
+    </div>
+
+    <div class="controls-label">Filtrar por candidato</div>
+    <div class="candidate-tabs" id="candidateTabs">
+      <button class="candidate-tab active" data-candidate="ALL">
+        <span class="dot" style="background: linear-gradient(135deg, var(--col-yellow), var(--col-red))"></span>
+        Todos
+      </button>
+      <button class="candidate-tab" data-candidate="CEPEDA">
+        <span class="dot" style="background: var(--col-red)"></span>
+        Iván Cepeda
+      </button>
+      <button class="candidate-tab" data-candidate="FAJARDO">
+        <span class="dot" style="background: var(--col-blue)"></span>
+        Sergio Fajardo
+      </button>
+      <button class="candidate-tab" data-candidate="ABELARDO">
+        <span class="dot" style="background: #f59e0b"></span>
+        Abelardo de la Espriella
+      </button>
+      <button class="candidate-tab" data-candidate="PALOMA">
+        <span class="dot" style="background: #10b981"></span>
+        Paloma Valencia
+      </button>
+    </div>
+
+    <div class="controls-label" style="margin-top:10px">Filtrar por categoría</div>
+    <div class="filter-row" id="categoryFilters"></div>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><span class="legend-dot" style="background:var(--col-red)"></span>Cepeda</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--col-blue)"></span>Fajardo</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#f59e0b"></span>Abelardo</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#10b981"></span>Valencia</div>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="mainContent"></div>
+
+<!-- FOOTER -->
+<div class="footer">
+  🇨🇴 Análisis generado a partir de los planes de gobierno oficiales · Elecciones Presidenciales Colombia 2026<br>
+  Fuentes: Programas de gobierno publicados por los candidatos · Dashboard generado por Hermes Agent
+</div>
+
+<script>
+const DATA = {
+  "Educación": {
+    icon: "📚",
+    proposals: [
+      {c:"CEPEDA", t:"Educación pública fuerte e incluyente", d:"Fortalecer la educación pública con presupuesto garantizado, asegurando conocimiento, investigación científica y pensamiento crítico a toda la sociedad."},
+      {c:"CEPEDA", t:"Educación gratuita universitaria progresiva", d:"Avanzar hacia la gratuidad progresiva en educación pública de calidad, eliminando barreras económicas para el acceso a la educación superior."},
+      {c:"CEPEDA", t:"Ciencia y tecnología como motor educativo", d:"Integrar la ciencia, tecnología e innovación en los currículos escolares desde la educación básica, promoviendo el pensamiento crítico y la creatividad."},
+      {c:"CEPEDA", t:"Fortalecimiento del SENA y formación técnica", d:"Modernizar el SENA con programas de formación técnica y tecnológica de alta calidad, conectados con las necesidades productivas del país."},
+      {c:"FAJARDO", t:"Educación de primera infancia integral", d:"Garantizar el cuidado integral y educación de niños de 0 a 5 años, priorizando territorios rurales y poblaciones vulnerables con centros de atención y jardines infantiles."},
+      {c:"FAJARDO", t:"Aprender a pensar: STEAM en la escuela", d:"Transformar educación básica y media con enfoques STEAM (ciencia, tecnología, ingeniería, artes y matemáticas), fortaleciendo laboratorios y bibliotecas."},
+      {c:"FAJARDO", t:"Proyecto Nacional de Matemáticas", d:"Convertir la enseñanza de matemáticas en proyecto nacional con guías estandarizadas, nube nacional de matemáticas y becas para doctorados."},
+      {c:"FAJARDO", t:"Recuperar el Icetex", d:"Recuperar el Icetex con nuevas becas, créditos con pagos contingentes al ingreso y trabajando con Colfuturo."},
+      {c:"FAJARDO", t:"Transformar al SENA con 150.000 estudiantes más", d:"Mejorar calidad, aumentar estudiantes en 150.000, mejorar empleabilidad de egresados e implementar control anticorrupción en el SENA."},
+      {c:"ABELARDO", t:"Ciclos cortos en tecnologías de 4ta revolución", d:"Crear programas de formación en IA, computación cuántica, robótica, bilingüismo y economía del cuidado para jóvenes productivos."},
+      {c:"ABELARDO", t:"Evaluación docente obligatoria", d:"Implementar evaluación del personal docente para mejorar la calidad de la educación en todo el país."},
+      {c:"ABELARDO", t:"Créditos blandos y programa de méritos", d:"Crear créditos blandos y programa de méritos para que los mejores talentos accedan a la universidad independientemente de su condición económica."},
+      {c:"ABELARDO", t:"Universidad Virtual en Casa", d:"Crear una Universidad Virtual accesible desde el hogar con conectividad y computadores gratuitos en zonas sin acceso digital."},
+      {c:"PALOMA", t:"Ruta 3E: Estudiar, Emplearse o Emprender", d:"Garantizar que ningún joven se quede sin avanzar, brindando tres caminos claros de formación y empleo para la juventud."},
+      {c:"PALOMA", t:"187.000 cupos gratuitos y supercolegios", d:"Crear 187.000 cupos en colegios de calidad en concesión, 10 supercolegios públicos y 150.000 bonos educativos para los más vulnerables."},
+      {c:"PALOMA", t:"ICETEX sin trampa de deuda y rescate COLFUTURO", d:"Reformar ICETEX para que se pague solo cuando haya trabajo y según salario; rescatar COLFUTURO para maestrías y doctorados en las mejores universidades del mundo."},
+      {c:"PALOMA", t:"1 millón de jóvenes formados en IA", d:"Formar con cursos gratuitos e internet incluido a un millón de jóvenes en inteligencia artificial y habilidades digitales para trabajar con empresas internacionales."},
+      {c:"PALOMA", t:"PTA 4.0 y modelo PROMCE", d:"Mejorar calidad académica del sistema educativo adaptado a la revolución de la IA, inspirado en el modelo PROMCE exitoso en Cundinamarca."}
+    ]
+  },
+  "Seguridad": {
+    icon: "🛡️",
+    proposals: [
+      {c:"CEPEDA", t:"Política de Seguridad Humana", d:"Implementar un enfoque social de seguridad que aborde las causas estructurales de la violencia: pobreza, desigualdad y exclusión territorial."},
+      {c:"CEPEDA", t:"Sistema Nacional contra la Macrocorrupción", d:"Crear un sistema con 5 pilares para combatir la corrupción sistémica que alimenta el crimen organizado."},
+      {c:"CEPEDA", t:"Desmilitarización y derechos humanos", d:"Retirar a las Fuerzas Militares de la seguridad ciudadana interna y fortalecer la Policía Nacional con enfoque de derechos humanos."},
+      {c:"CEPEDA", t:"Justicia transicional y paz total", d:"Avanzar en la implementación del Acuerdo de Paz y construir una paz total con todos los actores armados del país."},
+      {c:"FAJARDO", t:"Plan Guardián: seguridad integral", d:"Recuperar el control territorial del Estado frente al crimen organizado, fortalecer la Fuerza Pública y cerrar el paso al crimen transnacional."},
+      {c:"FAJARDO", t:"40.000 policías nuevos y plan contra extorsión", d:"Aumentar en 40.000 el número de policías profesionales y duplicar los grupos Gaula contra extorsión y secuestro."},
+      {c:"FAJARDO", t:"Reforma y control del sistema carcelario", d:"Intervenir cárceles principales y construir cinco nuevas para reducir hacinamiento y liberar 3.000 policías para seguridad ciudadana."},
+      {c:"FAJARDO", t:"Protección de niños y jóvenes frente al crimen", d:"Estrategia integral para prevenir reclutamiento criminal con educación, cultura, deporte y empleo juvenil."},
+      {c:"ABELARDO", t:"Destrucción de 330.000 hectáreas de coca", d:"Erradicar cultivos ilícitos con fumigación aérea, erradicación manual, extinción de dominio express, sustitución y extradición."},
+      {c:"ABELARDO", t:"Recuperar el control territorial", d:"Reafirmar el monopolio estatal de las armas y desmontar milicias y poderes coercitivos paralelos."},
+      {c:"ABELARDO", t:"Reconstruir y respaldar la Fuerza Pública", d:"Reconstruir, fortalecer y respaldar la Fuerza Pública para enfrentar al crimen organizado y destruir economías ilegales."},
+      {c:"ABELARDO", t:"Bloque de Búsqueda contra la Extorsión", d:"Crear una Primera Línea de Seguridad con veteranos y reservistas para combatir la extorsión barrial con inteligencia y justicia reforzadas."},
+      {c:"PALOMA", t:"Plan 30-30: 30.000 militares y 30.000 policías", d:"Incorporar 30.000 militares y 30.000 policías nuevos, aumentando el gasto en seguridad a casi 4% del PIB."},
+      {c:"PALOMA", t:"Modernización tecnológica de las FFAA", d:"Salto tecnológico con drones de última generación y ciberinteligencia para vigilancia aérea y marítima."},
+      {c:"PALOMA", t:"Justicia rápida y endurecimiento de penas", d:"Fiscales especializados, bloqueo de comunicaciones en cárceles, endurecer penas para reincidentes y usar IA en investigaciones criminales."},
+      {c:"PALOMA", t:"22.000 cupos penitenciarios y cárceles agropecuarias", d:"Construir 22.000 cupos con trabajo obligatorio y resocialización en penitenciarías agropecuarias."},
+      {c:"PALOMA", t:"50 casas de justicia y juzgados familiares", d:"Construir 50 casas de justicia con todos los servicios y 100 juzgados especializados para víctimas de violencia familiar."}
+    ]
+  },
+  "Vivienda": {
+    icon: "🏠",
+    proposals: [
+      {c:"CEPEDA", t:"Derecho a la vivienda como prioridad", d:"Garantizar el acceso a vivienda digna como derecho fundamental, con políticas que prioricen a los sectores más vulnerables del país."},
+      {c:"CEPEDA", t:"Reforma urbana y renovación de barrios", d:"Impulsar programas de renovación urbana que mejoren las condiciones de vida en barrios populares con servicios públicos de calidad."},
+      {c:"CEPEDA", t:"Vivienda rural y dignificación del campo", d:"Llevar vivienda digna a las zonas rurales como parte integral de la transformación del campo colombiano."},
+      {c:"FAJARDO", t:"Mi Casa Ya renovado: 1 millón de soluciones", d:"Meta de un millón de soluciones habitacionales (750.000 VIS/VIP + 250.000 mejoramientos), reactivando Mi Casa Ya en los primeros 100 días."},
+      {c:"FAJARDO", t:"Estrategia Nacional de Urbanismo Social", d:"Transformar barrios rezagados con proyectos integrales de vivienda, espacio público, movilidad y equipamientos sociales."},
+      {c:"FAJARDO", t:"Servicios públicos de calidad para todos", d:"Llevar agua potable y saneamiento a un millón de colombianos adicionales y electricidad a zonas desconectadas con soluciones híbridas y paneles solares."},
+      {c:"FAJARDO", t:"Mujeres con techo propio", d:"Programa 'Mujeres que Habitan' priorizando hogares con jefatura femenina, titularidad conjunta y formación en empleos verdes."},
+      {c:"ABELARDO", t:"Programa 'País de Propietarios'", d:"Ofrecer créditos de vivienda propia con tasas de interés de 2% a plazos de 30 años para que los colombianos accedan a vivienda digna."},
+      {c:"PALOMA", t:"1 millón de viviendas con 250.000 subsidios", d:"Apoyar construcción de un millón de viviendas con 250.000 subsidios, relanzando Mi Casa Ya 2.0, Casa Semilla y Semillero de Propietarios."},
+      {c:"PALOMA", t:"Títulos de propiedad a nombre de las mujeres", d:"Los títulos de las nuevas viviendas estarán a nombre de las mujeres para empoderarlas y protegerlas de la violencia intrafamiliar."}
+    ]
+  },
+  "Economía": {
+    icon: "💰",
+    proposals: [
+      {c:"CEPEDA", t:"Revolución Económica y Social", d:"Eliminar la pobreza mediante una revolución que transforme la estructura económica del país, priorizando la redistribución de la riqueza."},
+      {c:"CEPEDA", t:"Revolución Agraria productiva", d:"Implementar una revolución agraria con 7 elementos: derechos campesinos, redistribución de tierras, seguros, servicios rurales, comercio justo y cadenas productivas estratégicas."},
+      {c:"CEPEDA", t:"Austeridad política y reducción de salarios", d:"Reducir salarios presidenciales y ministeriales, eliminando privilegios y combatiendo la corrupción como política económica."},
+      {c:"FAJARDO", t:"Plan de consolidación fiscal responsable", d:"Reducir gradualmente el déficit y estabilizar la deuda pública con apoyo de organismos multilaterales, liberando recursos para infraestructura."},
+      {c:"FAJARDO", t:"DIAN moderna, técnica y justa", d:"Profundizar modernización de la DIAN con inteligencia de datos para combatir evasión, despolitizando su dirección y fortaleciendo el talento técnico."},
+      {c:"FAJARDO", t:"Pacto energético para sostenibilidad", d:"Mesa nacional con empresas, gremios y territorios para salida estructural a la crisis del sector eléctrico, acelerando energías renovables."},
+      {c:"FAJARDO", t:"Transparencia total en recursos públicos", d:"Abrir el presupuesto al escrutinio ciudadano, publicar declaraciones de renta de altos funcionarios y facilitar herramientas de control ciudadano."},
+      {c:"ABELARDO", t:"Superávit fiscal primario y ajuste de $70 billones", d:"Lograr superávit fiscal con ajuste de ~70 billones de pesos, reduciendo el tamaño del Estado hasta en una cuarta parte."},
+      {c:"ABELARDO", t:"Gran Revolución de DesRegulación", d:"Reducir carga tributaria, costos de energía y eliminar trámites: 'Una entra y dos salen' — por cada nueva regulación se eliminan dos."},
+      {c:"ABELARDO", t:"Meta de crecimiento del 7% anual", d:"Aspirar a crecimiento sostenido del 7% como Corea del Sur y Singapur, con ecosistema pro-empresa y ecosistemas de innovación."},
+      {c:"ABELARDO", t:"DIAN modernizada con inteligencia artificial", d:"Modernizar la DIAN con IA para reducir drásticamente la evasión tributaria que supera 100 billones de pesos anuales."},
+      {c:"PALOMA", t:"Crecimiento del 5% anual con inversión del 25% del PIB", d:"Crecer 5% del PIB anual con inversión mínima del 25%, recuperando productividad de infraestructura y sector minero-energético."},
+      {c:"PALOMA", t:"Reducción de impuestos y eliminación del patrimonio", d:"Reducir tarifas de renta empresarial, eliminar impuesto al patrimonio, reducir impuesto predial y simplificar el estatuto tributario."},
+      {c:"PALOMA", t:"Atraer 2.000 millones USD anuales en IED", d:"Atraer y destrabar al menos 2.000 millones de dólares al año en inversión extranjera directa devolviendo la confianza inversionista."},
+      {c:"PALOMA", t:"Reducción del déficit fiscal en 50 billones", d:"Reducir el déficit en 50 billones sin afectar bienes y servicios del Estado, volviendo a la senda de la regla fiscal."}
+    ]
+  },
+  "Salud": {
+    icon: "🏥",
+    proposals: [
+      {c:"CEPEDA", t:"Salud como derecho universal", d:"Garantizar el derecho fundamental a la salud con cobertura universal, eliminando barreras de acceso y fortaleciendo el sistema público."},
+      {c:"CEPEDA", t:"Atención primaria y medicina comunitaria", d:"Fortalecer la atención primaria en salud como base del sistema, con redes territoriales de atención y medicina familiar y comunitaria."},
+      {c:"CEPEDA", t:"Salud mental como prioridad nacional", d:"Implementar una Estrategia Nacional de Salud Mental con recursos, rutas de atención ágiles y énfasis en jóvenes y prevención del suicidio."},
+      {c:"FAJARDO", t:"Plan de Recuperación del Sistema – Primeros 100 Días", d:"Puesto de Mando Presidencial para garantizar derecho a la salud, auditorías a EPS intervenidas y restablecer liquidez del sistema."},
+      {c:"FAJARDO", t:"Reforma financiera y nuevo modelo de pago", d:"Recalcular la UPC con criterios técnicos, crear institucionalidad independiente y nuevo acuerdo de punto final con hospitales y aseguradoras."},
+      {c:"FAJARDO", t:"Colombia Previene y Cuida en los territorios", d:"Atención Primaria en Salud como base, con redes territoriales, medicina familiar, prevención de crónicas y salud mental. Prioridad a Catatumbo, Cauca y Chocó."},
+      {c:"FAJARDO", t:"Salud Digital y transparencia total", d:"Interoperabilidad de historias clínicas, telemedicina, inteligencia de datos y compras basadas en valor para reducir desperdicio y corrupción."},
+      {c:"ABELARDO", t:"Plan de choque de $10 billones", d:"Inyectar 10 billones al sistema de salud, revisando ajustes a la UPC que permitieron el desvío de recursos y restableciendo el financiamiento."},
+      {c:"ABELARDO", t:"Poner al paciente en el centro", d:"Recuperar acceso oportuno a medicamentos y tratamientos, proteger pacientes crónicos y poblaciones vulnerables con barreras de atención."},
+      {c:"ABELARDO", t:"Eficientar las EPS con topes a costos administrativos", d:"Hacer las EPS más eficientes con topes máximos a costos de gestión y arbitrar los recursos mal administrados por ADRES."},
+      {c:"PALOMA", t:"PMU presidencial 24/7 para crisis de salud", d:"Puesto de Mando Unificado permanente en Presidencia para resolver la crisis de salud con participación de todas las entidades del sistema."},
+      {c:"PALOMA", t:"Resolver 10 millones de atenciones represadas en 100 días", d:"Atender en los primeros 100 días los 10 millones de atenciones represadas en medicamentos, citas y procedimientos."},
+      {c:"PALOMA", t:"Inyección de 9 billones para estabilizar el sistema", d:"3 billones para suministro oportuno de medicamentos y 6 billones para pagar deuda acumulada a clínicas, hospitales y EPS."},
+      {c:"PALOMA", t:"Hospitales padrinos en 32 departamentos", d:"Expandir programa de hospitales padrinos a los 32 departamentos y 8 distritos, generando 100.000 atenciones en zonas rurales con telemedicina."}
+    ]
+  },
+  "Trabajo": {
+    icon: "💼",
+    proposals: [
+      {c:"CEPEDA", t:"Empleo digno y economía del cuidado", d:"Crear empleo digno a través de la economía del cuidado, reconociendo el trabajo no remunerado como motor de inclusión social."},
+      {c:"CEPEDA", t:"Formación técnica para el empleo", d:"Articular formación técnica y tecnológica con las necesidades del mercado laboral para reducir el desempleo juvenil."},
+      {c:"CEPEDA", t:"Economía popular y empleo comunitario", d:"Fortalecer la economía popular y las cooperativas como fuentes de empleo digno en los territorios."},
+      {c:"FAJARDO", t:"Sistema Nacional de Coordinación para el Empleo", d:"Instancia liderada desde la Presidencia que articule Ministerio de Trabajo, SENA, DANE y gobiernos territoriales con tablero público de seguimiento."},
+      {c:"FAJARDO", t:"CREA Empleo: un millón de empleos formales", d:"Meta de un millón de nuevos empleos formales y formalización de cuatro millones de trabajadores con formación corta y reconversión laboral."},
+      {c:"FAJARDO", t:"Estatuto del Profesional Independiente", d:"Marco jurídico para proteger trabajadores independientes con pagos oportunos (máximo 30 días), límites a cláusulas abusivas y garantías mínimas."},
+      {c:"FAJARDO", t:"Formalización progresiva del empleo", d:"Incentivos para que micronegocios formalicen trabajadores con reducciones temporales de cargas parafiscales y simplificación de trámites."},
+      {c:"ABELARDO", t:"Economía del cuidado como fuente de empleo", d:"Formar 200.000 cuidadoras y formalizar 200.000 emprendimientos femeninos para generar empleo digno."},
+      {c:"ABELARDO", t:"Programa STEM para emprendimiento femenino", d:"Promover el emprendimiento femenino en ciencia, tecnología, ingeniería y matemáticas para cerrar la brecha de ingresos."},
+      {c:"PALOMA", t:"Subsidio al primer empleo juvenil", d:"Subsidiar 30% del salario mínimo por 12 meses para empresas que vinculen jóvenes de 18 a 28 años, con prioridad a mujeres y jóvenes étnicos."},
+      {c:"PALOMA", t:"Formación dual desde noveno grado", d:"Permitir que jóvenes desde noveno grado participen en programas de formación dual entre instituciones técnicas y empresas."},
+      {c:"PALOMA", t:"Escalera de la formalidad progresiva", d:"Reducir impuesto de renta, simplificar trámites, registro de cámaras de comercio e Invima gratuitos y mini régimen simple."},
+      {c:"PALOMA", t:"Billeteras digitales contra gota a gota", d:"Dotar a trabajadores informales de billeteras digitales para generar historia crediticia y derrotar a los prestamistas gota a gota."}
+    ]
+  },
+  "Derechos Humanos": {
+    icon: "⚖️",
+    proposals: [
+      {c:"CEPEDA", t:"Centro de Memoria Histórica fortalecido", d:"Fortalecer el Centro Nacional de Memoria Histórica como institución clave para la verdad, la justicia y la no repetición del conflicto."},
+      {c:"CEPEDA", t:"Derechos de víctimas del conflicto", d:"Garantizar reparación integral y condiciones de vida dignas para todas las víctimas del conflicto armado colombiano."},
+      {c:"CEPEDA", t:"Diversidad e inclusión como política de Estado", d:"Implementar políticas públicas con enfoque de género, étnico y de diversidad sexual para garantizar igualdad de derechos."},
+      {c:"FAJARDO", t:"Cero tolerancia a violencias de género", d:"Declarar la atención a la violencia contra las mujeres como prioridad nacional el 8 de agosto, con prevención, atención y sanción efectiva."},
+      {c:"FAJARDO", t:"Oferta pública del cuidado", d:"Reconocer el trabajo de cuidado no remunerado, establecer Sistemas Locales de Cuidado en 200 municipios y fortalecer el Sistema Nacional de Cuidado."},
+      {c:"FAJARDO", t:"Participación de poblaciones excluidas", d:"Espacios permanentes de diálogo para comunidades indígenas, afrocolombianas, LGBTIQ+, personas con discapacidad y víctimas del conflicto."},
+      {c:"ABELARDO", t:"Violencia contra la mujer como prioridad de orden público", d:"Enfrentar la violencia contra la mujer como problema prioritario de orden público, con rutas judiciales aceleradas en máximo 72 horas."},
+      {c:"ABELARDO", t:"Meta de reducción de feminicidios", d:"Reducir en 30% la violencia contra las mujeres y en 40% los feminicidios mediante políticas efectivas de protección y acompañamiento."},
+      {c:"ABELARDO", t:"Autonomía económica femenina", d:"Fondo de $500.000 millones para autonomía económica, subsidio progresivo de maternidad y registro nacional del cuidado."},
+      {c:"PALOMA", t:"Autonomía económica para eliminar la violencia", d:"Crédito a 100.000 mujeres con reducción de brecha de cuidado para promover su autonomía económica como protección contra la violencia."},
+      {c:"PALOMA", t:"Contrato, salud y pensión para cuidadoras", d:"Reconocer que el cuidado es infraestructura social otorgando contrato, salud y pensión a las cuidadoras comunitarias del país."},
+      {c:"PALOMA", t:"Subsidio incondicional para adultos mayores", d:"Garantizar que ningún adulto mayor pobre quede sin subsidio con monto mínimo de $230.000 que aumentará gradualmente."}
+    ]
+  },
+  "Relaciones Internacionales": {
+    icon: "🌐",
+    proposals: [
+      {c:"CEPEDA", t:"Soberanía y multilateralismo", d:"Reivindicar la soberanía nacional en el escenario internacional, fortaleciendo el multilateralismo y los mecanismos regionales de integración."},
+      {c:"CEPEDA", t:"Relaciones con Venezuela basadas en respeto", d:"Normalizar relaciones con Venezuela desde el respeto a la soberanía y los derechos humanos, promoviendo la cooperación binacional."},
+      {c:"CEPEDA", t:"Cooperación Sur-Sur", d:"Fortalecer la cooperación técnica y científica con países de América Latina, África y Asia como estrategia de desarrollo."},
+      {c:"FAJARDO", t:"Política exterior como política de Estado", d:"Recuperar la política exterior coherente y profesional, alineando la acción internacional con el interés nacional y el desarrollo económico."},
+      {c:"FAJARDO", t:"Reconstruir relaciones estratégicas", d:"Relación sólida con EE.UU., alianza estratégica con la UE, relación pragmática con China y pragmatismo democrático con Venezuela."},
+      {c:"FAJARDO", t:"Diplomacia cultural, científica y educativa", d:"Fortalecer la proyección internacional de Colombia a través de programas de intercambio académico, cultural y científico."},
+      {c:"FAJARDO", t:"Liderazgo global en sostenibilidad y biodiversidad", d:"Impulsar una Alianza Global por un Planeta Sostenible, liderando en protección de biodiversidad y transición energética."},
+      {c:"ABELARDO", t:"Cooperación internacional anticorrupción", d:"Impulsar la cooperación nacional e internacional para perseguir flujos financieros ilícitos y combatir la corrupción transnacional."},
+      {c:"PALOMA", t:"Integración en el Escudo de las Américas", d:"Solicitar integración en el Escudo de las Américas para combatir el narcotráfico con apoyo tecnológico y de entrenamiento de EE.UU."},
+      {c:"PALOMA", t:"Comercio con China bajo libre competencia", d:"Fomentar relación con China basada en libre competencia y beneficio mutuo, evaluando rigurosamente el acuerdo de la Franja y la Ruta."},
+      {c:"PALOMA", t:"Firmeza democrática regional", d:"Postura clara de rechazo a dictaduras y regímenes autocráticos, buscando ser aliado fundamental en la reconstrucción de Venezuela."}
+    ]
+  },
+  "Medio Ambiente": {
+    icon: "🌿",
+    proposals: [
+      {c:"CEPEDA", t:"Prohibición del fracking y glifosato", d:"Prohibir el fracking y el glifosato como medidas concretas de protección ambiental y salud pública."},
+      {c:"CEPEDA", t:"Transición energética justa", d:"Impulsar una transición hacia energías limpias que proteja a las comunidades y genere empleo verde."},
+      {c:"CEPEDA", t:"Protección de ecosistemas estratégicos", d:"Proteger la Amazonía, el Chocó y otros ecosistemas estratégicos como patrimonio de la humanidad."},
+      {c:"FAJARDO", t:"Cero deforestación en 2030", d:"Estrategia nacional para reducir la deforestación a niveles cercanos a cero en 2030, con monitoreo satelital y acción coordinada."},
+      {c:"FAJARDO", t:"Bioeconomía como motor de desarrollo", d:"Convertir la biodiversidad en fuente de innovación con biotecnología, genómica, bioinsumos agrícolas, farmacéutica natural y cosmética."},
+      {c:"FAJARDO", t:"Ciudades sostenibles y economía circular", d:"Acelerar saneamiento de ríos, gestión moderna de residuos con economía circular, movilidad eléctrica e infraestructura verde urbana."},
+      {c:"FAJARDO", t:"Financiamiento para la naturaleza", d:"Bonos verdes, canjes de deuda por naturaleza, mercados de créditos de biodiversidad y carbono, e incentivos fiscales ambientales."},
+      {c:"ABELARDO", t:"Licenciamientos express para energías renovables", d:"Promover licenciamientos express y acelerar consultas a comunidades para el desarrollo de energías renovables y energía nuclear."},
+      {c:"ABELARDO", t:"Minería diferenciada: legal vs criminal", d:"Diferenciar entre minería legal y criminal, respaldando inversión formal y persiguiendo estructuras ilegales."},
+      {c:"PALOMA", t:"Restaurar 1 millón de hectáreas", d:"Restaurar un millón de hectáreas (60% en Amazonía y Chocó), frenar deforestación e incrementar plantaciones en 300.000 hectáreas."},
+      {c:"PALOMA", t:"Familias guardabosques y pagos ambientales", d:"Crear familias guardabosques con pago del Estado, consolidar pagos por servicios ambientales e incentivos forestales."},
+      {c:"PALOMA", t:"Bioeconomía del 0,8% al 2% del PIB", d:"Promover biodiversidad como fuente de riqueza legal, aumentando bioeconomía del 0,8% al 2% del PIB en 4 años."},
+      {c:"PALOMA", t:"Restaurar 1 millón de corales", d:"Restaurar corales para beneficiar comunidades costeras y dinamizar el turismo, con recursos minero-energéticos destinados al cuidado ambiental."}
+    ]
+  },
+  "Infraestructura": {
+    icon: "🏗️",
+    proposals: [
+      {c:"CEPEDA", t:"Plan Nacional de Vías Terciarias", d:"Construir más de 30.000 kilómetros de vías rurales para conectar el campo colombiano con los centros urbanos y mercados."},
+      {c:"CEPEDA", t:"Agua potable universal", d:"Garantizar acceso a agua potable para el 80% de municipios que hoy carecen de ella, como derecho fundamental."},
+      {c:"CEPEDA", t:"Conectividad digital para el campo", d:"Llevar internet de alta velocidad a las zonas rurales para cerrar la brecha digital y fortalecer la educación y la economía."},
+      {c:"FAJARDO", t:"Sistema Nacional Intermodal de Transporte", d:"Articular carreteras, trenes, ríos, puertos y aeropuertos bajo una sola estrategia logística con 30 proyectos estratégicos prioritarios."},
+      {c:"FAJARDO", t:"20.000 km de vías terciarias", d:"Intervenir al menos 20.000 kilómetros de vías terciarias para conectar territorios rurales con troncales nacionales y centros de mercado."},
+      {c:"FAJARDO", t:"Conectividad para territorios aislados", d:"Inversiones estratégicas en Catatumbo, Cauca-Nariño y Chocó con corredores productivos y estabilización de tramos estratégicos."},
+      {c:"ABELARDO", t:"Vías, riego y conectividad rural", d:"Abrir el camino de la prosperidad moderna con vías, riego, conectividad, agroindustria y mercados para zonas rurales."},
+      {c:"ABELARDO", t:"Conectividad digital universal", d:"Garantizar conectividad y computadores gratuitos, superando que solo el 44.1% de escuelas primarias tiene Internet pedagógico."},
+      {c:"PALOMA", t:"Plan vial campesino: 35.000 km", d:"Intervenir 35.000 km de vías rurales: 10.000 km nuevas + 25.000 km de mantenimiento con maquinaria nacional."},
+      {c:"PALOMA", t:"1 millón de hogares con agua potable", d:"Construir e intervenir acueductos asegurando que un millón de hogares cuenten con nuevos accesos a agua potable y saneamiento."},
+      {c:"PALOMA", t:"Movilidad sostenible: buses eléctricos, metro y trenes", d:"Desarrollar buses eléctricos, líneas de metro y trenes de cercanía para transporte masivo en grandes centros urbanos."},
+      {c:"PALOMA", t:"Internet satelital para zonas marginadas", d:"Llevar conexión mediante internet satelital y paneles solares en lugares con servicio eléctrico deficiente."}
+    ]
+  },
+  "Cultura": {
+    icon: "🎭",
+    proposals: [
+      {c:"CEPEDA", t:"Cultura como derecho fundamental", d:"Garantizar el acceso universal a la cultura como derecho fundamental, fortaleciendo las industrias culturales y creativas."},
+      {c:"CEPEDA", t:"Patrimonio cultural y memoria histórica", d:"Proteger y valorar el patrimonio cultural material e inmaterial del país como parte de la identidad nacional."},
+      {c:"FAJARDO", t:"Fortalecer Ministerio de las Culturas", d:"Hacer el Ministerio más eficiente y técnico, priorizando que mayor presupuesto llegue directamente a artistas y gestores."},
+      {c:"FAJARDO", t:"Culturas Vivas Comunitarias", d:"Programa Nacional que apoye iniciativas culturales indígenas, afrocolombianas, campesinas, barriales y juveniles con Puntos de Cultura."},
+      {c:"FAJARDO", t:"Artes y cultura en la educación", d:"Incorporar música, artes, literatura y teatro como componentes centrales del sistema educativo."},
+      {c:"ABELARDO", t:"Gran industria audiovisual y musical", d:"Crear industria audiovisual y musical de derechos de autor, convirtiendo a Colombia en potencia exportadora de propiedad intelectual."},
+      {c:"ABELARDO", t:"Bonos 'Pase mi cultura' para jóvenes", d:"Bono de 2 años para 2,4 millones de jóvenes de 18 y 19 años que impulse el consumo cultural y genere emprendimiento cultural."},
+      {c:"ABELARDO", t:"Línea de acción creadora de $125.000 millones", d:"Capital semilla o coinversión anual en proyectos creativos, pasando del asistencialismo a la inversión en cultura."},
+      {c:"PALOMA", t:"Jornadas extracurriculares de arte y cultura", d:"Ampliar jornadas extracurriculares en colegios para incluir deporte, música, arte y cultura como formación integral."}
+    ]
+  },
+  "Agro": {
+    icon: "🌾",
+    proposals: [
+      {c:"CEPEDA", t:"Revolución Agraria completa", d:"Redistribución de tierras, derechos campesinos, seguros, servicios rurales, comercio justo y cadenas productivas estratégicas."},
+      {c:"CEPEDA", t:"Soberanía alimentaria", d:"Garantizar que Colombia pueda alimentar a su población con producción agrícola nacional, reduciendo la dependencia de importaciones."},
+      {c:"CEPEDA", t:"Crédito rural accesible", d:"Crear líneas de crédito blandas y accesibles para los campesinos y pequeños productores rurales del país."},
+      {c:"FAJARDO", t:"Política de Desarrollo Productivo Agropecuario", d:"Pasar de agro extensivo a intensivo: 50% de pequeños productores vinculados a cadenas agroalimentarias modernas en 4 años."},
+      {c:"FAJARDO", t:"Tierra con Futuro: tierra productiva", d:"Cada proceso de formalización o adjudicación acompañado de proyecto productivo, asistencia técnica, crédito e infraestructura."},
+      {c:"FAJARDO", t:"Altillanura: nuevo polo agroproductivo", d:"Desarrollo sostenible de la Altillanura con ordenamiento territorial, inversión en infraestructura, educación rural e investigación agrícola."},
+      {c:"FAJARDO", t:"Transformación integral de la caficultura", d:"Nueva Generación Cafetera, programa de productividad y rentabilidad, y fortalecimiento institucional cafetero."},
+      {c:"ABELARDO", t:"Ampliar frontera agrícola en 1,5 millones de hectáreas", d:"Expandir producción hacia la altillanura con coco, pasifloras, cereales y ganadería regenerativa."},
+      {c:"ABELARDO", t:"Acabar la falsa reforma agraria", d:"Reorganizar política rural para delimitar agricultura campesina y agricultura productiva de exportación, entregando propiedad real."},
+      {c:"ABELARDO", t:"Escuela de Emprendedores Rurales", d:"Formar 100.000 jóvenes en prácticas productivas con apoyo de crédito, asociatividad, tecnología y mentoría."},
+      {c:"PALOMA", t:"Créditos sin trámites a través de casas de agroinsumos", d:"Líneas de crédito ágiles y sin trámites burocráticos a través de casas de agroinsumos para el acceso del campesino a capital."},
+      {c:"PALOMA", t:"3 millones de hectáreas formalizadas", d:"Formalizar 3 millones de hectáreas para que los campesinos puedan aprovechar sus tierras con seguridad jurídica."},
+      {c:"PALOMA", t:"1 millón de nuevas áreas en cultivos y agroindustria", d:"Ampliar producción con un millón de nuevas áreas en cultivos y agroindustria, apoyadas por zonas francas rurales."}
+    ]
+  }
+};
+
+// === STATE ===
+let activeCandidate = 'ALL';
+let activeCategory = 'ALL';
+let searchTerm = '';
+
+// === INIT ===
+function init() {
+  renderCategoryFilters();
+  updateStats();
+  render();
+  setupListeners();
+}
+
+function renderCategoryFilters() {
+  const container = document.getElementById('categoryFilters');
+  const cats = Object.keys(DATA);
+  let html = `<button class="filter-btn cat-all active" data-cat="ALL">Todas</button>`;
+  cats.forEach(cat => {
+    const icon = DATA[cat].icon;
+    html += `<button class="filter-btn" data-cat="${cat}">${icon} ${cat}</button>`;
+  });
+  container.innerHTML = html;
+}
+
+function updateStats() {
+  let total = 0;
+  let cats = 0;
+  Object.values(DATA).forEach(cat => {
+    total += cat.proposals.length;
+    cats++;
+  });
+  document.getElementById('totalProposals').textContent = total;
+  document.getElementById('totalCategories').textContent = cats;
+}
+
+function getFilteredProposals() {
+  const results = [];
+  Object.entries(DATA).forEach(([catName, catData]) => {
+    if (activeCategory !== 'ALL' && catName !== activeCategory) return;
+    catData.proposals.forEach(p => {
+      if (activeCandidate !== 'ALL' && p.c !== activeCandidate) return;
+      if (searchTerm) {
+        const term = searchTerm.toLowerCase();
+        if (!p.t.toLowerCase().includes(term) && !p.d.toLowerCase().includes(term) && !catName.toLowerCase().includes(term) && !p.c.toLowerCase().includes(term)) return;
+      }
+      results.push({ ...p, category: catName, icon: catData.icon });
+    });
+  });
+  return results;
+}
+
+function render() {
+  const main = document.getElementById('mainContent');
+  const filtered = getFilteredProposals();
+
+  if (filtered.length === 0) {
+    main.innerHTML = `<div class="no-results fade-in"><div class="emoji">🔍</div><p>No se encontraron propuestas con los filtros seleccionados.</p></div>`;
+    return;
+  }
+
+  // Group by category
+  const grouped = {};
+  filtered.forEach(p => {
+    if (!grouped[p.category]) grouped[p.category] = [];
+    grouped[p.category].push(p);
+  });
+
+  let html = '';
+
+  // Comparative view per category (only when ALL candidates selected)
+  if (activeCandidate === 'ALL') {
+    Object.entries(grouped).forEach(([catName, props]) => {
+      const catData = DATA[catName];
+      const candidates = ['CEPEDA', 'FAJARDO', 'ABELARDO', 'PALOMA'];
+      const topByCandidate = {};
+      candidates.forEach(c => {
+        topByCandidate[c] = props.filter(p => p.c === c).slice(0, 2);
+      });
+
+      html += `
+        <div class="compare-section fade-in">
+          <div class="compare-header" onclick="this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open')">
+            <span style="font-size:1.3rem">${catData.icon}</span>
+            <h3>Comparativa: ${catName}</h3>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="compare-body">
+            <div class="compare-row">
+              ${candidates.map(c => `
+                <div class="compare-cell">
+                  <div class="cc-name">${{CEPEDA:'Iván Cepeda',FAJARDO:'Sergio Fajardo',ABELARDO:'Abelardo Espriella',PALOMA:'Paloma Valencia'}[c]}</div>
+                  ${topByCandidate[c].map(p => `
+                    <div class="cc-text" style="margin-bottom:6px"><strong>${p.t}</strong><br>${p.d}</div>
+                  `).join('')}
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  // All cards grouped by category
+  Object.entries(grouped).forEach(([catName, props]) => {
+    html += `
+      <div class="category-section fade-in">
+        <div class="category-header">
+          <div class="category-icon">${DATA[catName].icon}</div>
+          <div class="category-title">${catName}</div>
+          <div class="category-count">${props.length} propuestas</div>
+        </div>
+        <div class="proposals-grid">
+          ${props.map(p => `
+            <div class="proposal-card" data-candidate="${p.c}">
+              <div class="card-candidate" data-c="${p.c}">${{CEPEDA:'Iván Cepeda',FAJARDO:'Sergio Fajardo',ABELARDO:'Abelardo Espriella',PALOMA:'Paloma Valencia'}[p.c]}</div>
+              <div class="card-title">${p.t}</div>
+              <div class="card-desc">${p.d}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  });
+
+  main.innerHTML = html;
+}
+
+function setupListeners() {
+  // Candidate tabs
+  document.getElementById('candidateTabs').addEventListener('click', e => {
+    const tab = e.target.closest('.candidate-tab');
+    if (!tab) return;
+    document.querySelectorAll('.candidate-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    activeCandidate = tab.dataset.candidate;
+    render();
+  });
+
+  // Category filters
+  document.getElementById('categoryFilters').addEventListener('click', e => {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeCategory = btn.dataset.cat;
+    render();
+  });
+
+  // Search
+  let debounce;
+  document.getElementById('searchInput').addEventListener('input', e => {
+    clearTimeout(debounce);
+    debounce = setTimeout(() => {
+      searchTerm = e.target.value.trim();
+      render();
+    }, 250);
+  });
+}
+
+init();
+</script>
+</body>
+</html>

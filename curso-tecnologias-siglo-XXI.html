@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curso: Tecnologías del Siglo XXI — IE Rafael Uribe Uribe</title>
+<style>
+  :root {
+    --azul-marino: #003366;
+    --azul-medio: #1A5276;
+    --azul-claro: #E6F2FF;
+    --azul-electrico: #0056D2;
+    --morado: #6A0DAD;
+    --blanco: #FFFFFF;
+    --negro: #1a1a1a;
+    --gris-claro: #f5f5f5;
+    --gris-borde: #d0d0d0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    background: #0d1117;
+    color: #c9d1d9;
+    line-height: 1.6;
+    padding: 20px;
+  }
+  .max-width { max-width: 1100px; margin: 0 auto; }
+
+  /* BANNER */
+  .banner {
+    background: linear-gradient(135deg, #003366 0%, #0056D2 40%, #6A0DAD 100%);
+    border-radius: 16px;
+    padding: 48px 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .banner::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -20%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .banner h1 {
+    color: #fff;
+    font-size: 2.4em;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+  .banner .subtitle {
+    color: rgba(255,255,255,0.85);
+    font-size: 1.1em;
+    font-weight: 300;
+  }
+  .banner .meta {
+    margin-top: 20px;
+    display: flex; flex-wrap: wrap; gap: 16px;
+  }
+  .banner .meta span {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    backdrop-filter: blur(4px);
+  }
+
+  /* SECCIÓN TOGGLE */
+  details {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  summary {
+    padding: 20px 28px;
+    cursor: pointer;
+    font-size: 1.15em;
+    font-weight: 700;
+    color: #58a6ff;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    user-select: none;
+    transition: background 0.2s;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::before {
+    content: '▶';
+    font-size: 0.7em;
+    transition: transform 0.2s;
+    display: inline-block;
+  }
+  details[open] summary::before { transform: rotate(90deg); }
+  summary:hover { background: #1c2128; }
+
+  .section-body {
+    padding: 0 28px 28px;
+    border-top: 1px solid #30363d;
+  }
+
+  h2 {
+    color: #58a6ff;
+    font-size: 1.4em;
+    margin: 24px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #1A5276;
+  }
+  h3 {
+    color: #79c0ff;
+    font-size: 1.15em;
+    margin: 20px 0 10px;
+  }
+  h4 {
+    color: #a0d2ff;
+    font-size: 1.05em;
+    margin: 16px 0 8px;
+  }
+  p { margin-bottom: 10px; }
+  strong { color: #e6edf3; }
+  em { color: #a0c8e8; }
+
+  /* TABLAS */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 0.92em;
+    table-layout: fixed;
+    word-wrap: break-word;
+  }
+  thead th {
+    background: #003366;
+    color: #fff;
+    padding: 14px 12px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 0.88em;
+    letter-spacing: 0.3px;
+  }
+  tbody td {
+    padding: 12px;
+    border: 1px solid #30363d;
+    vertical-align: top;
+    color: #c9d1d9;
+  }
+  tbody tr:nth-child(even) td { background: #0d1117; }
+  tbody tr:nth-child(odd) td { background: #161b22; }
+  tbody tr:hover td { background: #1c2128; }
+
+  /* TARJETAS / CAJAS */
+  .card {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-left: 4px solid #0056D2;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 16px 0;
+  }
+  .card.purple { border-left-color: #6A0DAD; }
+  .card.green { border-left-color: #28a745; }
+  .card.orange { border-left-color: #f0a500; }
+  .card.red { border-left-color: #dc3545; }
+
+  /* LISTAS */
+  ul, ol { padding-left: 24px; margin-bottom: 12px; }
+  li { margin-bottom: 6px; }
+
+  /* BADGES */
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.78em;
+    font-weight: 700;
+    margin: 2px 4px;
+  }
+  .badge-blue { background: #003366; color: #79c0ff; }
+  .badge-purple { background: #3a1060; color: #d0a0ff; }
+  .badge-green { background: #0a3d0a; color: #7ee787; }
+  .badge-orange { background: #3d2800; color: #f0c040; }
+
+  /* GUION VIDEO */
+  .guion {
+    background: #0d1117;
+    border: 1px dashed #30363d;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 12px 0;
+    font-size: 0.9em;
+  }
+  .guion .timestamp {
+    color: #f0a500;
+    font-weight: 700;
+    font-family: monospace;
+  }
+
+  /* QUIZ */
+  .quiz-q {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 10px 0;
+  }
+  .quiz-q .q-num {
+    color: #58a6ff;
+    font-weight: 700;
+    margin-right: 6px;
+  }
+  .quiz-q .answer {
+    color: #7ee787;
+    font-weight: 600;
+  }
+
+  /* SEPARADOR */
+  hr {
+    border: none;
+    border-top: 2px solid #1A5276;
+    margin: 28px 0;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .banner h1 { font-size: 1.6em; }
+    .banner { padding: 28px 20px; }
+    summary { padding: 14px 16px; font-size: 1em; }
+    .section-body { padding: 0 16px 16px; }
+    table { font-size: 0.82em; }
+    thead th, tbody td { padding: 8px 6px; }
+  }
+
+  /* PRINT */
+  @media print {
+    body { background: #fff; color: #000; }
+    details { border: 1px solid #ccc; }
+    summary { color: #003366; }
+    .banner { background: #003366 !important; -webkit-print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="max-width">
+
+<!-- ============================== -->
+<!-- BANNER PRINCIPAL               -->
+<!-- ============================== -->
+<div class="banner">
+  <h1>🚀 Tecnologías del Siglo XXI</h1>
+  <div class="subtitle">Curso Virtual — Nivel Medio Superior · 4 Semanas</div>
+  <div class="meta">
+    <span>📅 Duración: 4 semanas</span>
+    <span>🎯 Nivel: 15-18 años</span>
+    <span>📚 Plataforma: Google Classroom</span>
+    <span>👨‍🏫 Docente: Carlos Andrés Caro Taborda</span>
+  </div>
+</div>
+
+<!-- ============================== -->
+<!-- ETIQUETA: PRESENTACIÓN        -->
+<!-- ============================== -->
+<details open>
+<summary>📢 ETIQUETA DE TEMA: Presentación</summary>
+<div class="section-body">
+
+<h2>1. ANUNCIO DE BIENVENIDA</h2>
+<p><strong>Título del post en el Muro:</strong></p>
+<div class="card">
+  <p>🚀 <strong>¡Bienvenidos al Futuro!</strong> Prepárate para descubrir y crear las tecnologías que definirán nuestro mundo.</p>
+</div>
+
+<h3>📸 Imagen de Portada (descripción para diseñar)</h3>
+<div class="card purple">
+  <p><strong>Descripción:</strong> Banner horizontal con paleta azul eléctrico, morado, blanco. Centro: silueta humana en blanco de perfil, cerebro como red de circuitos iluminados conectados a iconos flotantes: chip de IA, símbolo blockchain, nube Big Data, lente RV. Tipografía sans-serif moderna. Eslogan inferior: <em>"No solo consumes el futuro. Lo construyes."</em></p>
+</div>
+
+<h3>🎬 Video de Presentación del Docente (3-5 min)</h3>
+<div class="guion">
+  <p><span class="timestamp">(0:00-0:30)</span> <strong>Saludo y Enganche:</strong></p>
+  <p><em>"¡Hola, futuros innovadores! Soy Carlos Andrés Caro Taborda, y este espacio es mucho más que un curso de tecnología. Es un laboratorio donde tú dejas de ser solo un usuario de apps y redes sociales para convertirte en un arquitecto del mañana. ¿Listo para descubrir cómo?"</em></p>
+
+  <p><span class="timestamp">(0:30-1:15)</strong> <strong>Presentación del Curso y Relevancia:</strong></p>
+  <p><em>"Este curso se llama 'Tecnologías emergentes en el siglo XXI'. No vamos a ver solo definiciones aburridas. Vamos a meternos de lleno en la Cuarta Revolución Industrial. ¿Sabías que ya estamos viviendo en ella? Exploraremos la Inteligencia Artificial que ya está en tu Netflix, el Big Data que conoce tus gustos mejor que tu mejor amigo, y el Blockchain que puede cambiar el dinero como lo conocemos. ¿Por qué importa? Porque estas tecnologías no son del futuro lejano; son el presente que está redefiniendo trabajos, problemas sociales y hasta la ética. Y tú, como joven, tienes una voz clave en cómo se usan."</em></p>
+
+  <p><span class="timestamp">(1:15-2:45)</strong> <strong>Qué Aprenderán y Dinámica:</strong></p>
+  <p><em>"En este curso, vas a: 1) Identificar y entender las 6 tecnologías clave que están cambiando el mundo. 2) Analizar críticamente sus impactos, bueno y malo, sin miedo a cuestionar. 3) Diseñar tu propia solución tecnológica a un problema real de tu comunidad. ¡Sí, tú serás el innovador! Trabajaremos a tu ritmo, con videos, foros de debate y actividades prácticas. La participación activa es tu mejor herramienta."</em></p>
+
+  <p><span class="timestamp">(2:45-3:30)</strong> <strong>Invitación Final:</strong></p>
+  <p><em>"Mi rol no es darte todas las respuestas, sino darte las herramientas y el espacio para que construyas las tuyas. Este es tu curso. Tu curiosidad es el motor. ¿Empezamos? Dale play a tu aprendizaje. Nos vemos en el aula virtual."</em></p>
+</div>
+
+<h3>📊 Infografía de Bienvenida</h3>
+<div class="card green">
+  <ul>
+    <li><strong>🎯 Objetivo General:</strong> Comprender, analizar y proponer soluciones usando tecnologías emergentes de manera ética y responsable en tu contexto.</li>
+    <li><strong>⏳ Duración:</strong> 3 sesiones + cierre (4 semanas).</li>
+    <li><strong>🧠 Competencias:</strong> Pensamiento crítico · Alfabetización digital avanzada · Creatividad tecnológica · Comunicación efectiva en entornos virtuales.</li>
+    <li><strong>🔄 Dinámica:</strong> Aprendizaje Basado en Proyectos + Foros de debate + Gamificación ligera. Avance autónomo con mentoría.</li>
+    <li><strong>✉️ Mensaje:</strong> "¡Hola! 👋 Este curso es tu trampolín al futuro. No hay respuestas incorrectas, solo ideas en construcción. Tu voz, tu duda y tu creatividad son la materia prima más valiosa. Bienvenido/a a la comunidad de constructores del siglo XXI."</li>
+  </ul>
+</div>
+
+</div>
+</details>
+
+<!-- ============================== -->
+<!-- ETIQUETA: METODOLOGÍA         -->
+<!-- ============================== -->
+<details>
+<summary>🔧 ETIQUETA DE TEMA: Metodología</summary>
+<div class="section-body">
+
+<h2>2. TAREA/RECURSO: "¿Cómo trabajaremos juntos?"</h2>
+<p><em>¡Lee esto primero! 👇 Esto es lo que hace a este curso especial. No es una lista de reglas aburridas, es nuestro pacto de colaboración.</em></p>
+
+<div class="card">
+  <h3>🎯 Enfoque Pedagógico</h3>
+  <p>Usaremos <strong>Aprendizaje Basado en Proyectos (ABPr)</strong> para que construyas algo real, <strong>Pensamiento Crítico</strong> para cuestionar todo, y <strong>Gamificación ligera</strong> para hacer el camino más interactivo.</p>
+</div>
+
+<div class="card purple">
+  <h3>🔄 La Dinámica</h3>
+  <ul>
+    <li><strong>Sesiones Autónomas:</strong> Cada sesión diseñada para avance a tu ritmo (~2 horas).</li>
+    <li><strong>📚 Recursos de Apoyo:</strong> Lo MÍNIMO que necesitas ver/leer para completar la actividad. Son tu base.</li>
+    <li><strong>🔍 Recursos de Consulta:</strong> Material para profundizar si te apasiona el tema. ¡Recomendados para los curiosos!</li>
+    <li><strong>Foros = Evidencia:</strong> Participar en los foros no es opcional, es parte central de tu aprendizaje.</li>
+  </ul>
+</div>
+
+<div class="card green">
+  <h3>📜 Nuestro Acuerdo de Convivencia Digital (Nuestros "Sí")</h3>
+  <ol>
+    <li><strong>SÍ al respeto:</strong> Criticamos ideas, no personas.</li>
+    <li><strong>SÍ a la curiosidad:</strong> Preguntar "¿por qué?" o "¿y si...?" es siempre bienvenido.</li>
+    <li><strong>SÍ a la colaboración:</strong> Ayudar a un compañero a entender algo te hace más fuerte.</li>
+    <li><strong>SÍ a la responsabilidad:</strong> Cumplimos los plazos, pero comunicamos si hay un problema.</li>
+    <li><strong>SÍ a la creatividad:</strong> No hay una sola forma correcta de hacer las cosas.</li>
+  </ol>
+</div>
+
+<h3>📊 Sistema de Evaluación</h3>
+<table>
+  <thead><tr><th>Componente</th><th>Porcentaje</th><th>Qué implica</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Participación en Foros</strong></td><td>20%</td><td>Calidad, constructividad y frecuencia en debates y comentarios.</td></tr>
+    <tr><td><strong>Actividades por Sesión</strong></td><td>50%</td><td>Entregas 1, 2 y 3. Cumplimiento y profundidad.</td></tr>
+    <tr><td><strong>Actividad Final Integradora</strong></td><td>30%</td><td>Tu prototipo de solución tecnológica.</td></tr>
+  </tbody>
+</table>
+
+<h3>✨ Rúbrica General para Actividades</h3>
+<table>
+  <thead><tr><th>Criterio</th><th>Nivel Destacado (10)</th><th>Nivel Satisfactorio (8)</th><th>Nivel en Desarrollo (6)</th><th>Nivel Inicial (4)</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Claridad</strong></td><td>Idea expresada con total claridad y lógica.</td><td>Idea clara, con buena estructura.</td><td>Idea comprensible pero con algunos saltos lógicos.</td><td>Idea confusa o difícil de seguir.</td></tr>
+    <tr><td><strong>Profundidad</strong></td><td>Análisis que va más allá de lo obvio, con ejemplos propios.</td><td>Aplica conceptos del curso correctamente.</td><td>Reproduce ideas del material sin mucho análisis.</td><td>Superficial, no aplica conceptos.</td></tr>
+    <tr><td><strong>Creatividad/Originalidad</strong></td><td>Propuesta única, enfoque innovador o metáfora original.</td><td>Muestra un toque personal dentro de los parámetros.</td><td>Sigue la instrucción al pie de la letra sin innovar.</td><td>Copia o replica ejemplos vistos.</td></tr>
+    <tr><td><strong>Uso de Fuentes</strong></td><td>Integra y cita adecuadamente fuentes relevantes.</td><td>Menciona las fuentes de donde sacó la información.</td><td>Usa fuentes sin reconocerlas claramente.</td><td>No usa fuentes o usa fuentes no confiables.</td></tr>
+  </tbody>
+</table>
+
+<h3>📞 Canales de Comunicación</h3>
+<div class="card orange">
+  <ul>
+    <li><strong>Para dudas generales:</strong> Usa el <strong>Foro de Preguntas y Dudas</strong> de la clase (respuesta en menos de 24 horas).</li>
+    <li><strong>Para asuntos personales:</strong> Envía un <strong>Mensaje Privado en Classroom</strong>. Horario de respuesta: lunes a viernes, 9:00 a 17:00 horas.</li>
+  </ul>
+</div>
+
+</div>
+</details>
+
+<!-- ============================== -->
+<!-- ETIQUETA: SESIÓN 1            -->
+<!-- ============================== -->
+<details>
+<summary>📅 ETIQUETA DE TEMA: Sesión 1</summary>
+<div class="section-body">
+
+<h2>3. SESIÓN 1 — "La Cuarta Revolución Industrial: ¿Vivimos ya en el futuro?"</h2>
+
+<h3>🎯 Objetivo de la sesión</h3>
+<p>Al finalizar, podrás identificar las tecnologías clave de la Cuarta Revolución Industrial y reflexionar sobre su impacto en tu vida y en las profesiones del futuro.</p>
+
+<h3>📖 Contenido Central</h3>
+<div class="card">
+  <ul>
+    <li><strong>¿Qué es la Cuarta Revolución Industrial?</strong> Explicación con ejemplos: Primera (vapor), Segunda (electricidad), Tercera (computadoras, internet), <strong>Cuarta (fusión de mundos físico, digital y biológico a través de datos e IA)</strong>.</li>
+    <li><strong>Principales Tecnologías:</strong> IA, IoT, Big Data, Blockchain, Robótica, RA/RV. Breve descripción con ejemplo cotidiano de cada una.</li>
+    <li><strong>Casos en Latinoamérica:</strong> Agricultura 4.0 con drones, Blockchain para rastreo agroalimentario, Fintech, IA para preservación de lenguas indígenas.</li>
+    <li><strong>Impacto en el Mercado Laboral:</strong> Fin de rutinas, nacimiento de nuevos roles ("Especialista en Ética de IA"). Habilidades blandas ganan peso.</li>
+    <li><strong>Reflexión Final:</strong> ¿Qué habilidades necesito desarrollar? (Aprender a "conversar" con IA, entender datos, proteger privacidad digital).</li>
+  </ul>
+</div>
+
+<h3>📚 Recursos de Apoyo</h3>
+
+<div class="card green">
+  <h4>🎬 Video Resumen (5 min): "Las 6 tecnologías que cambiarán tu mundo"</h4>
+  <div class="guion">
+    <p><span class="timestamp">(0:00-0:45)</span> <strong>Intro:</strong> "¿Tu reloj sabe cómo dormiste? Tu celular te sugiere canciones? ¡Bienvenido a la Revolución 4.0! No es ficción, es tu día a día."</p>
+    <p><span class="timestamp">(0:45-3:45)</span> <strong>Desarrollo — Analogías:</strong></p>
+    <ul>
+      <li><strong>IA:</strong> "Es como enseñar a un niño, pero con millones de ejemplos. No piensa, reconoce patrones."</li>
+      <li><strong>IoT:</strong> "Imagina que tu refrigerador avisa a la tienda cuando te falta la leche."</li>
+      <li><strong>Big Data:</strong> "Es el eco digital que dejas. Y alguien lo analiza para predecir tendencias."</li>
+      <li><strong>Blockchain:</strong> "Un cuaderno de contabilidad público, imposible de borrar o hackear."</li>
+      <li><strong>Robótica:</strong> "Máquinas que no solo se mueven, sino que 'aprenden' del entorno."</li>
+      <li><strong>RA/RV:</strong> "RA = información superpuesta (Pokémon GO). RV = estás dentro de otra realidad."</li>
+    </ul>
+    <p><span class="timestamp">(3:45-5:00)</span> <strong>Cierre:</strong> "No necesitas ser ingeniero para entender esto. Necesitas ser curioso. ¿Cuál te impacta más?"</p>
+  </div>
+</div>
+
+<div class="card purple">
+  <h4>🗺️ Mapa Conceptual Interactivo (Canva/MindMeister)</h4>
+  <ul>
+    <li><strong>Nodo Central:</strong> "Cuarta Revolución Industrial"</li>
+    <li><strong>Ramas:</strong> Tecnologías Clave · Aplicaciones (Vida diaria, Industria, Salud) · Impacto Social (Empleo, Ética, Educación) · Tendencias Futuras</li>
+    <li><strong>Interactivo:</strong> Al hacer clic en cada nodo → definición breve + ejemplo + enlace a video de 30 seg.</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h4>📖 Glosario Visual de Términos Clave (10 términos)</h4>
+  <ol>
+    <li><strong>Inteligencia Artificial (IA):</strong> Capacidad de una máquina para realizar tareas que normalmente requieren inteligencia humana. <em>Ej: Asistentes de voz como Siri.</em></li>
+    <li><strong>Internet de las Cosas (IoT):</strong> Red de objetos físicos conectados a internet que recopilan y comparten datos. <em>Ej: Reloj inteligente que mide tu ritmo cardíaco.</em></li>
+    <li><strong>Big Data:</strong> Conjuntos de datos tan grandes y complejos que las herramientas tradicionales no pueden procesarlos. <em>Ej: Miles de millones de búsquedas diarias en Google.</em></li>
+    <li><strong>Blockchain:</strong> Tecnología de registro distribuido, seguro y transparente. <em>Ej: Base de datos de criptomonedas como Bitcoin.</em></li>
+    <li><strong>Robótica:</strong> Diseño, construcción y operación de robots. <em>Ej: Brazos robóticos en fábricas de autos.</em></li>
+    <li><strong>Realidad Aumentada (RA):</strong> Superpone información digital al mundo real. <em>Ej: Filtros de Instagram.</em></li>
+    <li><strong>Realidad Virtual (RV):</strong> Sumerge al usuario en un entorno completamente digital. <em>Ej: Juegos con gafas VR.</em></li>
+    <li><strong>Algoritmo:</strong> Conjunto de reglas que sigue una computadora para resolver un problema. <em>Ej: El algoritmo que decide qué ves en TikTok.</em></li>
+    <li><strong>Maker:</strong> Persona que crea, inventa o repara objetos usando tecnología digital. <em>Ej: Comunidad de creadores con impresoras 3D.</em></li>
+    <li><strong>Industria 4.0:</strong> Automatización e intercambio de datos en la fabricación.</li>
+  </ol>
+</div>
+
+<div class="card orange">
+  <h4>🎙️ Podcast Sugerido: "Radio Futura" — Episodio: "La Cuarta Revolución Industrial nos está viendo"</h4>
+  <p>Duración: 45 min. Dos divulgadores conversan con humor y ejemplos latinoamericanos sobre cómo estas tecnologías están transformando empleos, educación y hasta el amor. Ideal para escuchar mientras haces ejercicio o viajas.</p>
+</div>
+
+<h3>🔍 Recursos de Consulta (Para Profundizar)</h3>
+<div class="card">
+  <ul>
+    <li><strong>Artículo:</strong> "¿Qué es la Cuarta Revolución Industrial?" — <em>Harvard Business Review en Español</em>. El artículo fundacional del concepto, escrito por Klaus Schwab.</li>
+    <li><strong>Documental:</strong> "Lo and Behold: Reveries of the Connected Mind" (Parte 1) — Dir. Werner Herzog. 50 min. YouTube. Herzog explora el nacimiento y futuro de internet.</li>
+    <li><strong>Informe:</strong> "El Futuro del Empleo 2023" — Foro Económico Mundial (WEF). Datos concretos sobre habilidades demandadas.</li>
+    <li><strong>Sitio Web:</strong> <em>Mundo Geek Ciencia</em> (mundogeekciencia.com). Divulgación tecnológica en español.</li>
+  </ul>
+</div>
+
+<hr>
+
+<h3>✏️ Actividad de la Sesión: "Mi radar tecnológico"</h3>
+
+<h4>Instrucciones</h4>
+<ol>
+  <li><strong>Elige:</strong> Revisa las 6 tecnologías vistas (IA, IoT, Big Data, Blockchain, Robótica, RA/RV) y selecciona las <strong>3 que más te impacten o te generen más curiosidad</strong>.</li>
+  <li><strong>Investiga:</strong> Busca <strong>un ejemplo concreto y real</strong> de cada una en tu comunidad, estado o país. No tiene que ser de Silicon Valley; puede ser una app local, un proyecto gubernamental, una startup colombiana.</li>
+  <li><strong>Publica:</strong> En el <strong>Muro de la Clase (Stream)</strong> de Classroom, crea una publicación siguiendo esta estructura:</li>
+</ol>
+
+<div class="card green">
+  <p><strong>Título:</strong> Mi radar tecnológico: [Tu Nombre]</p>
+  <p><strong>Cuerpo:</strong></p>
+  <ul>
+    <li><strong>Tecnología 1: [Nombre]</strong> — <em>¿Por qué la elegí?</em> (1-2 líneas). <em>Ejemplo real que encontré:</em> [Enlace o descripción]. <em>¿Cómo la usas o la has visto en tu vida diaria?</em> (2-3 líneas). <em>¿Qué oportunidad o riesgo ves en ella?</em> (1-2 líneas).</li>
+    <li><strong>Tecnología 2: [Nombre]</strong> — (Repetir estructura).</li>
+    <li><strong>Tecnología 3: [Nombre]</strong> — (Repetir estructura).</li>
+  </ul>
+  <p><strong>Finaliza:</strong> "Estas son las tecnologías que están en mi radar. ¿Compartes alguna conmigo?"</p>
+</div>
+
+<ol start="4">
+  <li><strong>Interactúa:</strong> <strong>Lee y comenta la publicación de AL MENOS UN compañero.</strong> Tu comentario debe ser constructivo: puedes ampliar su punto, preguntar algo o compartir un ejemplo similar.</li>
+</ol>
+
+<h4>Rúbrica para "Mi radar tecnológico"</h4>
+<table>
+  <thead><tr><th>Criterio</th><th>Excelente (10)</th><th>Bueno (8)</th><th>Suficiente (6)</th><th>Insuficiente (4)</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Selección y Justificación</strong></td><td>Elige 3 tecnologías con justificación personal clara y significativa.</td><td>Elige 3 tecnologías con justificación adecuada.</td><td>Elige tecnologías, pero la justificación es débil o repetitiva.</td><td>No sigue el formato de selección o justifica poorly.</td></tr>
+    <tr><td><strong>Ejemplo Real y Análisis</strong></td><td>Ejemplos concretos, bien investigados. Análisis de impacto profundo y personal.</td><td>Ejemplos adecuados. Análisis correcto pero poco profundo.</td><td>Ejemplos vagos o genéricos. Análisis superficial.</td><td>Ejemplos incorrectos o no proporcionados. No hay análisis.</td></tr>
+    <tr><td><strong>Interacción en Foro</strong></td><td>Comenta 1 publicación con una reflexión que añade valor, pregunta o conecta ideas.</td><td>Comenta 1 publicación de manera pertinente.</td><td>Comenta, pero el comentario es muy corto o no añade valor.</td><td>No comenta la publicación de un compañero.</td></tr>
+  </tbody>
+</table>
+
+</div>
+</details>
+
+<!-- ============================== -->
+<!-- ETIQUETA: SESIÓN 2            -->
+<!-- ============================== -->
+<details>
+<summary>📅 ETIQUETA DE TEMA: Sesión 2</summary>
+<div class="section-body">
+
+<h2>4. SESIÓN 2 — "Inteligencia Artificial: ¿Aliada o amenaza?"</h2>
+
+<h3>🎯 Objetivo de la sesión</h3>
+<p>Analizar el funcionamiento básico de la IA, identificar sus aplicaciones cotidianas y evaluar críticamente sus dilemas éticos y sociales.</p>
+
+<h3>📖 Contenido Central</h3>
+<div class="card">
+  <ul>
+    <li><strong>¿Qué es la IA y cómo "aprende"?</strong> Explicación del <strong>Machine Learning</strong>: "En lugar de decirle a la computadora qué hacer exactamente, le damos millones de ejemplos (datos) y ella aprende el patrón."</li>
+    <li><strong>Tipos de IA:</strong>
+      <ul>
+        <li><em>IA Estrecha (Débil):</em> Especializada en una tarea (reconocimiento facial, Spotify). Es la que usamos HOY.</li>
+        <li><em>IA General:</em> Capaz de entender y aprender cualquier tarea intelectual humana. (Aún no existe).</li>
+        <li><em>Superinteligencia IA:</em> IA que supera la inteligencia humana en todos los aspectos. (Hipotética).</li>
+      </ul>
+    </li>
+    <li><strong>Aplicaciones que ya usamos:</strong> Filtros de Instagram, GPS, traductor de Google, Alexa/Siri, recomendaciones de YouTube/Netflix.</li>
+    <li><strong>IA Generativa:</strong> IA que crea contenido nuevo: imágenes (DALL-E, MidJourney), texto (ChatGPT), música.</li>
+    <li><strong>Dilemas Éticos:</strong> Sesgos, privacidad, automatización del empleo, deepfakes.</li>
+    <li><strong>El Futuro de la IA (próximos 10 años):</strong> Más personalización en educación y salud, coches autónomos, IA como asistente creativo, necesidad de regulación y ética.</li>
+  </ul>
+</div>
+
+<h3>📚 Recursos de Apoyo</h3>
+
+<div class="card green">
+  <h4>🎬 Video Explicativo (6 min): "IA sin complicaciones: cómo funciona realmente"</h4>
+  <div class="guion">
+    <p><span class="timestamp">(0:00-1:30)</span> <strong>Intro:</strong> "¿Crees que los robots piensan como tú? Spoiler: No. Pero imitan el resultado de tu pensamiento."</p>
+    <p><span class="timestamp">(1:30-4:00)</span> <strong>Machine Learning:</strong> "Imagina que quieres enseñar a reconocer un tazón de ramen. Le muestras 10,000 fotos etiquetadas 'ramen'. La IA encuentra los patrones: cilindro + fideos + caldo. Así 'aprende'. No sabe qué es comer, solo reconoce el patrón visual."</p>
+    <p><span class="timestamp">(4:00-5:30)</span> <strong>IA Generativa y Deepfakes:</strong> "La IA generativa es como un artista que estudió todas las pinturas del mundo y ahora crea algo nuevo. El deepfake usa esto para rostro y voz. Peligroso si se usa para engañar."</p>
+    <p><span class="timestamp">(5:30-6:00)</span> <strong>Cierre:</strong> "La IA es una herramienta poderosa. Como un cuchillo, puede usarse para cocinar o para... algo más. Depende de nosotros, los humanos, guiarla."</p>
+  </div>
+</div>
+
+<div class="card purple">
+  <h4>🖥️ Simulación Interactiva: Teachable Machine de Google</h4>
+  <p>Accede a <strong>teachablemachine.withgoogle.com</strong>. En "Image Project", entrena un modelo sencillo:</p>
+  <ol>
+    <li>Clase 1: Sube 20 fotos de tu mano mostrando pulgar arriba (👍).</li>
+    <li>Clase 2: Sube 20 fotos de tu mano mostrando pulgar abajo (👎).</li>
+    <li>Clic en "Train Model" y observa cómo la IA aprende.</li>
+    <li>Usa la cámara web para ver si la IA reconoce tus gestos en tiempo real.</li>
+  </ol>
+  <p><strong>Reflexión:</strong> ¿Fue fácil o difícil para la IA aprender? ¿Qué pasaría si usas un guante? ¿Qué nos dice esto sobre cómo "ven" las IAs?</p>
+</div>
+
+<div class="card">
+  <h4>📊 Infografía Comparativa: "IA: Ayer, Hoy, Mañana"</h4>
+  <table>
+    <thead><tr><th>Ayer (1950-2000)</th><th>Hoy (2000-2025)</th><th>Mañana (2025-2050+)</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>IA Simbólica.</strong> Lógica programada. Ej: Deep Blue (ajedrez).</td>
+        <td><strong>IA por Datos.</strong> Machine Learning. Ej: Netflix, AlphaGo.</td>
+        <td><strong>IA Multimodal/General.</strong> Comprensión del mundo. Ej: Asistentes contextuales.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card orange">
+  <h4>📝 Quiz de Autoevaluación (10 preguntas)</h4>
+  <div class="quiz-q"><span class="q-num">1.</span> ¿Qué es el Machine Learning? <br><span class="answer">b) Aprender de ejemplos (datos).</span></div>
+  <div class="quiz-q"><span class="q-num">2.</span> Una IA que solo puede recomendar películas es: <br><span class="answer">b) IA Estrecha.</span></div>
+  <div class="quiz-q"><span class="q-num">3.</span> ¿Cuál es un riesgo ético de los deepfakes? <br><span class="answer">b) Crear noticias falsas realistas.</span></div>
+  <div class="quiz-q"><span class="q-num">4.</span> ¿Qué tecnología permite que una IA componga música? <br><span class="answer">c) IA Generativa.</span></div>
+  <div class="quiz-q"><span class="q-num">5.</span> Si una IA para contratar se entrena solo con datos de hombres: <br><span class="answer">b) Tendrá un sesgo de género.</span></div>
+  <div class="quiz-q"><span class="q-num">6.</span> ¿Qué NO es una aplicación cotidiana de IA? <br><span class="answer">b) Calculadora básica.</span></div>
+  <div class="quiz-q"><span class="q-num">7.</span> La IA "aprende" principalmente de: <br><span class="answer">b) Datos.</span></div>
+  <div class="quiz-q"><span class="q-num">8.</span> ¿Cuál es la meta a largo plazo de la IA General? <br><span class="answer">b) Entender y aprender cualquier tarea intelectual humana.</span></div>
+  <div class="quiz-q"><span class="q-num">9.</span> ¿Quién es responsable del uso ético de una IA? <br><span class="answer">b) Los programadores y la sociedad que la usa.</span></div>
+  <div class="quiz-q"><span class="q-num">10.</span> La IA Generativa se distingue porque: <br><span class="answer">c) Crea contenido nuevo (texto, imagen, música).</span></div>
+</div>
+
+<h3>🔍 Recursos de Consulta</h3>
+<div class="card">
+  <ul>
+    <li><strong>Libro:</strong> "2084: El fin de la inteligencia artificial" — Juan José Millás. Novela corta y perturbadora sobre un mundo controlado por IA.</li>
+    <li><strong>TED Talk:</strong> "Qué es la inteligencia artificial y por qué deberías preocuparte" — Kai-Fu Lee. 14 min.</li>
+    <li><strong>Artículo:</strong> "Los diez dilemas éticos más grandes de la IA" — AI and Ethics (Springer, 2023).</li>
+    <li><strong>Herramienta:</strong> "AI Ethics: The Global Landscape" — AI Now Institute. Mapa interactivo global de leyes y principios de ética en IA.</li>
+  </ul>
+</div>
+
+<hr>
+
+<h3>✏️ Actividad de la Sesión: "Juicio a la IA"</h3>
+
+<h4>Instrucciones</h4>
+<ol>
+  <li><strong>Formación de Equipos:</strong> Dos equipos en el foro:
+    <ul>
+      <li><strong>Equipo 1: "Defensores de la IA"</strong> — Argumentar que la IA es una fuerza positiva para la humanidad.</li>
+      <li><strong>Equipo 2: "Críticos de la IA"</strong> — Argumentar que los riesgos de la IA superan o igualan sus beneficios.</li>
+    </ul>
+  </li>
+  <li><strong>Preparación:</strong> Cada equipo publica <strong>5 argumentos sólidos</strong> (máx. 2 líneas cada uno) antes de la fecha límite.</li>
+  <li><strong>El Debate:</strong> Los equipos leen los argumentos del otro y responden directamente en los comentarios. Respeto y evidencia.</li>
+  <li><strong>Reflexión Individual:</strong> Cada estudiante escribe un párrafo (mín. 150 palabras) en un documento de Google que subirá como tarea:
+    <br><em>"Luego de escuchar los argumentos de ambos bandos, ¿cuál es tu postura personal sobre la IA? ¿Te consideras más un defensor, un crítico o algo intermedio? Justifica tu respuesta con al menos dos argumentos del debate y uno personal."</em></li>
+</ol>
+
+<h4>Rúbrica para "Juicio a la IA"</h4>
+<table>
+  <thead><tr><th>Criterio</th><th>Excelente (10)</th><th>Bueno (8)</th><th>Suficiente (6)</th><th>Insuficiente (4)</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Calidad de Argumentos (Equipo)</strong></td><td>5 argumentos claros, sólidos, respaldados por ejemplos o fuentes.</td><td>5 argumentos adecuados y relacionados.</td><td>Argumentos poco claros, débiles o genéricos.</td><td>No cumple con número o calidad.</td></tr>
+    <tr><td><strong>Participación en el Debate</strong></td><td>Responde a múltiples argumentos del contrario, respetuoso y fundamentado.</td><td>Responde al menos a un argumento pertinente.</td><td>Participación mínima o poco constructiva.</td><td>No participa.</td></tr>
+    <tr><td><strong>Reflexión Individual</strong></td><td>Postura clara, bien justificada con argumentos del debate y personales.</td><td>Postura clara y justificada, análisis menos profundo.</td><td>Postura confusa o mal justificada.</td><td>No entrega o es extremadamente breve.</td></tr>
+  </tbody>
+</table>
+
+</div>
+</details>
+
+<!-- ============================== -->
+<!-- ETIQUETA: SESIÓN 3            -->
+<!-- ============================== -->
+<details>
+<summary>📅 ETIQUETA DE TEMA: Sesión 3</summary>
+<div class="section-body">
+
+<h2>5. SESIÓN 3 — "Tecnología y Sociedad: Construyendo un futuro responsable"</h2>
+
+<h3>🎯 Objetivo de la sesión</h3>
+<p>Integrar los conocimientos del curso para proponer soluciones tecnológicas responsables a problemas del entorno, desarrollando una visión crítica y propositiva.</p>
+
+<h3>📖 Contenido Central</h3>
+<div class="card">
+  <ul>
+    <li><strong>Tecnología y Sustentabilidad:</strong> Monitoreo de bosques (satélites), energías renovables inteligentes, agricultura de precisión. <em>La tecnología sola no salva; debe ir acompañada de voluntad política y cambios de consumo.</em></li>
+    <li><strong>Ciudadanía Digital:</strong> Derechos (privacidad, acceso a internet, libertad de expresión). Responsabilidades (verificar información, proteger datos, combatir ciberacoso).</li>
+    <li><strong>Brecha Digital:</strong> No todos tienen acceso igual a internet o dispositivos. Problema de desigualdad que limita oportunidades.</li>
+    <li><strong>Tecnología Cívica y Social:</strong> Apps para reportar baches, monitoreo de calidad del aire, blockchain para transparencia, herramientas para protección de defensores ambientales.</li>
+    <li><strong>Tendencias 2025-2030:</strong> Metaverso (educación, trabajo), Computación Cuántica, Biotecnología (edición genética CRISPR).</li>
+    <li><strong>Yo en el Futuro Tecnológico:</strong> "No seré solo un usuario pasivo. Seré un diseñador consciente, un consumidor crítico, un ciudadano que exige tecnologías éticas."</li>
+  </ul>
+</div>
+
+<h3>📚 Recursos de Apoyo</h3>
+
+<div class="card green">
+  <h4>🎬 Video Motivacional (4 min): "Tú y la tecnología: un futuro que construyes hoy"</h4>
+  <p>Compilación de ejemplos de jóvenes usando tecnología para el bien: drones para sembrar árboles, apps para tutorías gratuitas, mapeo de violencia de género. <em>"El futuro no es algo que te sucede. Es algo que tú construyes, con las herramientas que tienes ahora mismo."</em></p>
+</div>
+
+<div class="card purple">
+  <h4>📋 Caso de Estudio: "EcoTech MX: Monitoreo Comunitario del Aire"</h4>
+  <p>Estudiantes universitarios crearon una red de sensores IoT de bajo costo para medir calidad del aire. Los datos se suben a plataforma pública (Big Data). Usaron resultados para presentar evidencia a autoridades y lograr mayor fiscalización. Incluye: fotos de sensores, captura de plataforma, testimonios.</p>
+</div>
+
+<div class="card">
+  <h4>📌 Tablero Colaborativo (Padlet): "¿Qué problema de mi comunidad podría resolver con tecnología?"</h4>
+  <p>Cada estudiante publica un "post-it" digital con:</p>
+  <ol>
+    <li>Emoji que represente el problema (ej: 🚗 tráfico, 🗑️ basura).</li>
+    <li>Título del problema (ej: "Falta de iluminación en el parque").</li>
+    <li>Breve descripción (2 líneas).</li>
+    <li>¿Qué tecnología podríamos usar? (Ej: Paneles solares LED + sensores IoT).</li>
+  </ol>
+</div>
+
+<div class="card orange">
+  <h4>✅ Lista de Verificación de Ciudadanía Digital</h4>
+  <table>
+    <thead><tr><th>🛡️ Hábitos</th><th>⚖️ Derechos</th><th>🤝 Responsabilidades</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>¿Actualizo contraseñas cada 6 meses?<br>¿Uso autenticación en dos pasos?<br>¿Verifico la fuente antes de compartir?</td>
+        <td>¿Sé que tengo derecho a no ser vigilado sin causa?<br>¿Sé que mis datos me pertenecen?<br>¿Sé cómo pedir que borren mi información?</td>
+        <td>¿Evito el ciberacoso?<br>¿Respeto la propiedad intelectual?<br>¿Aviso si veo contenido ilegal?<br>¿Uso tecnología para el bien común?</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>🔍 Recursos de Consulta</h3>
+<div class="card">
+  <ul>
+    <li><strong>Reporte:</strong> "Tendencias Tecnológicas 2024" — Gartner. Predice tecnologías que dominarán los próximos años.</li>
+    <li><strong>Podcast:</strong> "Hablemos de Futuro" — Episodio con César Hidalgo (autor de "Why Information Grows").</li>
+    <li><strong>Plataforma:</strong> "Efecto Naim" (efectonaim.org.mx). Comunidad que apoya proyectos de jóvenes con tecnología para problemas sociales.</li>
+    <li><strong>Ensayo:</strong> "Los cuatro nobles robaradores de la atención" — Byung-Chul Han. Cómo las tecnologías digitales nos roban la atención.</li>
+  </ul>
+</div>
+
+<hr>
+
+<h3>✏️ Actividad Integradora Final: "Prototipo de futuro: mi solución tecnológica"</h3>
+<p><strong>(30% del curso)</strong></p>
+
+<h4>Instrucciones</h4>
+<ol>
+  <li><strong>Identificar:</strong> Un problema real, concreto y específico de tu comunidad, escuela o entorno inmediato.</li>
+  <li><strong>Proponer:</strong> Una solución que use <strong>AL MENOS UNA</strong> de las tecnologías emergentes vistas (IA, IoT, Big Data, Blockchain, Robótica, RA/RV, IA Generativa).</li>
+  <li><strong>Desarrollar:</strong> Un prototipo de presentación que incluya:
+    <ul>
+      <li>Nombre del proyecto y logo simple (Canva o a mano).</li>
+      <li><strong>Descripción del problema</strong> (máx. 200 palabras).</li>
+      <li><strong>Descripción de la solución tecnológica</strong> propuesta.</li>
+      <li><strong>Tecnología(s) involucrada(s)</strong> y cómo se aplicarían.</li>
+      <li><strong>Beneficiarios</strong> del proyecto.</li>
+      <li><strong>Posibles retos o limitaciones</strong> (costo, aceptación, ética).</li>
+      <li><strong>Una imagen, diagrama o mockup visual</strong> del concepto.</li>
+    </ul>
+  </li>
+  <li><strong>Presentar</strong> en formato a tu elección:
+    <ul>
+      <li>Presentación de diapositivas (Canva/Google Slides, máx. 8 diapositivas).</li>
+      <li>Video pitch (máx. 3 minutos).</li>
+      <li>Infografía extendida (Canva).</li>
+      <li>Página web sencilla (Carrd, Wix, Google Sites).</li>
+    </ul>
+  </li>
+  <li><strong>Subir</strong> tu trabajo a la tarea designada en Classroom antes de la fecha límite.</li>
+</ol>
+
+<h4>Rúbrica de Evaluación (30% del curso)</h4>
+<table>
+  <thead><tr><th>Criterio</th><th>Destacado (10)</th><th>Bueno (8)</th><th>Suficiente (6)</th><th>Inicial (4)</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Identificación del Problema</strong></td><td>Problema específico, bien documentado, claramente relevante.</td><td>Problema identificado adecuadamente.</td><td>Problema vago o de relevancia dudosa.</td><td>Problema no identificado o genérico.</td></tr>
+    <tr><td><strong>Pertinencia y Creatividad</strong></td><td>Solución innovadora, creativa, bien ligada a la tecnología.</td><td>Solución pertinente y bien conectada.</td><td>Solución simple, poco innovadora o conexión forzada.</td><td>Solución ausente, irrelevante o no tecnológica.</td></tr>
+    <tr><td><strong>Claridad y Calidad</strong></td><td>Presentación excepcionalmente clara, visualmente atractiva y profesional.</td><td>Presentación clara y ordenada.</td><td>Presentación con problemas de claridad o diseño.</td><td>Presentación confusa, desordenada.</td></tr>
+    <tr><td><strong>Sustento en Contenidos</strong></td><td>Integra y cita explícitamente conceptos de las 3 sesiones.</td><td>Usa conceptos del curso correctamente.</td><td>Menciona conceptos, integración superficial.</td><td>No hace referencia a contenidos del curso.</td></tr>
+    <tr><td><strong>Viabilidad y Reflexión Crítica</strong></td><td>Analiza detalladamente retos, limitaciones e impactos éticos/sociales.</td><td>Identifica retos y limitaciones básicas.</td><td>Menciona retos de manera muy general.</td><td>No considera viabilidad o retos.</td></tr>
+  </tbody>
+</table>
+
+</div>
+</details>
+
+<!-- ============================== -->
+<!-- ETIQUETA: CIERRE              -->
+<!-- ============================== -->
+<details>
+<summary>🎓 ETIQUETA DE TEMA: Cierre del Curso</summary>
+<div class="section-body">
+
+<h2>6. CIERRE DEL CURSO</h2>
+
+<h3>🎨 Mural Colaborativo de Cierre</h3>
+<div class="card">
+  <p><strong>Título del post:</strong> 🎨 <strong>FERIA DE VISIONES: Mural Colaborativo de Cierre 🚀</strong></p>
+  <p><em>"¡Hola, comunidad de constructores del futuro! Ha sido un viaje increíble. Para cerrar con broche de oro, les invito a dejar su huella en nuestro Mural Colaborativo de Cierre."</em></p>
+</div>
+
+<h4>Tu Aporte:</h4>
+<ol>
+  <li>Entra al Mural en Canva (se compartirá el enlace).</li>
+  <li>Crea una diapositiva usando la plantilla temática del curso.</li>
+  <li><strong>Incluye obligatoriamente:</strong>
+    <ul>
+      <li>Una imagen, GIF o ilustración que represente lo más significativo que aprendiste.</li>
+      <li>Una frase poderosa propia que resuma tu aprendizaje o visión.</li>
+    </ul>
+  </li>
+  <li>Envía el enlace de tu diapositiva en el post designado del Muro de Classroom.</li>
+</ol>
+
+<h3>🏆 Reconocimientos</h3>
+<div class="card green">
+  <p>Cada estudiante recibirá una <strong>insignia digital</strong> personalizada por mensaje privado. Categorías:</p>
+  <ul>
+    <li>🏆 <strong>Más Creativo</strong></li>
+    <li>💡 <strong>Más Visionario</strong></li>
+    <li>🌎 <strong>Más Impacto Social Potencial</strong></li>
+  </ul>
+</div>
+
+</div>
+</details>
+
+<!-- ============================== -->
+<!-- ETIQUETA: PROPUESTA DE VALOR  -->
+<!-- ============================== -->
+<details>
+<summary>💎 ETIQUETA DE TEMA: Propuesta de Valor</summary>
+<div class="section-body">
+
+<h2>7. "¿Por qué este curso es diferente?"</h2>
+
+<h3>🖼️ Comparativo Visual</h3>
+<table>
+  <thead><tr><th>Característica</th><th>Cursos Tradicionales</th><th>Nuestro Curso</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Foco</strong></td><td>Aprender herramientas específicas.</td><td><strong>Entender e impactar</strong> con tecnologías emergentes en tu contexto.</td></tr>
+    <tr><td><strong>Metodología</strong></td><td>Clase magistral + ejercicios.</td><td><strong>ABPr + Foros de debate crítico + Gamificación.</strong></td></tr>
+    <tr><td><strong>Ejemplos</strong></td><td>Casos internacionales (Google, Apple).</td><td><strong>Casos locales y latinoamericanos.</strong></td></tr>
+    <tr><td><strong>Producto Final</strong></td><td>Examen o trabajo académico.</td><td><strong>Prototipo de solución tecnológica</strong> a un problema real.</td></tr>
+    <tr><td><strong>Postura</strong></td><td>Tecnología = progreso siempre.</td><td><strong>Tecnología = herramienta con luces y sombras.</strong></td></tr>
+  </tbody>
+</table>
+
+<h3>🌟 Diferenciadores Clave</h3>
+<div class="card">
+  <ol>
+    <li><strong>Enfoque Local y Latinoamericano:</strong> Ejemplos de nuestra realidad, no solo de Silicon Valley.</li>
+    <li><strong>Aprendizaje Basado en Proyectos Reales:</strong> No memorizas; creas.</li>
+    <li><strong>Pensamiento Crítico:</strong> ¿Esta tecnología beneficia a todos? ¿Qué riesgos éticos tiene?</li>
+    <li><strong>Recursos en Múltiples Formatos:</strong> Videos, podcasts, infografías, mapas interactivos, simulaciones.</li>
+    <li><strong>Conexión con el Futuro Laboral:</strong> Habilidades blandas y digitales demandadas, basadas en informes del WEF.</li>
+  </ol>
+</div>
+
+<h3>💬 Testimonios</h3>
+<div class="card purple">
+  <p><em>"Antes pensaba que la IA era solo para científicos locos. Ahora entiendo cómo funciona y puedo explicarlo."</em> — Estudiante, 17 años</p>
+  <p><em>"Me gustaba la tecnología, pero solo como usuario. Este curso me hizo pensar como crítico y creador."</em> — Estudiante, 16 años</p>
+  <p><em>"Vi cómo el Big Data se usa para proteger idiomas indígenas. Mi proyecto es un app de RA para aprender lenguas originarias."</em> — Estudiante, 18 años</p>
+</div>
+
+<h3>🗺️ Mapa de Impacto: Habilidades del Siglo XXI</h3>
+<div class="card green">
+  <ul>
+    <li><strong>Marco UNESCO:</strong> Alfabetización en Información y Datos · Comunicación y Colaboración · Creatividad e Innovación.</li>
+    <li><strong>Habilidades 4C (P21):</strong> Pensamiento Crítico · Comunicación · Colaboración · Creatividad.</li>
+  </ul>
+</div>
+
+</div>
+</details>
+
+<!-- ============================== -->
+<!-- ELEMENTOS TRANSVERSALES       -->
+<!-- ============================== -->
+<details>
+<summary>⚡ ELEMENTOS TRANSVERSALES</summary>
+<div class="section-body">
+
+<h2>🎮 Sistema de Gamificación Ligera</h2>
+<div class="card">
+  <ul>
+    <li><strong>Puntos por Participación:</strong> Comentar en foros, responder a compañeros, entregar antes de tiempo → "boletín extra".</li>
+    <li><strong>Insignias Digitales (Badges):</strong></li>
+  </ul>
+  <table>
+    <thead><tr><th>Insignia</th><th>Requisito</th></tr></thead>
+    <tbody>
+      <tr><td>🚀 <strong>Explorador Digital</strong></td><td>Completar Sesión 1 y entregar actividad.</td></tr>
+      <tr><td>🤖 <strong>Pensador Crítico</strong></td><td>Participar en el debate de la IA con argumentos sólidos.</td></tr>
+      <tr><td>🌱 <strong>Innovador Social</strong></td><td>Entregar el prototipo final.</td></tr>
+      <tr><td>💬 <strong>Colaborador Activo</strong></td><td>Comentar publicaciones de al menos 3 compañeros de manera constructiva.</td></tr>
+      <tr><td>🏆 <strong>Visionario del Siglo XXI</strong></td><td>Completar TODAS las actividades del curso.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2>♿ Accesibilidad e Inclusión</h2>
+<div class="card green">
+  <ul>
+    <li><strong>Textos:</strong> Alto contraste (texto negro sobre fondo blanco o muy claro).</li>
+    <li><strong>Videos:</strong> Todos con <strong>subtítulos cerrados</strong> en español y transcripción del guion.</li>
+    <li><strong>Imágenes:</strong> Texto alternativo (alt text) descriptivo para lectores de pantalla.</li>
+    <li><strong>Lenguaje:</strong> Inclusivo y representativo.</li>
+    <li><strong>Conectividad Limitada:</strong> 📡 Recursos descargables (PDFs, guiones) para consulta sin internet.</li>
+  </ul>
+</div>
+
+<h2>📅 Calendario Sugerido (4 Semanas)</h2>
+<table>
+  <thead><tr><th>Semana</th><th>Actividad</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Semana 1</strong></td><td>Presentación del curso, Metodología y <strong>Sesión 1</strong>. Publicación "Mi radar tecnológico" el domingo.</td></tr>
+    <tr><td><strong>Semana 2</strong></td><td><strong>Sesión 2</strong>. Publicación de la reflexión individual del "Juicio a la IA" el domingo.</td></tr>
+    <tr><td><strong>Semana 3</strong></td><td><strong>Sesión 3</strong>. Inicio de preparación del proyecto final. Participación en Padlet.</td></tr>
+    <tr><td><strong>Semana 4</strong></td><td><strong>Entrega del Proyecto Final</strong> (viernes). <strong>Mural Colaborativo de Cierre</strong>. <strong>Cierre/Reconocimientos</strong> (domingo).</td></tr>
+  </tbody>
+</table>
+
+<h2>🎨 Diseño Visual del Curso (Banner para Classroom)</h2>
+<div class="card purple">
+  <ul>
+    <li><strong>Paleta:</strong> Azul eléctrico (#0056D2) · Morado (#6A0DAD) · Blanco (#FFFFFF) · Negro (#000000).</li>
+    <li><strong>Elementos:</strong> Líneas de circuito sutiles de fondo. Siluetas humanas minimalistas conectadas a nodos de red. Iconos planos de tecnología.</li>
+    <li><strong>Tipografía:</strong> Sans-serif moderna (Montserrat o Poppins).</li>
+    <li><strong>Slogan:</strong> "No solo consumes el futuro. Lo construyes."</li>
+  </ul>
+</div>
+
+</div>
+</details>
+
+<!-- FOOTER -->
+<hr>
+<p style="text-align:center; color:#666; font-size:0.85em; margin-top:32px;">
+  📄 Documento generado para copiar y pegar en Google Classroom · IE Rafael Uribe Uribe · 2025
+</p>
+
+</div>
+</body>
+</html>

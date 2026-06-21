@@ -1,0 +1,2684 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto de Intervención Pedagógica – Comuna 13</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #faf8f5;
+            --surface: #ffffff;
+            --surface-alt: #f3f0eb;
+            --border: #d8d2c8;
+            --border-light: #e8e4dd;
+            --text-primary: #1a1a1a;
+            --text-secondary: #3d3832;
+            --text-muted: #7a7570;
+            --accent: #8b6914;
+            --accent-light: #c49a2a;
+            --accent-bg: #faf5e8;
+            --accent-dark: #5c4610;
+            --header-bg: #1c2a1e;
+            --header-text: #f0ece4;
+            --header-accent: #c49a2a;
+            --danger: #8b2500;
+            --success: #2d5016;
+            --info: #1a3a5c;
+            --info-bg: #eef3f8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 11pt;
+            line-height: 1.65;
+            color: var(--text-primary);
+            background: var(--bg);
+        }
+
+        .page {
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 20mm 22mm;
+            background: var(--surface);
+            min-height: 100vh;
+        }
+
+        /* ─── PORTADA ─── */
+        .cover {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh;
+            text-align: center;
+            padding: 40px 30px;
+            position: relative;
+        }
+
+        .cover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 80px;
+            background: var(--accent);
+        }
+
+        .cover::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 80px;
+            background: var(--accent);
+        }
+
+        .cover-label {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 9pt;
+            font-weight: 600;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 40px;
+        }
+
+        .cover-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32pt;
+            font-weight: 300;
+            line-height: 1.2;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .cover-title strong {
+            font-weight: 600;
+            display: block;
+            margin-top: 4px;
+        }
+
+        .cover-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 16pt;
+            font-weight: 400;
+            font-style: italic;
+            color: var(--text-muted);
+            margin-bottom: 50px;
+            max-width: 500px;
+        }
+
+        .cover-line {
+            width: 60px;
+            height: 1px;
+            background: var(--accent);
+            margin: 0 auto 50px;
+        }
+
+        .cover-institution {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 13pt;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .cover-district {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 9pt;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 50px;
+        }
+
+        .cover-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 40px;
+            text-align: left;
+            max-width: 520px;
+            border-top: 1px solid var(--border-light);
+            padding-top: 30px;
+        }
+
+        .cover-meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cover-meta-label {
+            font-size: 7.5pt;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .cover-meta-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 11pt;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .cover-year {
+            margin-top: 50px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 11pt;
+            font-weight: 400;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+        }
+
+        /* ─── SECCIONES ─── */
+        .section {
+            margin-bottom: 36px;
+            page-break-inside: avoid;
+        }
+
+        .section-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 9pt;
+            font-weight: 600;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20pt;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            line-height: 1.2;
+        }
+
+        .section-divider {
+            width: 40px;
+            height: 2px;
+            background: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .subsection {
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+
+        .subsection-title {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 11pt;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        /* ─── PÁRRAFOS ─── */
+        p {
+            margin-bottom: 12px;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        p.lead {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 12.5pt;
+            font-weight: 400;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            text-align: left;
+        }
+
+        /* ─── TABLAS ─── */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 24px;
+            font-size: 10pt;
+            page-break-inside: avoid;
+        }
+
+        thead th {
+            background: var(--header-bg);
+            color: var(--header-text);
+            font-weight: 600;
+            font-size: 8.5pt;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 10px 14px;
+            text-align: left;
+            border: none;
+        }
+
+        thead th:first-child {
+            border-radius: 3px 0 0 0;
+        }
+
+        thead th:last-child {
+            border-radius: 0 3px 0 0;
+        }
+
+        tbody td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border-light);
+            vertical-align: top;
+            line-height: 1.5;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:nth-child(even) {
+            background: var(--surface-alt);
+        }
+
+        tbody tr:hover {
+            background: var(--accent-bg);
+        }
+
+        td strong {
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        /* ─── TABLAS DE RÚBRICA ─── */
+        table.rubric thead th {
+            background: var(--accent-dark);
+            font-size: 8pt;
+        }
+
+        table.rubric tbody td {
+            font-size: 9pt;
+            padding: 8px 10px;
+        }
+
+        table.rubric td:first-child {
+            font-weight: 600;
+            background: var(--accent-bg);
+            color: var(--accent-dark);
+            white-space: nowrap;
+        }
+
+        /* ─── LISTAS ─── */
+        ul, ol {
+            margin: 10px 0 16px 24px;
+        }
+
+        li {
+            margin-bottom: 6px;
+            line-height: 1.55;
+        }
+
+        /* ─── CITAS ─── */
+        blockquote {
+            border-left: 3px solid var(--accent);
+            margin: 20px 0;
+            padding: 12px 20px;
+            background: var(--accent-bg);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 12pt;
+            font-style: italic;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ─── NOTAS / CALLOUTS ─── */
+        .callout {
+            border-left: 3px solid var(--info);
+            background: var(--info-bg);
+            padding: 14px 18px;
+            margin: 16px 0;
+            border-radius: 0 4px 4px 0;
+            font-size: 10pt;
+        }
+
+        .callout-title {
+            font-weight: 700;
+            font-size: 9pt;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--info);
+            margin-bottom: 4px;
+        }
+
+        .callout-accent {
+            border-left-color: var(--accent);
+            background: var(--accent-bg);
+        }
+
+        .callout-accent .callout-title {
+            color: var(--accent-dark);
+        }
+
+        /* ─── FIRMAS ─── */
+        .signature-table {
+            margin-top: 40px;
+        }
+
+        .signature-table td {
+            height: 60px;
+            vertical-align: bottom;
+            text-align: center;
+            border-bottom: 1px solid var(--text-muted);
+            padding-bottom: 4px;
+        }
+
+        .signature-table .sig-label {
+            font-size: 8pt;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            border-bottom: none;
+            height: auto;
+            padding-top: 4px;
+        }
+
+        /* ─── ÍNDICE ─── */
+        .toc {
+            margin: 20px 0;
+        }
+
+        .toc-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 6px 0;
+            border-bottom: 1px dotted var(--border);
+            font-size: 10.5pt;
+        }
+
+        .toc-item:last-child {
+            border-bottom: none;
+        }
+
+        .toc-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            color: var(--accent);
+            margin-right: 12px;
+            min-width: 24px;
+        }
+
+        .toc-title {
+            flex: 1;
+        }
+
+        /* ─── CRONOGRAMA ─── */
+        .timeline-badge {
+            display: inline-block;
+            font-size: 8pt;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 2px 8px;
+            border-radius: 2px;
+            margin-bottom: 2px;
+        }
+
+        .badge-before {
+            background: #e8f0e4;
+            color: var(--success);
+        }
+
+        .badge-during {
+            background: #fef3cd;
+            color: var(--accent-dark);
+        }
+
+        .badge-after {
+            background: #e0e8f0;
+            color: var(--info);
+        }
+
+        /* ─── COMPROMISO ─── */
+        .commitment-list {
+            list-style: none;
+            margin-left: 0;
+            counter-reset: commitment;
+        }
+
+        .commitment-list li {
+            counter-increment: commitment;
+            padding: 8px 0 8px 40px;
+            position: relative;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .commitment-list li::before {
+            content: counter(commitment);
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 26px;
+            height: 26px;
+            background: var(--accent-bg);
+            color: var(--accent-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9pt;
+            font-weight: 700;
+        }
+
+        .commitment-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* ─── FIRMA INDIVIDUAL ─── */
+        .sign-line {
+            border-bottom: 1px solid var(--text-muted);
+            height: 35px;
+            margin: 6px 0;
+        }
+
+        .sign-label {
+            font-size: 8pt;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* ─── CIERRE ─── */
+        .closing {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+        }
+
+        .closing-quote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 13pt;
+            font-style: italic;
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .closing-credit {
+            font-size: 9pt;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .closing-credit strong {
+            color: var(--text-secondary);
+        }
+
+        /* ─── DIAGRAM ─── */
+        .diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 30px 0;
+            gap: 0;
+        }
+
+        .diagram-center {
+            background: var(--header-bg);
+            color: var(--header-accent);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 12pt;
+            font-weight: 600;
+            padding: 14px 30px;
+            border-radius: 4px;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .diagram-connector {
+            width: 1px;
+            height: 24px;
+            background: var(--border);
+        }
+
+        .diagram-branch {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .diagram-node {
+            background: var(--surface-alt);
+            border: 1px solid var(--border);
+            padding: 12px 18px;
+            border-radius: 3px;
+            text-align: center;
+            font-size: 9.5pt;
+            min-width: 160px;
+            max-width: 200px;
+        }
+
+        .diagram-node-title {
+            font-weight: 700;
+            font-size: 9pt;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-dark);
+            margin-bottom: 4px;
+        }
+
+        .diagram-node-items {
+            font-size: 8.5pt;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .diagram-connector-wide {
+            width: 1px;
+            height: 20px;
+            background: var(--border);
+        }
+
+        .diagram-bottom {
+            background: var(--accent-bg);
+            border: 1px solid var(--accent);
+            padding: 12px 30px;
+            border-radius: 3px;
+            text-align: center;
+            font-size: 9.5pt;
+            max-width: 500px;
+        }
+
+        .diagram-bottom-title {
+            font-weight: 700;
+            font-size: 9pt;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-dark);
+            margin-bottom: 4px;
+        }
+
+        .diagram-bottom-items {
+            font-size: 8.5pt;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* ─── FOOTER ─── */
+        .page-footer {
+            text-align: center;
+            font-size: 7.5pt;
+            color: var(--text-muted);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 40px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        /* ─── PRINT ─── */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .page {
+                padding: 15mm 18mm;
+                max-width: none;
+            }
+
+            .section {
+                page-break-inside: avoid;
+            }
+
+            table {
+                page-break-inside: avoid;
+            }
+
+            .cover {
+                page-break-after: always;
+            }
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media screen and (max-width: 768px) {
+            .page {
+                padding: 20px 16px;
+            }
+
+            .cover-meta {
+                grid-template-columns: 1fr;
+            }
+
+            .cover-title {
+                font-size: 24pt;
+            }
+
+            .diagram-branch {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            table {
+                font-size: 9pt;
+            }
+
+            thead th, tbody td {
+                padding: 6px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PORTADA
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+    <div class="cover">
+        <div class="cover-label">Proyecto de Intervención Pedagógica</div>
+
+        <h1 class="cover-title">
+            Reconociendo mi Territorio
+            <strong>Memoria, Paisaje y Resiliencia<br>en la Comuna 13</strong>
+        </h1>
+
+        <p class="cover-subtitle">
+            Experiencia pedagógica articulada desde Ciencias Sociales, Lengua Castellana y Educación Artística
+        </p>
+
+        <div class="cover-line"></div>
+
+        <div class="cover-institution">Institución Educativa Rafael Uribe Uribe</div>
+        <div class="cover-district">Distrito Especial de Ciencia, Tecnología e Innovación de Medellín</div>
+
+        <div class="cover-meta">
+            <div class="cover-meta-item">
+                <span class="cover-meta-label">Área principal</span>
+                <span class="cover-meta-value">Ciencias Sociales</span>
+            </div>
+            <div class="cover-meta-item">
+                <span class="cover-meta-label">Grado</span>
+                <span class="cover-meta-value">Noveno (9.1 y 9.2)</span>
+            </div>
+            <div class="cover-meta-item">
+                <span class="cover-meta-label">Docente orientador</span>
+                <span class="cover-meta-value">Carlos Andrés Caro Taborda</span>
+            </div>
+            <div class="cover-meta-item">
+                <span class="cover-meta-label">Comuna de referencia</span>
+                <span class="cover-meta-value">Comuna 13 – San Javier</span>
+            </div>
+            <div class="cover-meta-item">
+                <span class="cover-meta-label">Lengua Castellana</span>
+                <span class="cover-meta-value">Carlos Mario Idárraga</span>
+            </div>
+            <div class="cover-meta-item">
+                <span class="cover-meta-label">Educación Artística</span>
+                <span class="cover-meta-value">Luz Marina Góngora</span>
+            </div>
+            <div class="cover-meta-item">
+                <span class="cover-meta-label">Asesoría PTAFI</span>
+                <span class="cover-meta-value">Roger Muñoz</span>
+            </div>
+            <div class="cover-meta-item">
+                <span class="cover-meta-label">Enfoque pedagógico</span>
+                <span class="cover-meta-value">Constructivista-Humanista</span>
+            </div>
+        </div>
+
+        <div class="cover-year">Año lectivo 2026</div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     ÍNDICE
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+    <div class="section">
+        <div class="section-number">Contenido</div>
+        <h2 class="section-title">Índice</h2>
+        <div class="section-divider"></div>
+
+        <div class="toc">
+            <div class="toc-item">
+                <span><span class="toc-number">01</span><span class="toc-title">Diagnóstico</span></span>
+            </div>
+            <div class="toc-item">
+                <span><span class="toc-number">02</span><span class="toc-title">Justificación</span></span>
+            </div>
+            <div class="toc-item">
+                <span><span class="toc-number">03</span><span class="toc-title">Marco teórico-conceptual</span></span>
+            </div>
+            <div class="toc-item">
+                <span><span class="toc-number">04</span><span class="toc-title">Objetivos</span></span>
+            </div>
+            <div class="toc-item">
+                <span><span class="toc-number">05</span><span class="toc-title">Competencias e indicadores de desempeño</span></span>
+            </div>
+            <div class="toc-item">
+                <span><span class="toc-number">06</span><span class="toc-title">Contenidos</span></span>
+            </div>
+            <div class="toc-item">
+                <span><span class="toc-number">07</span><span class="toc-title">Estructura de actividades</span></span>
+            </div>
+            <div class="toc-item">
+                <span><span class="toc-number">08</span><span class="toc-title">Productos esperados</span></span>
+            </div>
+            <div class="toc-item">
+                <span><span class="toc-number">09</span><span class="toc-title">Metodología</span></span>
+            </div>
+            <div class="toc-item">
+                <span><span class="toc-number">10</span><span class="toc-title">Estrategia de evaluación</span></span>
+            </div>
+            <div class="toc-item">
+                <span><span class="toc-number">11</span><span class="toc-title">Recursos y materiales</span></span>
+            </div>
+            <div class="toc-item">
+                <span><span class="toc-number">12</span><span class="toc-title">Tareas de coordinación</span></span>
+            </div>
+            <div class="toc-item">
+                <span><span class="toc-number">13</span><span class="toc-title">Aspectos complementarios</span></span>
+            </div>
+            <div class="toc-item">
+                <span><span class="toc-number">14</span><span class="toc-title">Compromiso de convivencia</span></span>
+            </div>
+            <div class="toc-item">
+                <span><span class="toc-number">15</span><span class="toc-title">Firmas de aprobación</span></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     01 – DIAGNÓSTICO
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+    <div class="section">
+        <div class="section-number">Sección 01</div>
+        <h2 class="section-title">Diagnóstico</h2>
+        <div class="section-divider"></div>
+
+        <div class="subsection">
+            <h3 class="subsection-title">1.1 Hallazgos del diagnóstico inicial del área de Ciencias Sociales (año escolar 2026)</h3>
+        </div>
+
+        <p>El diagnóstico realizado al inicio del año escolar 2026 a los estudiantes de grado noveno evidenció las siguientes conclusiones:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 28%;">Categoría</th>
+                    <th>Hallazgo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Territorialidad</strong></td>
+                    <td>La mayoría de los estudiantes pertenecen a la Comuna 13 del distrito especial de Medellín.</td>
+                </tr>
+                <tr>
+                    <td><strong>Reconocimiento del territorio</strong></td>
+                    <td>Los estudiantes no reconocen su territorio como espacio significativo de identidad, historia y cultura.</td>
+                </tr>
+                <tr>
+                    <td><strong>Memoria histórica</strong></td>
+                    <td>Presentan limitaciones en la comprensión de la memoria histórica de su contexto inmediato. No conocen los hechos que marcaron la transformación social, urbana y cultural de la Comuna 13.</td>
+                </tr>
+                <tr>
+                    <td><strong>Orientación espacial</strong></td>
+                    <td>Fue recurrente la dificultad para que plasmaran el recorrido desde sus lugares de residencia hasta la institución educativa.</td>
+                </tr>
+                <tr>
+                    <td><strong>Movilidad y socialización</strong></td>
+                    <td>Expresiones recurrentes como: <em>"Solo salgo de la casa al colegio y del colegio a la casa"</em>, lo que evidencia una desconexión con el entorno urbano y una vida social limitada al ámbito doméstico y escolar.</td>
+                </tr>
+                <tr>
+                    <td><strong>Competencias ciudadanas</strong></td>
+                    <td>Se identificó una débil vinculación con procesos comunitarios y poca apropiación del espacio público como escenario de formación ciudadana.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="subsection">
+            <h3 class="subsection-title">1.2 Cartografía social como herramienta diagnóstica</h3>
+        </div>
+
+        <p>La cartografía social fue utilizada como herramienta de diagnóstico inicial del área. Mediante esta metodología participativa, los estudiantes comenzaron a representar colectivamente su espacio territorial, incorporando memorias, problemáticas, recursos culturales y dinámicas sociales. Los ejes identificados en el diagnóstico fueron:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 28%;">Eje temático</th>
+                    <th>Hallazgos preliminares</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Problemáticas ambientales</strong></td>
+                    <td>Pendientes con riesgo de deslizamiento, manejo inadecuado de residuos, estado de quebradas.</td>
+                </tr>
+                <tr>
+                    <td><strong>Problemáticas sociales</strong></td>
+                    <td>Desempleo, desplazamiento, acceso limitado a servicios, violencia residual.</td>
+                </tr>
+                <tr>
+                    <td><strong>Recursos culturales</strong></td>
+                    <td>Grafitis, murales, expresiones artísticas comunitarias, música urbana.</td>
+                </tr>
+                <tr>
+                    <td><strong>Posibilidades del territorio</strong></td>
+                    <td>Proyectos comunitarios, transformación urbana, organizaciones sociales.</td>
+                </tr>
+                <tr>
+                    <td><strong>Oferta institucional</strong></td>
+                    <td>Parque Biblioteca San Javier, Universidad CATA, centros de salud.</td>
+                </tr>
+                <tr>
+                    <td><strong>Memoria histórica</strong></td>
+                    <td>Operación Orión, la Escombrera, madres buscadoras, falsos positivos.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     02 – JUSTIFICACIÓN
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+    <div class="section">
+        <div class="section-number">Sección 02</div>
+        <h2 class="section-title">Justificación</h2>
+        <div class="section-divider"></div>
+
+        <p class="lead">Los resultados del diagnóstico revelan una paradoja significativa: tus estudiantes habitan la Comuna 13, uno de los territorios con mayor transformación urbana, social y cultural de Colombia en las últimas dos décadas, pero no la conocen, no la reconocen y no se vinculan con ella.</p>
+
+        <p>La Comuna 13 es mucho más que un punto geográfico. Es un territorio donde convergen la memoria del conflicto armado colombiano (Operación Orión, la Escombrera, los falsos positivos, las madres buscadoras), la resiliencia comunitaria, la transformación a través del arte urbano, la cultura y la educación pública (Parque Biblioteca San Javier, Universidad CATA). Este patrimonio vivo constituye un recurso pedagógico invaluable que, desde el enfoque local a global del plan de estudios de Ciencias Sociales, permite a tus estudiantes:</p>
+
+        <ul>
+            <li><strong>Construir identidad territorial</strong> a partir del reconocimiento del lugar donde viven.</li>
+            <li><strong>Desarrollar pensamiento geográfico</strong> al analizar el determinismo geográfico en las escaleras eléctricas y el paisaje urbano.</li>
+            <li><strong>Apropiarse de la memoria histórica</strong> como herramienta para la paz, la resiliencia y la no repetición.</li>
+            <li><strong>Fortalecer competencias ciudadanas</strong> mediante el vínculo con el espacio público, la biblioteca y la universidad como instituciones de formación.</li>
+            <li><strong>Desarrollar competencias comunicativas</strong> (oralidad, escritura, lectura crítica) y artísticas (expresión, creatividad, sensibilidad estética) de manera contextualizada.</li>
+            <li><strong>Levantar cartografía social</strong> del territorio como ejercicio de participación ciudadana y reconocimiento de problemáticas, recursos culturales, posibilidades y memoria histórica.</li>
+            <li><strong>Construir micro-historias</strong> a partir de relatos de los habitantes más longevos de la Comuna 13, preservando la memoria oral como patrimonio colectivo.</li>
+        </ul>
+
+        <blockquote>
+            La salida pedagógica no es un paseo: es una experiencia de aprendizaje situado, significativo y transformador que articula tres áreas del conocimiento en torno a un mismo territorio y que moviliza a la institución educativa en asuntos sociales, políticos y comunitarios.
+        </blockquote>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     03 – MARCO TEÓRICO
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+    <div class="section">
+        <div class="section-number">Sección 03</div>
+        <h2 class="section-title">Marco teórico-conceptual</h2>
+        <div class="section-divider"></div>
+
+        <div class="subsection">
+            <h3 class="subsection-title">3.1 Didáctica de las Ciencias Sociales</h3>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 22%;">Concepto</th>
+                    <th style="width: 22%;">Autor / Referente</th>
+                    <th>Aplicación en el proyecto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Aprendizaje significativo</strong></td>
+                    <td>David Ausubel</td>
+                    <td>Los contenidos se vinculan con el contexto real de los estudiantes (Comuna 13).</td>
+                </tr>
+                <tr>
+                    <td><strong>Constructivismo social</strong></td>
+                    <td>Lev Vygotsky</td>
+                    <td>El aprendizaje se construye en interacción con el entorno y con los pares durante la salida.</td>
+                </tr>
+                <tr>
+                    <td><strong>Enfoque local a global</strong></td>
+                    <td>MEN – Plan de estudios Cs. Sociales</td>
+                    <td>Se parte del barrio y la comuna para comprender dinámicas regionales, nacionales y globales.</td>
+                </tr>
+                <tr>
+                    <td><strong>Geografía crítica</strong></td>
+                    <td>Milton Santos, David Harvey</td>
+                    <td>Análisis del espacio como producto social; el paisaje urbano como texto que se lee e interpreta.</td>
+                </tr>
+                <tr>
+                    <td><strong>Memoria histórica</strong></td>
+                    <td>Elizabeth Jelin, Gonzalo Sánchez</td>
+                    <td>La memoria como construcción colectiva, herramienta de justicia transicional y resistencia.</td>
+                </tr>
+                <tr>
+                    <td><strong>Pedagogía del lugar</strong></td>
+                    <td>David Gruenewald</td>
+                    <td>El territorio como texto viviente que se aprende habitándolo, recorriéndolo y reflexionando sobre él.</td>
+                </tr>
+                <tr>
+                    <td><strong>Enfoque territorial de paz</strong></td>
+                    <td>PNUD, Comisión de la Verdad</td>
+                    <td>Comprender el conflicto armado desde el territorio concreto para construir paz desde lo local.</td>
+                </tr>
+                <tr>
+                    <td><strong>Cartografía social</strong></td>
+                    <td>Orlando Fals Borda, Paulo Freire</td>
+                    <td>Mapas construidos colectivamente que representan las voces, memorias y percepciones de los habitantes del territorio.</td>
+                </tr>
+                <tr>
+                    <td><strong>Micro-historia</strong></td>
+                    <td>Carlo Ginzburg, Luis González y González</td>
+                    <td>Narrativas breves que reconstruyen fragmentos de la vida cotidiana a partir de testimonios directos.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="subsection">
+            <h3 class="subsection-title">3.2 Competencias ciudadanas</h3>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 24%;">Competencia</th>
+                    <th style="width: 30%;">Descripción</th>
+                    <th>Vinculación con el proyecto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Conocimiento de sí mismo</strong></td>
+                    <td>Reconocer emociones, valores e identidad.</td>
+                    <td>Los estudiantes se reconocen como habitantes de un territorio con historia.</td>
+                </tr>
+                <tr>
+                    <td><strong>Participación y responsabilidad democrática</strong></td>
+                    <td>Involucrarse en la vida comunitaria.</td>
+                    <td>Apropiación del espacio público; cartografía social como ejercicio participativo.</td>
+                </tr>
+                <tr>
+                    <td><strong>Pluralismo y valoración de la diversidad</strong></td>
+                    <td>Reconocer al otro en su diferencia.</td>
+                    <td>Convivencia con los compañeros; interacción con la comunidad; entrevistas a habitantes longevos.</td>
+                </tr>
+                <tr>
+                    <td><strong>Convivencia y paz</strong></td>
+                    <td>Resolver conflictos de manera pacífica.</td>
+                    <td>Comprensión de la historia del conflicto armado y las apuestas de paz en la Comuna 13.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="subsection">
+            <h3 class="subsection-title">3.3 Arte, cultura y expresión</h3>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 24%;">Eje</th>
+                    <th>Aplicación</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Expresión oral</strong></td>
+                    <td>Narración del recorrido, socialización de hallazgos, preguntas a guías, conducción de entrevistas.</td>
+                </tr>
+                <tr>
+                    <td><strong>Expresión escrita</strong></td>
+                    <td>Diario de campo, registro fotográfico con textos reflexivos, micro-historias, informe final.</td>
+                </tr>
+                <tr>
+                    <td><strong>Expresión artística</strong></td>
+                    <td>Intervención de animación de lectura, representación visual del paisaje, collage de memoria, ilustración de micro-historias, cartografía social visual.</td>
+                </tr>
+                <tr>
+                    <td><strong>Sensibilidad estética</strong></td>
+                    <td>Percepción del arte urbano (grafitis, murales) como lenguaje de resistencia cultural.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     04 – OBJETIVOS
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+    <div class="section">
+        <div class="section-number">Sección 04</div>
+        <h2 class="section-title">Objetivos</h2>
+        <div class="section-divider"></div>
+
+        <div class="subsection">
+            <h3 class="subsection-title">4.1 Objetivo general</h3>
+        </div>
+
+        <blockquote>
+            Reconocer el territorio de la Comuna 13 de Medellín como escenario de memoria histórica, transformación urbana, resiliencia comunitaria y expresión cultural, mediante una experiencia pedagógica articulada desde las áreas de Ciencias Sociales, Lengua Castellana y Educación Artística, fortaleciendo en los estudiantes de grado noveno su identidad territorial, pensamiento geográfico, competencias ciudadanas, capacidad de expresión y construcción de cartografía social participativa.
+        </blockquote>
+
+        <div class="subsection">
+            <h3 class="subsection-title">4.2 Objetivos específicos</h3>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 6%;">N°</th>
+                    <th>Objetivo</th>
+                    <th style="width: 28%;">Área articulada</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1</strong></td>
+                    <td>Identificar los elementos del paisaje geográfico y urbano de la Comuna 13 (relieve, pendientes, escaleras eléctricas, barrios) y analizar cómo el medio físico condiciona la vida de sus habitantes (determinismo geográfico).</td>
+                    <td>Ciencias Sociales – Geografía</td>
+                </tr>
+                <tr>
+                    <td><strong>2</strong></td>
+                    <td>Comprender los hechos históricos que marcaron la Comuna 13 (Operación Orión, la Escombrera, falsos positivos, madres buscadoras) y su relación con el conflicto armado colombiano.</td>
+                    <td>Ciencias Sociales – Historia</td>
+                </tr>
+                <tr>
+                    <td><strong>3</strong></td>
+                    <td>Reconocer las transformaciones sociales, culturales y urbanas de la Comuna 13 como expresiones de resiliencia y construcción de paz.</td>
+                    <td>Ciencias Sociales – Ciudadanía</td>
+                </tr>
+                <tr>
+                    <td><strong>4</strong></td>
+                    <td>Levantar cartografía social del territorio, identificando problemáticas ambientales, problemáticas sociales, recursos culturales, posibilidades del territorio, oferta institucional y memoria histórica.</td>
+                    <td>Ciencias Sociales – Transversal</td>
+                </tr>
+                <tr>
+                    <td><strong>5</strong></td>
+                    <td>Construir micro-historias de la Comuna 13 a partir de entrevistas a sus habitantes más longevos, preservando la memoria oral como patrimonio colectivo.</td>
+                    <td>Lengua Castellana – Cs. Sociales</td>
+                </tr>
+                <tr>
+                    <td><strong>6</strong></td>
+                    <td>Fortalecer las competencias de lectura crítica, escritura reflexiva y oralidad argumentativa a través de la experiencia vivida en el recorrido.</td>
+                    <td>Lengua Castellana</td>
+                </tr>
+                <tr>
+                    <td><strong>7</strong></td>
+                    <td>Desarrollar la sensibilidad estética y la expresión artística mediante la observación del arte urbano, la intervención de animación de lectura, la ilustración de micro-historias y la creación de productos artísticos.</td>
+                    <td>Educación Artística</td>
+                </tr>
+                <tr>
+                    <td><strong>8</strong></td>
+                    <td>Vincular a los estudiantes con instituciones educativas y culturales del territorio (Parque Biblioteca San Javier, Universidad CATA) como posibilidades reales de formación y proyecto de vida.</td>
+                    <td>Transversal</td>
+                </tr>
+                <tr>
+                    <td><strong>9</strong></td>
+                    <td>Fortalecer la identidad territorial y el sentido de pertenencia de los estudiantes respecto a su comuna.</td>
+                    <td>Transversal</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     05 – COMPETENCIAS E INDICADORES
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+    <div class="section">
+        <div class="section-number">Sección 05</div>
+        <h2 class="section-title">Competencias e indicadores de desempeño</h2>
+        <div class="section-divider"></div>
+
+        <div class="subsection">
+            <h3 class="subsection-title">5.1 Competencias del área de Ciencias Sociales</h3>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 24%;">Competencia</th>
+                    <th>Indicador de desempeño</th>
+                    <th style="width: 16%;">Nivel esperado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Pensamiento espacial y ambiental</strong></td>
+                    <td>Identifica y describe al menos cinco elementos del paisaje geográfico de la Comuna 13 (relieve, pendientes, escaleras eléctricas, río, vegetación) y explica cómo condicionan la vida cotidiana de sus habitantes.</td>
+                    <td>Satisfactorio</td>
+                </tr>
+                <tr>
+                    <td><strong>Pensamiento histórico</strong></td>
+                    <td>Reconoce al menos tres hechos históricos relevantes de la Comuna 13 (Operación Orión, la Escombrera, transformación urbana) y los ubica en un contexto temporal y causal.</td>
+                    <td>Satisfactorio</td>
+                </tr>
+                <tr>
+                    <td><strong>Pensamiento socio-político</strong></td>
+                    <td>Explica la relación entre el conflicto armado y las transformaciones sociales de la Comuna 13, identificando actores involucrados (Estado, grupos armados, comunidad, artistas).</td>
+                    <td>Avanzado</td>
+                </tr>
+                <tr>
+                    <td><strong>Pensamiento socio-político – Cartografía social</strong></td>
+                    <td>Construye un mapa social de la Comuna 13 que integre los seis ejes temáticos, ubicando cada elemento en su correspondiente dimensión territorial.</td>
+                    <td>Satisfactorio</td>
+                </tr>
+                <tr>
+                    <td><strong>Pensamiento histórico – Fuentes orales</strong></td>
+                    <td>Realiza entrevistas a habitantes de la Comuna 13, identifica relatos de memoria histórica y los integra en la construcción de micro-historias del territorio.</td>
+                    <td>Satisfactorio</td>
+                </tr>
+                <tr>
+                    <td><strong>Competencias ciudadanas</strong></td>
+                    <td>Demuestra respeto por el espacio público, interacciona con la comunidad durante el recorrido y reflexiona sobre su rol como ciudadano en la construcción de paz.</td>
+                    <td>Satisfactorio</td>
+                </tr>
+                <tr>
+                    <td><strong>Dinámica espacial</strong></td>
+                    <td>Elabora un croquis o mapa mental del recorrido realizado, ubicando los puntos de referencia geográfica y los lugares significativos visitados.</td>
+                    <td>Satisfactorio</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="subsection">
+            <h3 class="subsection-title">5.2 Competencias del área de Lengua Castellana</h3>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 24%;">Competencia</th>
+                    <th>Indicador de desempeño</th>
+                    <th style="width: 16%;">Nivel esperado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Comprensión e interpretación textual</strong></td>
+                    <td>Interpreta los textos presentes en murales, grafitis y placas informativas de la Comuna 13, identificando mensajes, intenciones y contextos.</td>
+                    <td>Satisfactorio</td>
+                </tr>
+                <tr>
+                    <td><strong>Producción textual</strong></td>
+                    <td>Redacta un diario de campo con al menos tres entradas (antes, durante y después del recorrido) que evidencie reflexión, descripción y análisis.</td>
+                    <td>Satisfactorio</td>
+                </tr>
+                <tr>
+                    <td><strong>Producción textual – Entrevista y micro-relato</strong></td>
+                    <td>Diseña un guion de entrevista con preguntas abiertas y pertinentes; transforma la información obtenida en una micro-historia narrativa con calidad literaria.</td>
+                    <td>Satisfactorio</td>
+                </tr>
+                <tr>
+                    <td><strong>Comunicación oral</strong></td>
+                    <td>Participa activamente en la socialización grupal del recorrido, presentando hallazgos de manera oral con apoyo de evidencias.</td>
+                    <td>Satisfactorio</td>
+                </tr>
+                <tr>
+                    <td><strong>Comunicación oral – Entrevista</strong></td>
+                    <td>Conduce una entrevista a un habitante de la Comuna 13 con respeto, empatía, escucha activa y preguntas claras.</td>
+                    <td>Satisfactorio</td>
+                </tr>
+                <tr>
+                    <td><strong>Literacidad mediática</strong></td>
+                    <td>Analiza el arte urbano como medio de comunicación, identificando símbolos, metáforas y mensajes de resistencia cultural.</td>
+                    <td>Avanzado</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="subsection">
+            <h3 class="subsection-title">5.3 Competencias del área de Educación Artística</h3>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 24%;">Competencia</th>
+                    <th>Indicador de desempeño</th>
+                    <th style="width: 16%;">Nivel esperado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Percepción y sensibilidad estética</strong></td>
+                    <td>Describe e interpreta al menos tres obras de arte urbano (grafitis, murales) observadas durante el recorrido, reconociendo su valor expresivo y cultural.</td>
+                    <td>Satisfactorio</td>
+                </tr>
+                <tr>
+                    <td><strong>Creación y expresión artística</strong></td>
+                    <td>Elabora un producto artístico (collage, mural gráfico, ilustración, instalación) que refleje la experiencia del recorrido por la Comuna 13.</td>
+                    <td>Satisfactorio</td>
+                </tr>
+                <tr>
+                    <td><strong>Creación – Ilustración de micro-historias</strong></td>
+                    <td>Crea una ilustración o composición visual que acompañe y refuerce narrativamente una micro-historia de la Comuna 13.</td>
+                    <td>Satisfactorio</td>
+                </tr>
+                <tr>
+                    <td><strong>Sensibilidad estética – Cartografía social</strong></td>
+                    <td>Integra elementos visuales (fotografías, ilustraciones, símbolos) en la construcción del mapa social grupal, con coherencia estética y comunicativa.</td>
+                    <td>Satisfactorio</td>
+                </tr>
+                <tr>
+                    <td><strong>Participación en prácticas artísticas</strong></td>
+                    <td>Participa activamente en la intervención de animación de lectura en el Parque Biblioteca San Javier, aportando ideas y energía creativa.</td>
+                    <td>Satisfactorio</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     06 – CONTENIDOS
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+    <div class="section">
+        <div class="section-number">Sección 06</div>
+        <h2 class="section-title">Contenidos</h2>
+        <div class="section-divider"></div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 18%;">Área</th>
+                    <th style="width: 22%;">Eje temático</th>
+                    <th>Contenidos específicos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="4"><strong>Ciencias Sociales</strong></td>
+                    <td><strong>Geografía</strong></td>
+                    <td>Determinismo geográfico; paisaje geográfico y paisaje urbano; relieve y pendientes de la Comuna 13; escaleras eléctricas como solución a las condiciones del medio físico; cartografía básica (croquis, mapa mental).</td>
+                </tr>
+                <tr>
+                    <td><strong>Historia</strong></td>
+                    <td>Memoria histórica; conflicto armado en Colombia (contexto); Operación Orión (2002); la Escombrera como fosa común; falsos positivos; madres buscadoras; transformación urbana y social de la Comuna 13 (2003-2026).</td>
+                </tr>
+                <tr>
+                    <td><strong>Competencias ciudadanas</strong></td>
+                    <td>Espacio público y apropiación territorial; cultura de paz; resiliencia comunitaria; justicia transicional; memoria como herramienta de no repetición; cartografía social como herramienta participativa.</td>
+                </tr>
+                <tr>
+                    <td><strong>Dinámica espacial</strong></td>
+                    <td>Orientación espacial; representación cartográfica del entorno inmediato; relación entre espacio físico y organización social.</td>
+                </tr>
+                <tr>
+                    <td rowspan="3"><strong>Lengua Castellana</strong></td>
+                    <td><strong>Oralidad</strong></td>
+                    <td>Narración de experiencias; preguntas y respuestas durante la visita guiada; socialización de hallazgos; conducción de entrevistas a habitantes del territorio.</td>
+                </tr>
+                <tr>
+                    <td><strong>Escritura</strong></td>
+                    <td>Diario de campo; descripción de paisajes; texto reflexivo sobre la memoria; micro-historia narrativa; informe de experiencia.</td>
+                </tr>
+                <tr>
+                    <td><strong>Lectura crítica</strong></td>
+                    <td>Interpretación de textos urbanos (murales, grafitis, placas); lectura de paisajes como textos; lectura de testimonios orales.</td>
+                </tr>
+                <tr>
+                    <td rowspan="3"><strong>Educación Artística</strong></td>
+                    <td><strong>Expresión visual</strong></td>
+                    <td>Arte urbano como lenguaje; grafiti como resistencia cultural; collage y mural gráfico; ilustración de micro-historias; cartografía social visual.</td>
+                </tr>
+                <tr>
+                    <td><strong>Animación de lectura</strong></td>
+                    <td>Técnicas de animación y promoción de lectura en contextos comunitarios.</td>
+                </tr>
+                <tr>
+                    <td><strong>Sensibilidad estética</strong></td>
+                    <td>Percepción del paisaje urbano como obra artística; apreciación de murales y expresiones culturales de la Comuna 13.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     07 – ESTRUCTURA DE ACTIVIDADES – FASE 1
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+    <div class="section">
+        <div class="section-number">Sección 07</div>
+        <h2 class="section-title">Estructura de actividades</h2>
+        <div class="section-divider"></div>
+
+        <div class="subsection">
+            <h3 class="subsection-title">7.1 Fase 1 – Antes de la salida (Semana 1 y 2)</h3>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 8%;">Sesión</th>
+                    <th style="width: 22%;">Actividad</th>
+                    <th style="width: 14%;">Área</th>
+                    <th>Descripción</th>
+                    <th style="width: 18%;">Producto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1</strong></td>
+                    <td>Activación de saberes previos</td>
+                    <td>Cs. Sociales</td>
+                    <td>Lluvia de ideas y mapa mental grupal sobre la Comuna 13. Socialización de conclusiones del diagnóstico. Introducción a la cartografía social como herramienta diagnóstica.</td>
+                    <td>Mapa mental grupal.</td>
+                </tr>
+                <tr>
+                    <td><strong>2</strong></td>
+                    <td>Contextualización histórica</td>
+                    <td>Cs. Sociales + Lengua</td>
+                    <td>Proyección de documentales y testimonios sobre la Operación Orión, la Escombrera y las madres buscadoras. Lectura comentada de crónicas periodísticas. Primera entrada del diario de campo.</td>
+                    <td>Primera entrada del diario de campo.</td>
+                </tr>
+                <tr>
+                    <td><strong>3</strong></td>
+                    <td>Geografía de la Comuna 13</td>
+                    <td>Cs. Sociales</td>
+                    <td>Análisis de mapas: relieve, pendientes, barrios, vías. Concepto de determinismo geográfico. Croquis hipotético del recorrido.</td>
+                    <td>Croquis hipotético.</td>
+                </tr>
+                <tr>
+                    <td><strong>4</strong></td>
+                    <td>Arte urbano y memoria</td>
+                    <td>Ed. Artística + Lengua</td>
+                    <td>Análisis de imágenes de murales y grafitis. Discusión: ¿Qué cuentan? ¿Quién los hace? ¿Para quién? Arte como lenguaje de resistencia.</td>
+                    <td>Registro visual con interpretaciones.</td>
+                </tr>
+                <tr>
+                    <td><strong>5</strong></td>
+                    <td>Preparación animación de lectura</td>
+                    <td>Lengua + Ed. Artística</td>
+                    <td>Selección de textos literarios o poéticos sobre memoria, paz y territorio. Ensayo de la intervención de animación de lectura.</td>
+                    <td>Guion de animación de lectura.</td>
+                </tr>
+                <tr>
+                    <td><strong>6</strong></td>
+                    <td>Cartografía social y diseño de entrevistas</td>
+                    <td>Cs. Sociales + Lengua</td>
+                    <td>Conceptualización de la cartografía social. Diseño grupal del guion de entrevista para habitantes longevos. Selección de los seis ejes temáticos. Asignación de roles.</td>
+                    <td>Guion de entrevista; roles asignados.</td>
+                </tr>
+                <tr>
+                    <td><strong>7</strong></td>
+                    <td>Logística y compromisos</td>
+                    <td>Transversal</td>
+                    <td>Revisión del itinerario, normas de convivencia, entrega de formatos de autorización. Entrevista previa a familiar o vecino. Fichas de observación para cartografía social.</td>
+                    <td>Autorización firmada; fichas de observación.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     07 – FASE 2 – ITINERARIO
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+    <div class="section">
+        <div class="section">
+            <h3 class="subsection-title">7.2 Fase 2 – Durante la salida pedagógica (Día de la salida)</h3>
+        </div>
+
+        <div class="callout callout-accent">
+            <div class="callout-title">Fechas de ejecución</div>
+            <strong>Grupo 9.2:</strong> 29 de abril de 2026 &nbsp;|&nbsp; <strong>Grupo 9.1:</strong> 06 de mayo de 2026
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 12%;">Hora</th>
+                    <th style="width: 22%;">Actividad</th>
+                    <th style="width: 18%;">Lugar</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>7:00 – 7:30</td>
+                    <td><strong>Punto de encuentro y salida</strong></td>
+                    <td>I.E. Rafael Uribe Uribe</td>
+                    <td>Revisión de asistencia, entrega de carnets, recordatorio de normas, distribución de fichas de observación para cartografía social. Salida en autobús.</td>
+                </tr>
+                <tr>
+                    <td>7:30 – 8:15</td>
+                    <td><strong>Llegada al Parque Biblioteca</strong></td>
+                    <td>Parque Biblioteca San Javier</td>
+                    <td>Recepción por el equipo del PTAFI (Docente Roger Muñoz). Orientación sobre el espacio y la importancia de la biblioteca pública. Inicio de registro en fichas (eje: oferta institucional).</td>
+                </tr>
+                <tr>
+                    <td>8:15 – 9:15</td>
+                    <td><strong>Animación de lectura</strong></td>
+                    <td>Parque Biblioteca San Javier</td>
+                    <td>Intervención de animación de lectura previamente preparada. Actividades lúdicas de promoción de lectura con usuarios de la biblioteca.</td>
+                </tr>
+                <tr>
+                    <td>9:15 – 10:15</td>
+                    <td><strong>Visita a la Universidad CATA</strong></td>
+                    <td>Universidad CATA</td>
+                    <td>Recorrido por las instalaciones. Charla informativa sobre oferta educativa y posibilidades de formación. Registro en fichas (eje: posibilidades del territorio).</td>
+                </tr>
+                <tr>
+                    <td>10:15 – 10:30</td>
+                    <td><strong>Descanso y refrigerio</strong></td>
+                    <td>Parque Biblioteca San Javier</td>
+                    <td>Pausa activa.</td>
+                </tr>
+                <tr>
+                    <td>10:30 – 12:30</td>
+                    <td><strong>Recorrido por el barrio 20 de julio y escaleras eléctricas</strong></td>
+                    <td>Comuna 13 – Barrio 20 de julio</td>
+                    <td>Recorrido a pie. Identificación de determinismo geográfico, memoria histórica, arte urbano, transformación urbana. Paradas en puntos clave. <strong>Entrevistas a habitantes del barrio</strong> según guion diseñado. Registro en fichas de los seis ejes temáticos.</td>
+                </tr>
+                <tr>
+                    <td>12:30 – 13:00</td>
+                    <td><strong>Reflexión grupal</strong></td>
+                    <td>Escaleras eléctricas – mirador</td>
+                    <td>Reflexión colectiva: ¿Qué sentí? ¿Qué aprendí? ¿Qué me sorprendió? Segunda entrada del diario de campo. Fotografía grupal.</td>
+                </tr>
+                <tr>
+                    <td>13:00 – 13:30</td>
+                    <td><strong>Regreso al Parque Biblioteca</strong></td>
+                    <td>Comuna 13</td>
+                    <td>Caminata de retorno. Observación libre. Último registro en fichas de observación.</td>
+                </tr>
+                <tr>
+                    <td>13:30 – 14:00</td>
+                    <td><strong>Regreso en autobús</strong></td>
+                    <td>Autobús</td>
+                    <td>Socialización informal. Ficha de cierre rápido: tres cosas que aprendí, dos que me emocionaron, una que quiero investigar.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     07 – FASE 3 – CIERRE
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+    <div class="section">
+        <h3 class="subsection-title">7.3 Fase 3 – Después de la salida (Semana 3, 4, 5 y 6)</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 8%;">Sesión</th>
+                    <th style="width: 22%;">Actividad</th>
+                    <th style="width: 14%;">Área</th>
+                    <th>Descripción</th>
+                    <th style="width: 18%;">Producto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>8</strong></td>
+                    <td>Socialización de experiencias</td>
+                    <td>Lengua + Cs. Sociales</td>
+                    <td>Los estudiantes comparten sus experiencias oralmente, con fotografías, registros y diario de campo. ¿Qué cambió en mi forma de ver la Comuna 13?</td>
+                    <td>Participación oral argumentada.</td>
+                </tr>
+                <tr>
+                    <td><strong>9</strong></td>
+                    <td>Diario de campo (entrada final)</td>
+                    <td>Lengua Castellana</td>
+                    <td>Redacción de la tercera entrada: reflexión final sobre el recorrido, lo aprendido y las emociones vividas.</td>
+                    <td>Diario de campo completo (3 entradas).</td>
+                </tr>
+                <tr>
+                    <td><strong>10</strong></td>
+                    <td>Análisis geográfico</td>
+                    <td>Cs. Sociales</td>
+                    <td>Elaboración del croquis definitivo, comparándolo con el hipotético. Análisis del determinismo geográfico: ¿Cómo el relieve condiciona la vida? ¿Qué papel cumplen las escaleras eléctricas?</td>
+                    <td>Croquis definitivo con análisis.</td>
+                </tr>
+                <tr>
+                    <td><strong>11</strong></td>
+                    <td>Construcción de la cartografía social</td>
+                    <td>Cs. Sociales + Ed. Artística</td>
+                    <td>Integración de fichas de observación, fotografías y registros de entrevistas en un mapa social grupal. Ubicación de los seis ejes temáticos. Incorporación de elementos visuales.</td>
+                    <td>Mapa social de la Comuna 13.</td>
+                </tr>
+                <tr>
+                    <td><strong>12</strong></td>
+                    <td>Redacción de micro-historias</td>
+                    <td>Lengua + Cs. Sociales</td>
+                    <td>Transformación de las entrevistas en micro-historias narrativas breves (1-2 páginas). Calidad literaria: descripciones, diálogos, imágenes sensoriales.</td>
+                    <td>Micro-historia individual o por pareja.</td>
+                </tr>
+                <tr>
+                    <td><strong>13</strong></td>
+                    <td>Ilustración de micro-historias</td>
+                    <td>Ed. Artística</td>
+                    <td>Cada micro-historia se acompaña de una ilustración o composición visual que refuerce narrativamente el relato.</td>
+                    <td>Ilustración de la micro-historia.</td>
+                </tr>
+                <tr>
+                    <td><strong>14</strong></td>
+                    <td>Línea de tiempo de la memoria</td>
+                    <td>Cs. Sociales + Lengua</td>
+                    <td>Construcción colaborativa de una línea de tiempo de los hechos históricos de la Comuna 13. Inclusión de testimonios y micro-historias.</td>
+                    <td>Línea de tiempo grupal.</td>
+                </tr>
+                <tr>
+                    <td><strong>15</strong></td>
+                    <td>Creación artística complementaria</td>
+                    <td>Ed. Artística</td>
+                    <td>Producto artístico grupal o individual: collage de memoria, mural gráfico, instalación con fotografías y textos.</td>
+                    <td>Producto artístico.</td>
+                </tr>
+                <tr>
+                    <td><strong>16</strong></td>
+                    <td>Exposición final</td>
+                    <td>Transversal</td>
+                    <td>Exposición ante la comunidad educativa. Presentación de: diario de campo, croquis, mapa social, micro-historias ilustradas, línea de tiempo y productos artísticos.</td>
+                    <td>Exposición oral y visual.</td>
+                </tr>
+                <tr>
+                    <td><strong>17</strong></td>
+                    <td>Evaluación y cierre</td>
+                    <td>Transversal</td>
+                    <td>Autoevaluación y coevaluación. Reflexión final. Entrega de productos. Compilación de micro-historias en libro artesanal para donación al Parque Biblioteca San Javier.</td>
+                    <td>Fichas de evaluación; libro de micro-historias.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     08 – PRODUCTOS ESPERADOS
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+    <div class="section">
+        <div class="section-number">Sección 08</div>
+        <h2 class="section-title">Productos esperados</h2>
+        <div class="section-divider"></div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 5%;">N°</th>
+                    <th style="width: 22%;">Producto</th>
+                    <th style="width: 16%;">Área principal</th>
+                    <th style="width: 18%;">Áreas articuladas</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1</strong></td>
+                    <td>Diario de campo (3 entradas)</td>
+                    <td>Lengua Castellana</td>
+                    <td>Cs. Sociales</td>
+                    <td>Registro escrito: antes (¿Qué sé? ¿Qué quiero saber?), durante (observaciones y emociones), después (reflexión final).</td>
+                </tr>
+                <tr>
+                    <td><strong>2</strong></td>
+                    <td>Croquis / Mapa mental</td>
+                    <td>Ciencias Sociales</td>
+                    <td>—</td>
+                    <td>Representación cartográfica del recorrido, comparando el croquis hipotético inicial con el definitivo.</td>
+                </tr>
+                <tr>
+                    <td><strong>3</strong></td>
+                    <td>Mapa social de la Comuna 13</td>
+                    <td>Ciencias Sociales</td>
+                    <td>Ed. Artística + Lengua</td>
+                    <td>Cartografía social grupal con los seis ejes temáticos: problemáticas ambientales, sociales, recursos culturales, posibilidades, oferta institucional y memoria histórica.</td>
+                </tr>
+                <tr>
+                    <td><strong>4</strong></td>
+                    <td>Micro-historias de la Comuna 13</td>
+                    <td>Lengua Castellana</td>
+                    <td>Cs. Sociales + Ed. Artística</td>
+                    <td>Compilación de micro-relatos a partir de entrevistas a habitantes longevos, acompañados de ilustraciones. Libro artesanal para donación al Parque Biblioteca.</td>
+                </tr>
+                <tr>
+                    <td><strong>5</strong></td>
+                    <td>Línea de tiempo de la memoria</td>
+                    <td>Ciencias Sociales</td>
+                    <td>Lengua</td>
+                    <td>Línea de tiempo colaborativa de los hechos históricos de la Comuna 13 con testimonios recogidos.</td>
+                </tr>
+                <tr>
+                    <td><strong>6</strong></td>
+                    <td>Producto artístico</td>
+                    <td>Educación Artística</td>
+                    <td>—</td>
+                    <td>Creación individual o grupal: collage de memoria, mural gráfico, ilustración o instalación.</td>
+                </tr>
+                <tr>
+                    <td><strong>7</strong></td>
+                    <td>Socialización oral</td>
+                    <td>Transversal</td>
+                    <td>Todas las áreas</td>
+                    <td>Presentación oral de hallazgos y productos ante el grupo y la comunidad educativa.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- DIAGRAMA -->
+        <div class="diagram">
+            <div class="diagram-center">
+                PROYECTO DE INTERVENCIÓN<br>"Reconociendo mi Territorio"
+            </div>
+            <div class="diagram-connector"></div>
+            <div class="diagram-branch">
+                <div class="diagram-node">
+                    <div class="diagram-node-title">Ciencias Sociales</div>
+                    <div class="diagram-node-items">
+                        Geografía<br>Historia<br>Ciudadanía<br>Dinámica espacial<br>Cartografía social
+                    </div>
+                </div>
+                <div class="diagram-node">
+                    <div class="diagram-node-title">Lengua Castellana</div>
+                    <div class="diagram-node-items">
+                        Oralidad<br>Escritura<br>Lectura crítica<br>Entrevista<br>Micro-historia
+                    </div>
+                </div>
+                <div class="diagram-node">
+                    <div class="diagram-node-title">Educación Artística</div>
+                    <div class="diagram-node-items">
+                        Expresión visual<br>Animación de lectura<br>Sensibilidad estética<br>Ilustración
+                    </div>
+                </div>
+            </div>
+            <div class="diagram-connector-wide"></div>
+            <div class="diagram-bottom">
+                <div class="diagram-bottom-title">Territorio</div>
+                <div class="diagram-bottom-items">
+                    Parque Biblioteca San Javier &bull; Universidad CATA &bull; Barrio 20 de julio<br>
+                    Escaleras eléctricas &bull; Arte urbano &bull; Memoria histórica
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     09 – METODOLOGÍA
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+    <div class="section">
+        <div class="section-number">Sección 09</div>
+        <h2 class="section-title">Metodología</h2>
+        <div class="section-divider"></div>
+
+        <p class="lead">La metodología de este proyecto se fundamenta en la propuesta pedagógica constructivista-humanista de la institución y articula las siguientes estrategias:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 24%;">Estrategia</th>
+                    <th style="width: 40%;">Descripción</th>
+                    <th>Justificación</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Aprendizaje basado en experiencias</strong></td>
+                    <td>Los estudiantes aprenden haciendo: recorriendo el territorio, observando, entrevistando, registrando y reflexionando.</td>
+                    <td>El territorio como texto viviente. Se aprende la Comuna 13 habitándola.</td>
+                </tr>
+                <tr>
+                    <td><strong>Aprendizaje significativo</strong></td>
+                    <td>Los contenidos se vinculan con la vida real de los estudiantes (su barrio, su comuna, su historia).</td>
+                    <td>Los estudiantes construyen conocimiento a partir de lo que les es relevante.</td>
+                </tr>
+                <tr>
+                    <td><strong>Trabajo colaborativo</strong></td>
+                    <td>Actividades grupales en la preparación, durante la salida y en el cierre.</td>
+                    <td>Fortalece habilidades sociales, cooperación y construcción colectiva.</td>
+                </tr>
+                <tr>
+                    <td><strong>Pedagogía del lugar</strong></td>
+                    <td>El territorio de la Comuna 13 es el escenario principal de aprendizaje.</td>
+                    <td>Gruenewald: el lugar como texto que se lee, se habita y se transforma.</td>
+                </tr>
+                <tr>
+                    <td><strong>Cartografía social participativa</strong></td>
+                    <td>Los estudiantes construyen colectivamente la representación de su territorio, incorporando voces, memorias y percepciones de los habitantes.</td>
+                    <td>Fals Borda: la cartografía social como herramienta de investigación participativa y transformación social.</td>
+                </tr>
+                <tr>
+                    <td><strong>Historia oral y micro-historia</strong></td>
+                    <td>Los estudiantes recogen testimonios de habitantes longevos y los transforman en narrativas breves con calidad literaria.</td>
+                    <td>La memoria oral como patrimonio colectivo; la micro-historia como método que da voz a las personas comunes.</td>
+                </tr>
+                <tr>
+                    <td><strong>Narrativa pedagógica</strong></td>
+                    <td>El diario de campo como herramienta de reflexión y escritura.</td>
+                    <td>Permite articular experiencia, emoción y pensamiento crítico.</td>
+                </tr>
+                <tr>
+                    <td><strong>Integración de áreas</strong></td>
+                    <td>Ciencias Sociales, Lengua Castellana y Educación Artística convergen en un mismo proyecto.</td>
+                    <td>El aprendizaje es más profundo cuando las áreas se articulan en torno a un problema real.</td>
+                </tr>
+                <tr>
+                    <td><strong>Participación de la comunidad</strong></td>
+                    <td>Padres de familia como acompañantes; guías comunitarios; instituciones del territorio; habitantes longevos como fuentes de memoria.</td>
+                    <td>La escuela se abre al territorio y el territorio entra en la escuela.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     10 – ESTRATEGIA DE EVALUACIÓN
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+    <div class="section">
+        <div class="section-number">Sección 10</div>
+        <h2 class="section-title">Estrategia de evaluación</h2>
+        <div class="section-divider"></div>
+
+        <div class="callout callout-accent">
+            <div class="callout-title">Enfoque de evaluación</div>
+            La evaluación es <strong>formativa, integral y participativa</strong>. No se reduce a una calificación numérica, sino que busca valorar el proceso de aprendizaje, la reflexión y la transformación personal y colectiva de los estudiantes.
+        </div>
+
+        <div class="subsection">
+            <h3 class="subsection-title">10.1 Instrumentos de evaluación</h3>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 22%;">Instrumento</th>
+                    <th style="width: 28%;">Qué evalúa</th>
+                    <th style="width: 20%;">Momento</th>
+                    <th style="width: 22%;">Quién evalúa</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Diario de campo</strong></td>
+                    <td>Escritura reflexiva, descripción, análisis, profundidad.</td>
+                    <td>Antes, durante y después.</td>
+                    <td>Docente de Lengua Castellana.</td>
+                </tr>
+                <tr>
+                    <td><strong>Croquis / Mapa mental</strong></td>
+                    <td>Orientación espacial, representación cartográfica.</td>
+                    <td>Antes y después (comparación).</td>
+                    <td>Docente de Cs. Sociales.</td>
+                </tr>
+                <tr>
+                    <td><strong>Mapa social</strong></td>
+                    <td>Cartografía social, integración de ejes temáticos, calidad visual.</td>
+                    <td>Después de la salida.</td>
+                    <td>Cs. Sociales + Ed. Artística.</td>
+                </tr>
+                <tr>
+                    <td><strong>Micro-historias</strong></td>
+                    <td>Entrevista, escritura narrativa, calidad literaria, voz del entrevistado.</td>
+                    <td>Después de la salida.</td>
+                    <td>Lengua + Cs. Sociales.</td>
+                </tr>
+                <tr>
+                    <td><strong>Línea de tiempo</strong></td>
+                    <td>Comprensión histórica, ubicación temporal, análisis causal.</td>
+                    <td>Después de la salida.</td>
+                    <td>Docente de Cs. Sociales.</td>
+                </tr>
+                <tr>
+                    <td><strong>Producto artístico</strong></td>
+                    <td>Creatividad, expresión, sensibilidad estética.</td>
+                    <td>Después de la salida.</td>
+                    <td>Docente de Ed. Artística.</td>
+                </tr>
+                <tr>
+                    <td><strong>Socialización oral</strong></td>
+                    <td>Comunicación oral, argumentación, uso de evidencias.</td>
+                    <td>Después de la salida.</td>
+                    <td>Docentes de las tres áreas.</td>
+                </tr>
+                <tr>
+                    <td><strong>Ficha de participación</strong></td>
+                    <td>Comportamiento, respeto, compromiso, participación activa.</td>
+                    <td>Durante la salida.</td>
+                    <td>Docentes y padres.</td>
+                </tr>
+                <tr>
+                    <td><strong>Autoevaluación</strong></td>
+                    <td>Reflexión metacognitiva.</td>
+                    <td>Cierre del proyecto.</td>
+                    <td>El propio estudiante.</td>
+                </tr>
+                <tr>
+                    <td><strong>Coevaluación</strong></td>
+                    <td>Valoración del trabajo en equipo.</td>
+                    <td>Cierre del proyecto.</td>
+                    <td>Compañeros de equipo.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     10 – RÚBRICAS
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+    <div class="section">
+        <div class="subsection">
+            <h3 class="subsection-title">10.2 Rúbrica del diario de campo</h3>
+        </div>
+
+        <table class="rubric">
+            <thead>
+                <tr>
+                    <th style="width: 16%;">Criterio</th>
+                    <th>Sobresaliente (4.5 – 5.0)</th>
+                    <th>Satisfactorio (3.5 – 4.4)</th>
+                    <th>En proceso (2.5 – 3.4)</th>
+                    <th>Requiere apoyo (1.0 – 2.4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Reflexión personal</td>
+                    <td>Reflexión profunda, personal y transformadora. Conecta la experiencia con su identidad.</td>
+                    <td>Reflexión y conexión con la experiencia, aunque con menor profundidad.</td>
+                    <td>Entradas descriptivas con reflexión superficial.</td>
+                    <td>Entradas escasas, sin reflexión ni conexión.</td>
+                </tr>
+                <tr>
+                    <td>Descripción del territorio</td>
+                    <td>Describe con detalle y riqueza los elementos geográficos, históricos y culturales.</td>
+                    <td>Describe los principales elementos con precisión.</td>
+                    <td>Descripción general sin detalle específico.</td>
+                    <td>Descripción ausente o muy limitada.</td>
+                </tr>
+                <tr>
+                    <td>Análisis y pensamiento crítico</td>
+                    <td>Analiza con profundidad y relaciones causales los fenómenos observados.</td>
+                    <td>Identifica y analiza algunos fenómenos con claridad.</td>
+                    <td>Identifica fenómenos sin análisis significativo.</td>
+                    <td>No identifica ni analiza fenómenos.</td>
+                </tr>
+                <tr>
+                    <td>Calidad de la escritura</td>
+                    <td>Claro, coherente, ortografía adecuada, rico vocabulario.</td>
+                    <td>Claro con errores menores.</td>
+                    <td>Comprensible con errores frecuentes.</td>
+                    <td>Confuso, errores graves.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="subsection">
+            <h3 class="subsection-title">10.3 Rúbrica de la micro-historia</h3>
+        </div>
+
+        <table class="rubric">
+            <thead>
+                <tr>
+                    <th style="width: 16%;">Criterio</th>
+                    <th>Sobresaliente (4.5 – 5.0)</th>
+                    <th>Satisfactorio (3.5 – 4.4)</th>
+                    <th>En proceso (2.5 – 3.4)</th>
+                    <th>Requiere apoyo (1.0 – 2.4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Calidad de la entrevista</td>
+                    <td>Guion pertinente, respetuoso y profundo. Información rica y relevante.</td>
+                    <td>Guion adecuado e información útil.</td>
+                    <td>Guion básico e información limitada.</td>
+                    <td>No se realizó o guion inadecuado.</td>
+                </tr>
+                <tr>
+                    <td>Voz del entrevistado</td>
+                    <td>Preserva fielmente la voz y los relatos, con respeto y autenticidad.</td>
+                    <td>Preserva la voz con algunos ajustes narrativos.</td>
+                    <td>Voz parcialmente representada.</td>
+                    <td>Voz ausente o distorsionada.</td>
+                </tr>
+                <tr>
+                    <td>Calidad literaria</td>
+                    <td>Descripciones vívidas, diálogos naturales, imágenes sensoriales, estructura lograda.</td>
+                    <td>Buena calidad narrativa con elementos literarios.</td>
+                    <td>Descriptivo sin recursos literarios.</td>
+                    <td>Resumen plano de la entrevista.</td>
+                </tr>
+                <tr>
+                    <td>Coherencia con la ilustración</td>
+                    <td>La ilustración complementa y enriquece la narrativa de manera poderosa.</td>
+                    <td>Ilustración claramente vinculada.</td>
+                    <td>Relación parcial.</td>
+                    <td>Sin ilustración o sin relación.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     10 – RÚBRICAS (cont.)
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+    <div class="section">
+        <div class="subsection">
+            <h3 class="subsection-title">10.4 Rúbrica del mapa social (cartografía social)</h3>
+        </div>
+
+        <table class="rubric">
+            <thead>
+                <tr>
+                    <th style="width: 16%;">Criterio</th>
+                    <th>Sobresaliente (4.5 – 5.0)</th>
+                    <th>Satisfactorio (3.5 – 4.4)</th>
+                    <th>En proceso (2.5 – 3.4)</th>
+                    <th>Requiere apoyo (1.0 – 2.4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Integración de ejes temáticos</td>
+                    <td>Integra de manera completa y articulada los seis ejes temáticos.</td>
+                    <td>Integra la mayoría de los ejes con claridad.</td>
+                    <td>Integra algunos ejes de manera parcial.</td>
+                    <td>No integra los ejes o lo hace de manera confusa.</td>
+                </tr>
+                <tr>
+                    <td>Ubicación espacial</td>
+                    <td>Elementos ubicados con precisión geográfica.</td>
+                    <td>Ubicación aproximada y comprensible.</td>
+                    <td>Ubicación imprecisa o confusa.</td>
+                    <td>Sin ubicación espacial.</td>
+                </tr>
+                <tr>
+                    <td>Riqueza de información</td>
+                    <td>Incluye fotografías, relatos, ilustraciones, datos y símbolos.</td>
+                    <td>Buena cantidad de información complementaria.</td>
+                    <td>Información limitada.</td>
+                    <td>Carece de información complementaria.</td>
+                </tr>
+                <tr>
+                    <td>Calidad visual y estética</td>
+                    <td>Visualmente atractivo, coherencia estética, leyenda, acabado cuidadoso.</td>
+                    <td>Buena presentación con aspectos mejorables.</td>
+                    <td>Presentación básica.</td>
+                    <td>Presentación descuidada.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="subsection">
+            <h3 class="subsection-title">10.5 Rúbrica del producto artístico</h3>
+        </div>
+
+        <table class="rubric">
+            <thead>
+                <tr>
+                    <th style="width: 16%;">Criterio</th>
+                    <th>Sobresaliente (4.5 – 5.0)</th>
+                    <th>Satisfactorio (3.5 – 4.4)</th>
+                    <th>En proceso (2.5 – 3.4)</th>
+                    <th>Requiere apoyo (1.0 – 2.4)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Vinculación con la experiencia</td>
+                    <td>Refleja de manera creativa y profunda la experiencia vivida.</td>
+                    <td>Vinculación clara con la experiencia.</td>
+                    <td>Relación parcial.</td>
+                    <td>Sin vinculación.</td>
+                </tr>
+                <tr>
+                    <td>Creatividad y originalidad</td>
+                    <td>Altamente creativo, original y sorprendente.</td>
+                    <td>Creatividad y buen nivel de originalidad.</td>
+                    <td>Convencional, creatividad limitada.</td>
+                    <td>Reproducción sin creatividad.</td>
+                </tr>
+                <tr>
+                    <td>Calidad técnica</td>
+                    <td>Dominio de técnicas, buen uso de materiales, acabado cuidadoso.</td>
+                    <td>Buena calidad con aspectos mejorables.</td>
+                    <td>Calidad técnica básica.</td>
+                    <td>Calidad técnica deficiente.</td>
+                </tr>
+                <tr>
+                    <td>Expresividad</td>
+                    <td>Comunica emociones e ideas de manera poderosa.</td>
+                    <td>Comunica emociones e ideas claramente.</td>
+                    <td>Comunicación limitada.</td>
+                    <td>No logra comunicar significados.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     11 – RECURSOS
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+    <div class="section">
+        <div class="section-number">Sección 11</div>
+        <h2 class="section-title">Recursos y materiales</h2>
+        <div class="section-divider"></div>
+
+        <div class="subsection">
+            <h3 class="subsection-title">11.1 Recursos humanos</h3>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 45%;">Persona</th>
+                    <th>Rol</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Carlos Andrés Caro Taborda</strong></td>
+                    <td>Docente orientador del proyecto (Ciencias Sociales).</td>
+                </tr>
+                <tr>
+                    <td><strong>Carlos Mario Idárraga</strong></td>
+                    <td>Docente participante (Lengua Castellana).</td>
+                </tr>
+                <tr>
+                    <td><strong>Luz Marina Góngora</strong></td>
+                    <td>Docente participante (Educación Artística).</td>
+                </tr>
+                <tr>
+                    <td><strong>Roger Muñoz</strong></td>
+                    <td>Asesor y apoyo práctico – Programa PTAFI.</td>
+                </tr>
+                <tr>
+                    <td><strong>Padres de familia / acudientes</strong></td>
+                    <td>Acompañantes de la salida pedagógica.</td>
+                </tr>
+                <tr>
+                    <td><strong>Guía comunitario de la Comuna 13</strong></td>
+                    <td>Conducción del recorrido y narración de la memoria histórica.</td>
+                </tr>
+                <tr>
+                    <td><strong>Personal del Parque Biblioteca San Javier</strong></td>
+                    <td>Recepción y orientación en la biblioteca.</td>
+                </tr>
+                <tr>
+                    <td><strong>Personal de la Universidad CATA</strong></td>
+                    <td>Charla informativa y recorrido por la universidad.</td>
+                </tr>
+                <tr>
+                    <td><strong>Habitantes longevos de la Comuna 13</strong></td>
+                    <td>Fuentes de memoria oral para las entrevistas y micro-historias.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="subsection">
+            <h3 class="subsection-title">11.2 Recursos materiales</h3>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 38%;">Recurso</th>
+                    <th style="width: 16%;">Cantidad</th>
+                    <th>Observaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Autobús</strong></td>
+                    <td>1 por grupo</td>
+                    <td>Coordinar con la administración escolar.</td>
+                </tr>
+                <tr>
+                    <td><strong>Formatos de autorización</strong></td>
+                    <td>1 por estudiante</td>
+                    <td>Entregar con anticipación mínima de 10 días.</td>
+                </tr>
+                <tr>
+                    <td><strong>Diario de campo</strong></td>
+                    <td>1 por estudiante</td>
+                    <td>Cuaderno decorado o formato impreso.</td>
+                </tr>
+                <tr>
+                    <td><strong>Fichas de observación (cartografía social)</strong></td>
+                    <td>1 por estudiante</td>
+                    <td>Con los seis ejes temáticos predefinidos.</td>
+                </tr>
+                <tr>
+                    <td><strong>Guion de entrevista</strong></td>
+                    <td>1 por grupo de 3-4 estudiantes</td>
+                    <td>Diseñado en la sesión 6.</td>
+                </tr>
+                <tr>
+                    <td><strong>Lápices, colores, marcadores</strong></td>
+                    <td>Juegos por grupo</td>
+                    <td>Para registro y elaboración de productos.</td>
+                </tr>
+                <tr>
+                    <td><strong>Cámara fotográfica o celular</strong></td>
+                    <td>1 por grupo de 4-5 estudiantes</td>
+                    <td>Registro fotográfico del recorrido.</td>
+                </tr>
+                <tr>
+                    <td><strong>Textos para animación de lectura</strong></td>
+                    <td>Selección previa</td>
+                    <td>Poemas, fragmentos literarios, cuentos cortos.</td>
+                </tr>
+                <tr>
+                    <td><strong>Material para producto artístico</strong></td>
+                    <td>Según necesidad</td>
+                    <td>Papel, cartón, revistas, pegante, pinturas.</td>
+                </tr>
+                <tr>
+                    <td><strong>Papel kraft o cartulina de gran formato</strong></td>
+                    <td>2-3 unidades</td>
+                    <td>Para el mapa social grupal.</td>
+                </tr>
+                <tr>
+                    <td><strong>Material para libro artesanal</strong></td>
+                    <td>Según necesidad</td>
+                    <td>Cartulinas, hilo, pegante, fotocopias.</td>
+                </tr>
+                <tr>
+                    <td><strong>Carnets de identificación</strong></td>
+                    <td>1 por participante</td>
+                    <td>Para identificación durante la salida.</td>
+                </tr>
+                <tr>
+                    <td><strong>Botiquín de primeros auxilios</strong></td>
+                    <td>1</td>
+                    <td>A cargo del docente o padre acompañante.</td>
+                </tr>
+                <tr>
+                    <td><strong>Refrigerio</strong></td>
+                    <td>1 por estudiante y acompañante</td>
+                    <td>Coordinar con los padres de familia.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     12 – TAREAS DE COORDINACIÓN
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+    <div class="section">
+        <div class="section-number">Sección 12</div>
+        <h2 class="section-title">Tareas de coordinación</h2>
+        <div class="section-divider"></div>
+
+        <p>Las siguientes tareas se derivan de la planificación realizada con el docente Roger Muñoz del Programa PTAFI:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 6%;">N°</th>
+                    <th>Tarea</th>
+                    <th style="width: 28%;">Responsable</th>
+                    <th style="width: 20%;">Fecha límite</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1</strong></td>
+                    <td>Indagación sobre la Universidad CATA y las bibliotecas (disponibilidad, horarios, requisitos de visita).</td>
+                    <td>Carlos Andrés Caro Taborda</td>
+                    <td>Viernes 10 de abril 2026</td>
+                </tr>
+                <tr>
+                    <td><strong>2</strong></td>
+                    <td>Indagación sobre la posibilidad de contar con un guía comunitario para el recorrido.</td>
+                    <td>Carlos Andrés Caro Taborda</td>
+                    <td>Viernes 10 de abril 2026</td>
+                </tr>
+                <tr>
+                    <td><strong>3</strong></td>
+                    <td>Elaboración del proyecto para el nudo (documento formal del proyecto de intervención).</td>
+                    <td>Carlos Andrés Caro Taborda</td>
+                    <td>Viernes 10 de abril 2026</td>
+                </tr>
+                <tr>
+                    <td><strong>4</strong></td>
+                    <td>Elaboración de los formatos de permiso de salida pedagógica.</td>
+                    <td>Roger Muñoz (PTAFI)</td>
+                    <td>Viernes 10 de abril 2026</td>
+                </tr>
+                <tr>
+                    <td><strong>5</strong></td>
+                    <td>Coordinación con Carlos Mario Idárraga y Luz Marina Góngora para la transversalización.</td>
+                    <td>Carlos Andrés Caro Taborda</td>
+                    <td>Viernes 10 de abril 2026</td>
+                </tr>
+                <tr>
+                    <td><strong>6</strong></td>
+                    <td>Contacto con habitantes longevos de la Comuna 13 para las entrevistas de micro-historias (a través del PTAFI o de organizaciones comunitarias).</td>
+                    <td>Roger Muñoz (PTAFI) + Carlos Andrés Caro Taborda</td>
+                    <td>Semana del 14 de abril 2026</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     13 – ASPECTOS COMPLEMENTARIOS
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+    <div class="section">
+        <div class="section-number">Sección 13</div>
+        <h2 class="section-title">Aspectos complementarios</h2>
+        <div class="section-divider"></div>
+
+        <div class="subsection">
+            <h3 class="subsection-title">13.1 Dimensiones de formación abordadas</h3>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 22%;">Dimensión</th>
+                    <th>Cómo se aborda en el proyecto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Cognitiva</strong></td>
+                    <td>Construcción de conocimiento geográfico, histórico y ciudadano a través de la experiencia directa; cartografía social; micro-historias.</td>
+                </tr>
+                <tr>
+                    <td><strong>Afectiva</strong></td>
+                    <td>Conexión emocional con el territorio; empatía con las víctimas del conflicto armado; escucha activa de los relatos de los habitantes longevos.</td>
+                </tr>
+                <tr>
+                    <td><strong>Social</strong></td>
+                    <td>Trabajo colaborativo; convivencia fuera del aula; interacción con la comunidad; entrevistas; participación de padres de familia.</td>
+                </tr>
+                <tr>
+                    <td><strong>Ética y ciudadana</strong></td>
+                    <td>Reflexión sobre la memoria, la justicia, la paz y la no repetición; apropiación del espacio público; cartografía social como ejercicio participativo.</td>
+                </tr>
+                <tr>
+                    <td><strong>Estética y expresiva</strong></td>
+                    <td>Percepción del arte urbano; creación artística; ilustración de micro-historias; cartografía social visual.</td>
+                </tr>
+                <tr>
+                    <td><strong>Corporal</strong></td>
+                    <td>Caminata por la Comuna 13; recorrido por las escaleras eléctricas; relación del cuerpo con el espacio geográfico.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="subsection">
+            <h3 class="subsection-title">13.2 Resiliencia y memoria</h3>
+        </div>
+
+        <p>La Comuna 13 es un territorio donde la resiliencia se manifiesta de manera tangible. Los estudiantes observarán cómo una comunidad que vivió la violencia del conflicto armado (Operación Orión, desapariciones forzadas, la Escombrera) ha construido, desde el arte, la educación y la organización comunitaria, una nueva narrativa de vida. Este reconocimiento es fundamental para que tus estudiantes:</p>
+
+        <ul>
+            <li>Comprendan que la resiliencia no es olvidar, sino transformar el dolor en acción colectiva.</li>
+            <li>Valoren la memoria como acto de justicia y como compromiso con la no repetición.</li>
+            <li>Se reconozcan como agentes de cambio en su propio territorio.</li>
+            <li>Preserven la memoria oral de los habitantes más longevos como patrimonio colectivo a través de las micro-historias.</li>
+        </ul>
+
+        <div class="subsection">
+            <h3 class="subsection-title">13.3 Dinámica espacial y determinismo geográfico</h3>
+        </div>
+
+        <p>La Comuna 13 es un caso de estudio privilegiado para comprender el determinismo geográfico: sus pendientes pronunciadas, la ubicación en la ladera occidental de Medellín, la lejanía histórica de los servicios urbanos y la construcción de las escaleras eléctricas (2011) como respuesta ingeniosa a las condiciones del medio físico. Tus estudiantes podrán:</p>
+
+        <ul>
+            <li>Observar cómo el relieve condiciona la vida cotidiana (desplazamiento, vivienda, acceso a servicios).</li>
+            <li>Comprender las escaleras eléctricas no solo como infraestructura, sino como símbolo de transformación y dignificación del territorio.</li>
+            <li>Elaborar un croquis comparativo (antes y después de la salida) que evidencie su desarrollo en la orientación espacial.</li>
+            <li>Ubicar estos elementos en el mapa social como parte del eje de problemáticas ambientales y posibilidades del territorio.</li>
+        </ul>
+
+        <div class="subsection">
+            <h3 class="subsection-title">13.4 La cartografía social como ejercicio de ciudadanía</h3>
+        </div>
+
+        <blockquote>
+            La cartografía social trasciende el croquis geográfico convencional porque incorpora las voces, los relatos y las percepciones de quienes habitan el territorio. Es, en esencia, un mapa con memoria. Cuando tus estudiantes construyen un mapa social, no solo están haciendo un ejercicio académico: están ejerciendo su derecho a representar su territorio, a nombrar sus problemáticas y a señalar sus posibilidades.
+        </blockquote>
+
+        <div class="subsection">
+            <h3 class="subsection-title">13.5 Las micro-historias como preservación de la memoria oral</h3>
+        </div>
+
+        <p>Las micro-historias le dan voz a los habitantes más longevos de la Comuna 13, es decir, a quienes tienen la memoria más larga y más profunda del territorio. Cuando tus estudiantes entrevistan a un vecino que recuerda la Comuna 13 antes de la Operación Orión, están haciendo algo que ningún libro puede hacer: están <strong>escuchando la historia desde adentro</strong>. La compilación de estas micro-historias en un libro artesanal que se dona al Parque Biblioteca San Javier convierte a tus estudiantes en <strong>constructores de memoria colectiva</strong>.</p>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     13 – COMPLEMENTARIOS (cont.)
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+    <div class="section">
+        <div class="subsection">
+            <h3 class="subsection-title">13.6 Vinculación con instituciones del territorio</h3>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 32%;">Institución</th>
+                    <th>Propósito pedagógico</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Parque Biblioteca San Javier</strong></td>
+                    <td>Los estudiantes reconocen la biblioteca pública como derecho ciudadano y espacio de formación, cultura y encuentro comunitario. Realizan la animación de lectura. Reciben la donación del libro artesanal de micro-historias.</td>
+                </tr>
+                <tr>
+                    <td><strong>Universidad CATA</strong></td>
+                    <td>Los estudiantes conocen una oferta educativa real y cercana a su territorio, ampliando su horizonte de proyecto de vida y posibilidades de formación superior.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="subsection">
+            <h3 class="subsection-title">13.7 Rol de los padres de familia / acudientes</h3>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 26%;">Aspecto</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Seguridad</strong></td>
+                    <td>Mayor número de adultos acompañantes garantiza la supervisión adecuada de los estudiantes.</td>
+                </tr>
+                <tr>
+                    <td><strong>Vínculo familia-escuela</strong></td>
+                    <td>Fortalece la relación entre la institución educativa y las familias.</td>
+                </tr>
+                <tr>
+                    <td><strong>Aprendizaje compartido</strong></td>
+                    <td>Los padres también pueden aprender y reflexionar sobre su territorio.</td>
+                </tr>
+                <tr>
+                    <td><strong>Modelaje</strong></td>
+                    <td>Los estudiantes observan a sus padres involucrarse en procesos educativos.</td>
+                </tr>
+                <tr>
+                    <td><strong>Fuente de memoria</strong></td>
+                    <td>Algunos padres pueden ser habitantes longevos de la Comuna 13 y servir como fuentes para las micro-historias.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="subsection">
+            <h3 class="subsection-title">13.8 Aspectos logísticos y de seguridad</h3>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 26%;">Aspecto</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Autorizaciones</strong></td>
+                    <td>Entregar formato de autorización firmado con mínimo 10 días de anticipación.</td>
+                </tr>
+                <tr>
+                    <td><strong>Seguro escolar</strong></td>
+                    <td>Verificar cobertura del seguro estudiantil para la fecha de la salida.</td>
+                </tr>
+                <tr>
+                    <td><strong>Botiquín</strong></td>
+                    <td>Llevar botiquín de primeros auxilios básico.</td>
+                </tr>
+                <tr>
+                    <td><strong>Identificación</strong></td>
+                    <td>Cada estudiante y acompañante portará un carnet de identificación del grupo.</td>
+                </tr>
+                <tr>
+                    <td><strong>Comunicación</strong></td>
+                    <td>Grupo de WhatsApp con docentes, padres acompañantes y directivos.</td>
+                </tr>
+                <tr>
+                    <td><strong>Normas de convivencia</strong></td>
+                    <td>Socializar y firmar un compromiso de convivencia antes de la salida.</td>
+                </tr>
+                <tr>
+                    <td><strong>Clima</strong></td>
+                    <td>Verificar pronóstico meteorológico y llevar elementos de protección.</td>
+                </tr>
+                <tr>
+                    <td><strong>Alimentación</strong></td>
+                    <td>Cada estudiante lleva su refrigerio o se coordina su suministro.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="subsection">
+            <h3 class="subsection-title">13.9 Cronograma general</h3>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 18%;">Semana</th>
+                    <th style="width: 24%;">Fechas</th>
+                    <th style="width: 14%;">Fase</th>
+                    <th>Actividades principales</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1</strong></td>
+                    <td>14 – 17 de abril 2026</td>
+                    <td><span class="timeline-badge badge-before">Antes</span></td>
+                    <td>Activación de saberes previos; contextualización histórica; geografía de la Comuna 13; arte urbano y memoria.</td>
+                </tr>
+                <tr>
+                    <td><strong>2</strong></td>
+                    <td>21 – 25 de abril 2026</td>
+                    <td><span class="timeline-badge badge-before">Antes</span></td>
+                    <td>Preparación animación de lectura; cartografía social y diseño de entrevistas; logística y compromisos.</td>
+                </tr>
+                <tr>
+                    <td><strong>3</strong></td>
+                    <td>29 de abril 2026</td>
+                    <td><span class="timeline-badge badge-during">Durante</span></td>
+                    <td>Salida pedagógica – Grupo 9.2.</td>
+                </tr>
+                <tr>
+                    <td><strong>3</strong></td>
+                    <td>06 de mayo 2026</td>
+                    <td><span class="timeline-badge badge-during">Durante</span></td>
+                    <td>Salida pedagógica – Grupo 9.1.</td>
+                </tr>
+                <tr>
+                    <td><strong>4</strong></td>
+                    <td>07 – 09 de mayo 2026</td>
+                    <td><span class="timeline-badge badge-after">Después</span></td>
+                    <td>Socialización de experiencias; diario de campo (entrada final); análisis geográfico.</td>
+                </tr>
+                <tr>
+                    <td><strong>5</strong></td>
+                    <td>12 – 16 de mayo 2026</td>
+                    <td><span class="timeline-badge badge-after">Después</span></td>
+                    <td>Cartografía social; micro-historias; ilustración de micro-historias; línea de tiempo.</td>
+                </tr>
+                <tr>
+                    <td><strong>6</strong></td>
+                    <td>19 – 23 de mayo 2026</td>
+                    <td><span class="timeline-badge badge-after">Después</span></td>
+                    <td>Creación artística; exposición final; evaluación y cierre.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     14 – COMPROMISO DE CONVIVENCIA
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+    <div class="section">
+        <div class="section-number">Sección 14</div>
+        <h2 class="section-title">Compromiso de convivencia</h2>
+        <div class="section-divider"></div>
+
+        <p>Los estudiantes y acompañantes se comprometen a:</p>
+
+        <ol class="commitment-list">
+            <li>Respetar las indicaciones de los docentes, padres acompañantes y guías en todo momento.</li>
+            <li>Mantenerse en grupo y no separarse del recorrido establecido.</li>
+            <li>Tratar con respeto y empatía a las personas de la comunidad que se encuentren durante el recorrido, especialmente durante las entrevistas para las micro-historias.</li>
+            <li>Cuidar el espacio público: no arrojar basura, no rayar muros, no dañar mobiliario urbano.</li>
+            <li>Escuchar con atención las explicaciones del guía comunitario y de los docentes.</li>
+            <li>Registrar en el diario de campo y en las fichas de observación las observaciones y reflexiones solicitadas.</li>
+            <li>Portar el carnet de identificación durante toda la salida.</li>
+            <li>No consumir alimentos en lugares no autorizados.</li>
+            <li>En caso de emergencia, avisar inmediatamente a un docente o padre acompañante.</li>
+            <li>Disfrutar, aprender y reflexionar.</li>
+        </ol>
+
+        <div style="margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+            <div>
+                <div class="sign-label">Nombre del estudiante</div>
+                <div class="sign-line"></div>
+                <div class="sign-label" style="margin-top: 16px;">Firma del estudiante</div>
+                <div class="sign-line"></div>
+                <div class="sign-label" style="margin-top: 16px;">Fecha</div>
+                <div class="sign-line"></div>
+            </div>
+            <div>
+                <div class="sign-label">Nombre del padre / acudiente</div>
+                <div class="sign-line"></div>
+                <div class="sign-label" style="margin-top: 16px;">Firma del padre / acudiente</div>
+                <div class="sign-line"></div>
+                <div class="sign-label" style="margin-top: 16px;">Fecha</div>
+                <div class="sign-line"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     15 – FIRMAS DE APROBACIÓN
+     ══════════════════════════════════════════════════════════════ -->
+<div class="page">
+    <div class="section">
+        <div class="section-number">Sección 15</div>
+        <h2 class="section-title">Firmas de aprobación</h2>
+        <div class="section-divider"></div>
+
+        <table class="signature-table">
+            <thead>
+                <tr>
+                    <th style="width: 30%;">Nombre</th>
+                    <th style="width: 30%;">Cargo</th>
+                    <th style="width: 24%;">Firma</th>
+                    <th style="width: 16%;">Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td>Rector(a) I.E. Rafael Uribe Uribe</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Coordinador(a) Académico(a)</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Carlos Andrés Caro Taborda</td>
+                    <td>Docente de Ciencias Sociales</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Carlos Mario Idárraga</td>
+                    <td>Docente de Lengua Castellana</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Luz Marina Góngora</td>
+                    <td>Docente de Educación Artística</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Roger Muñoz</td>
+                    <td>Docente Programa PTAFI</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- CIERRE -->
+        <div class="closing">
+            <div class="closing-quote">
+                "Conocer el territorio donde vivimos no es solo un ejercicio académico: es un acto de memoria, de identidad y de construcción de futuro."
+            </div>
+
+            <div class="closing-credit">
+                <strong>Documento elaborado por:</strong> Docente Carlos Andrés Caro Taborda<br>
+                <strong>Con la participación transversal de:</strong> Docente Carlos Mario Idárraga (Lengua Castellana) y Docente Luz Marina Góngora (Educación Artística)<br>
+                <strong>Con el apoyo del:</strong> Docente Roger Muñoz – Programa PTAFI<br>
+                <strong>Institución Educativa Rafael Uribe Uribe</strong> – Medellín, 2026
+            </div>
+        </div>
+
+        <div class="page-footer">
+            Institución Educativa Rafael Uribe Uribe &bull; Medellín &bull; 2026
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

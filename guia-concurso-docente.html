@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Estudio: Concurso Docente Colombia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #3b82f6;
+            --accent: #10b981;
+            --accent-purple: #8b5cf6;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --gradient-1: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            --gradient-2: linear-gradient(135deg, #10b981, #3b82f6);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 4rem 2rem;
+            background: var(--gradient-1);
+            border-radius: 24px;
+            color: white;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .tags {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: rgba(255,255,255,0.2);
+            padding: 0.4rem 0.8rem;
+            border-radius: 99px;
+            font-size: 0.85rem;
+            backdrop-filter: blur(4px);
+        }
+
+        section {
+            margin-bottom: 3rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        .icon-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: var(--gradient-2);
+            color: white;
+            flex-shrink: 0;
+        }
+
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-1);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card p, .card li {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .card li::before {
+            content: '•';
+            color: var(--secondary);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+
+        .highlight-box {
+            background: #eff6ff;
+            border-left: 4px solid var(--secondary);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box strong {
+            color: var(--primary);
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .concept-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .concept-item h4 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+            .card:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            header {
+                margin-bottom: 2rem;
+                padding: 2rem;
+            }
+            h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Guía de Estudio: Concurso Docente</h1>
+        <p class="subtitle">Legislación Educativa, Pedagogía y Gestión Escolar en Colombia</p>
+        <div class="tags">
+            <span class="tag">Decreto 1290</span>
+            <span class="tag">Decreto 1421</span>
+            <span class="tag">Cátedra de la Paz</span>
+            <span class="tag">DUA & PIAR</span>
+            <span class="tag">Evaluación</span>
+        </div>
+    </header>
+
+    <main>
+        <!-- Módulo 1 -->
+        <section>
+            <div class="section-header">
+                <div class="icon-circle">1</div>
+                <h2>Evaluación del Aprendizaje</h2>
+            </div>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📉 Decreto 1290 de 2009</h3>
+                    <p><strong>Escala Nacional:</strong> Superior, Alto, Básico, Bajo.</p>
+                    <p>Las instituciones definen su propio sistema de evaluación, debiendo establecer equivalencias con la escala nacional.</p>
+                    <p><strong>Clave:</strong> La asistencia escolar y la promoción son definidas por el reglamento de cada institución.</p>
+                </div>
+                <div class="card">
+                    <h3>🔄 Evaluación Formativa</h3>
+                    <ul>
+                        <li>Proceso continuo y sistemático.</li>
+                        <li>Diagnóstica, formativa y sumativa.</li>
+                        <li>Orienta la mejora del proceso de enseñanza-aprendizaje.</li>
+                        <li>La retroalimentación debe ser oportuna y constructiva.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Módulo 2 -->
+        <section>
+            <div class="section-header">
+                <div class="icon-circle">2</div>
+                <h2>Inclusión y Atención a la Diversidad</h2>
+            </div>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🛡️ Decreto 1421 de 2017</h3>
+                    <p><strong>PIAR:</strong> Plan Individual de Ajustes Razonables. Es la herramienta para garantizar la inclusión de estudiantes con discapacidad o en condición de vulnerabilidad.</p>
+                    <p>Debe ser construido de manera participativa: familia, docentes, psicólogos y el estudiante.</p>
+                </div>
+                <div class="card">
+                    <h3>♿ DUA (Diseño Universal)</h3>
+                    <p>Enfoque proactivo para eliminar barreras.</p>
+                    <ul>
+                        <li><strong>Recepción:</strong> Cómo se presenta la información.</li>
+                        <li><strong>Acción y Expresión:</strong> Cómo demuestran el aprendizaje.</li>
+                        <li><strong>Motivación:</strong> Cómo se comprometen con el tema.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="highlight-box">
+                <strong>Diferencia Clave:</strong> El PIAR es reactivo y individual (responde a una necesidad específica de un estudiante). El DUA es proactivo y general (diseña la clase pensando en todos desde el inicio).
+            </div>
+        </section>
+
+        <!-- Módulo 3 -->
+        <section>
+            <div class="section-header">
+                <div class="icon-circle">3</div>
+                <h2>Marco Normativo y Gestión</h2>
+            </div>
+            <div class="concept-grid">
+                <div class="concept-item">
+                    <h4>📜 Decreto 1075 de 2015</h4>
+                    <p>Decreto Único Reglamentario del Sector Educación. Organiza todo lo relacionado con el servicio educativo, desde la educación inicial hasta la superior.</p>
+                </div>
+                <div class="concept-item">
+                    <h4>⚖️ Decreto 1278 de 2002</h4>
+                    <p>Régimen Disciplinario Docente. Define las 15 faltas disciplinarias (graves, leves, muy graves) y el procedimiento para su investigación.</p>
+                </div>
+                <div class="concept-item">
+                    <h4>🕊️ Decreto 1038 de 2015</h4>
+                    <p>Cátedra de la Paz. Obligatoria en todos los establecimientos. Debe articularse al PEI y transversalizarse en todas las áreas.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Módulo 4 -->
+        <section>
+            <div class="section-header">
+                <div class="icon-circle">4</div>
+                <h2>Ciencias Sociales y Pedagogía</h2>
+            </div>
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <h3>🌍 Lineamientos Curriculares (MEN)</h3>
+                <p>El área busca formar <strong>ciudadanos críticos y democráticos</strong>, no expertos en memorización de datos. Se centra en la comprensión de la realidad para transformar la sociedad.</p>
+                <ul>
+                    <li><strong>Ejes generadores:</strong> Identidad, convivencia, poder, economía, naturaleza.</li>
+                    <li><strong>Enfoque:</strong> Problémico, contextualizado y en espiral.</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>📘 DBA (Derechos Básicos de Aprendizaje)</h3>
+                <p>Aprendizajes estructurantes que todo estudiante tiene derecho a recibir. Son la base para la planeación del plan de área.</p>
+                <p><strong>Estructura DBA:</strong> Enunciado (expectativa) + Evidencias de aprendizaje (indicadores) + Ejemplo contextualizado.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Generado por Hermes Agent | CachyOS | Mayo 2026</p>
+        <p>Basado en documentos oficiales del MEN y legislación vigente.</p>
+    </footer>
+</div>
+
+</body>
+</html>

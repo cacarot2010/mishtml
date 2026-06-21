@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programa CONVIVE – Plan de Capacitación</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf8f4;
+    --surface: #ffffff;
+    --accent: #1a6b5a;
+    --accent-light: #e8f4f0;
+    --accent-dark: #0e4a3e;
+    --gold: #c9963b;
+    --gold-light: #fdf6e8;
+    --text-primary: #1a1a1a;
+    --text-muted: #5a5550;
+    --text-light: #8a8580;
+    --border: #d4cfc8;
+    --border-light: #e8e4de;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  @page {
+    size: A4;
+    margin: 2cm 2.5cm;
+  }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 11pt;
+    line-height: 1.7;
+    color: var(--text-primary);
+    background: var(--bg);
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 40px 50px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ── HEADER ── */
+  .doc-header {
+    text-align: center;
+    padding: 50px 30px 40px;
+    border-bottom: 3px solid var(--accent);
+    margin-bottom: 40px;
+    position: relative;
+  }
+
+  .doc-header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--gold);
+  }
+
+  .institution-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8pt;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 12px;
+  }
+
+  .program-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42pt;
+    font-weight: 700;
+    color: var(--accent-dark);
+    line-height: 1.1;
+    margin-bottom: 6px;
+    letter-spacing: -1px;
+  }
+
+  .program-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16pt;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .program-full-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 7.5pt;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: var(--accent-light);
+    display: inline-block;
+    padding: 6px 18px;
+    border-radius: 2px;
+    margin-bottom: 25px;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 30px;
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: left;
+    font-size: 9.5pt;
+  }
+
+  .meta-grid dt {
+    font-family: 'DM Mono', monospace;
+    font-size: 7pt;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-light);
+  }
+
+  .meta-grid dd {
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  /* ── SECTIONS ── */
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20pt;
+    font-weight: 700;
+    color: var(--accent-dark);
+    margin-top: 45px;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--accent);
+    page-break-after: avoid;
+  }
+
+  h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14pt;
+    font-weight: 600;
+    color: var(--accent);
+    margin-top: 25px;
+    margin-bottom: 8px;
+    page-break-after: avoid;
+  }
+
+  h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 8.5pt;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 20px;
+    margin-bottom: 6px;
+  }
+
+  p {
+    margin-bottom: 12px;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  /* ── HIGHLIGHT BOXES ── */
+  .highlight-box {
+    background: var(--accent-light);
+    border-left: 4px solid var(--accent);
+    padding: 18px 22px;
+    margin: 20px 0;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .highlight-box.gold {
+    background: var(--gold-light);
+    border-left-color: var(--gold);
+  }
+
+  .highlight-box p {
+    margin-bottom: 6px;
+    font-size: 10pt;
+  }
+
+  .highlight-box p:last-child { margin-bottom: 0; }
+
+  .highlight-box strong {
+    color: var(--accent-dark);
+  }
+
+  /* ── SESSION CARDS ── */
+  .session-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 25px 28px;
+    margin: 20px 0;
+    page-break-inside: avoid;
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .session-card::before {
+    content: attr(data-session);
+    position: absolute;
+    top: -1px; left: 28px;
+    background: var(--accent);
+    color: white;
+    font-family: 'DM Mono', monospace;
+    font-size: 7pt;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 0 0 4px 4px;
+  }
+
+  .session-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16pt;
+    font-weight: 700;
+    color: var(--accent-dark);
+    margin-top: 10px;
+    margin-bottom: 4px;
+  }
+
+  .session-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 7.5pt;
+    color: var(--text-light);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .session-card .objective {
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+    font-size: 10pt;
+    border-left: 2px solid var(--gold);
+    padding-left: 12px;
+  }
+
+  .sequence-step {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    gap: 0 12px;
+    margin-bottom: 10px;
+    align-items: start;
+  }
+
+  .step-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 8pt;
+    font-weight: 500;
+    color: var(--accent);
+    background: var(--accent-light);
+    text-align: center;
+    padding: 4px 0;
+    border-radius: 3px;
+    margin-top: 2px;
+  }
+
+  .step-content {
+    font-size: 10pt;
+  }
+
+  .step-content strong {
+    color: var(--accent-dark);
+  }
+
+  .step-content p { margin-bottom: 4px; }
+
+  /* ── TABLES ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 9.5pt;
+  }
+
+  thead th {
+    background: var(--accent-dark);
+    color: white;
+    font-family: 'DM Mono', monospace;
+    font-size: 7.5pt;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+  }
+
+  tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-light);
+    vertical-align: top;
+  }
+
+  tbody tr:nth-child(even) {
+    background: #f9f7f3;
+  }
+
+  /* ── LISTS ── */
+  ul, ol {
+    margin: 10px 0 14px 22px;
+    font-size: 10pt;
+  }
+
+  li {
+    margin-bottom: 5px;
+  }
+
+  /* ── REFERENCES ── */
+  .references {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--accent);
+  }
+
+  .references p {
+    font-size: 9pt;
+    line-height: 1.8;
+    text-indent: -36px;
+    padding-left: 36px;
+    margin-bottom: 8px;
+    text-align: left;
+  }
+
+  /* ── FOOTER ── */
+  .doc-footer {
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 7pt;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-light);
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { padding: 0; background: white; }
+    .session-card { box-shadow: none; border: 1px solid #ccc; }
+  }
+
+  /* ── DECORATIVE ELEMENTS ── */
+  .divider {
+    text-align: center;
+    margin: 30px 0;
+    color: var(--gold);
+    font-size: 14pt;
+    letter-spacing: 8px;
+  }
+
+  .pill {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 7pt;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 10px;
+    margin-right: 4px;
+  }
+
+  .pill.conceptual { background: var(--accent-light); color: var(--accent-dark); }
+  .pill.procedural { background: var(--gold-light); color: #8a6b20; }
+  .pill.attitudinal { background: #f0e8f8; color: #5a3d7a; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ HEADER ═══════════════════════════════════════════ -->
+<header class="doc-header">
+  <div class="institution-label">Institución Educativa Rafael Uribe Uribe</div>
+  <h1 class="program-title">CONVIVE</h1>
+  <div class="program-subtitle">Construyendo Opciones No Violentas para la Vida Escolar</div>
+  <div class="program-full-name">Plan de Capacitación para Gestores de Convivencia y Mediación Escolar — Grados 1.° a 11.°</div>
+
+  <dl class="meta-grid">
+    <dt>Entidad</dt>
+    <dd>Institución Educativa Rafael Uribe Uribe</dd>
+    <dt>Ubicación</dt>
+    <dd>Distrito Especial de Ciencia, Tecnología e Innovación de Medellín, Colombia</dd>
+    <dt>Duración</dt>
+    <dd>10 sesiones — 1 sesión mensual × 1 hora</dd>
+    <dt>Población</dt>
+    <dd>Gestores de convivencia, docentes mediadores, coordinadores (grados 1.°–11.°)</dd>
+    <dt>Marco normativo</dt>
+    <dd>Política Nacional de Convivencia Educativa 2024–2030; Ley 1620 de 2013; Manual «Hagamos las Paces» — Alcaldía de Medellín</dd>
+    <dt>Año</dt>
+    <dd>2026</dd>
+  </dl>
+</header>
+
+<!-- ═══════════════════════════════════════════ 1. PRESENTACIÓN ═══════════════════════════════════════════ -->
+<h2>1. Presentación</h2>
+
+<p>El programa <strong>CONVIVE — Construyendo Opciones No Violentas para la Vida Escolar</strong> nace de la necesidad de fortalecer las competencias de los gestores de convivencia y mediación escolar en la Institución Educativa Rafael Uribe Uribe, ubicada en el Distrito Especial de Ciencia, Tecnología e Innovación de Medellín, Colombia. Este plan responde a los desafíos contemporáneos que enfrentan las comunidades educativas: desde las manifestaciones de violencia simbólica y física —como los juegos bruscos y la justicia por mano propia— hasta los nuevos dilemas éticos derivados del uso de la inteligencia artificial y la adicción a dispositivos móviles.</p>
+
+<p>La <em>Política Nacional de Convivencia Educativa (PNCE) 2024–2030</em> establece un marco orientador para todos los niveles y contextos educativos, buscando promover la reflexión y el diálogo sobre las maneras de relacionarse cotidianamente entre quienes forman parte de una comunidad educativa (Ministerio de Educación Nacional, 2024) (citation:8). Este programa se inscribe en esa política de Estado y adopta como enfoque central la <strong>justicia restaurativa</strong>, entendida como un paradigma que busca reparar el daño causado por los conflictos, restablecer las relaciones y reintegrar a las personas a la comunidad, superando la lógica punitiva tradicional (Ariza, 2007; Castellanos Angulo, 2018) (citation:4)(citation:5).</p>
+
+<p>Asimismo, el programa toma como referencia el <em>Manual de Mediación «Hagamos las Paces»</em>, elaborado por la Alcaldía de Medellín, el cual proporciona herramientas prácticas para la formación de mediadores escolares y la implementación de círculos restaurativos en el contexto local (Alcaldía de Medellín, 1996) (citation:11). La experiencia documentada en la Escuela Centenaria Ignacio Zaragoza, donde se capacitó a 300 estudiantes en mediación escolar, demuestra la viabilidad y el impacto positivo de estos programas en la cultura de paz de las aulas (citation:9).</p>
+
+<div class="divider">◆ ◆ ◆</div>
+
+<!-- ═══════════════════════════════════════════ 2. MARCO NORMATIVO ═══════════════════════════════════════════ -->
+<h2>2. Marco Normativo y Conceptual</h2>
+
+<h3>2.1. Normatividad vigente</h3>
+
+<p>El presente programa se fundamenta en el siguiente marco jurídico y de política pública:</p>
+
+<ul>
+  <li><strong>Política Nacional de Convivencia Educativa (PNCE) 2024–2030:</strong> Marco orientador del Ministerio de Educación Nacional que busca crear condiciones para que niños, niñas, adolescentes, jóvenes y adultos aprendan a convivir cada vez mejor, enfatizando el sentido formativo de la convivencia y la protección socioemocional (citation:8).</li>
+  <li><strong>Ley 1620 de 2013 (Estatuto de Convivencia Escolar):</strong> Establece el Sistema Nacional de Convivencia Escolar y Formación para los Derechos Humanos, la Educación para la Sexualidad y la Prevención y Mitigación de la Violencia Escolar.</li>
+  <li><strong>Ley 1098 de 2006 (Código de la Infancia y la Adolescencia):</strong> Consagra los derechos fundamentales de los niños, niñas y adolescentes y establece deberes de las instituciones educativas en materia de protección.</li>
+  <li><strong>Decreto 460 de 2020:</strong> Reglamenta los Comités de Convivencia Escolar y los mecanismos de atención a situaciones de convivencia escolar.</li>
+  <li><strong>Conpes 4075 de 2022 (Política de Salud Mental):</strong> Reconoce la importancia de los entornos educativos como espacios de cuidado y bienestar socioemocional (citation:8).</li>
+  <li><strong>Manual de Mediación «Hagamos las Paces»:</strong> Herramienta local de la Alcaldía de Medellín para la formación de mediadores escolares y la implementación de prácticas restaurativas en instituciones educativas del Distrito (citation:11).</li>
+</ul>
+
+<h3>2.2. Fundamento conceptual: La justicia restaurativa</h3>
+
+<p>La justicia restaurativa constituye el eje articulador de este programa. A diferencia de la justicia retributiva —que se centra en el castigo del infractor—, la justicia restaurativa busca <em>reparar el daño</em> causado a las víctimas, <em>responsabilizar</em> al ofensor de sus actos y <em>reintegrar</em> a ambas partes a la comunidad (Ariza, 2007) (citation:5). En el contexto escolar, esto se traduce en prácticas como los círculos de diálogo, las conferencias restaurativas y los paneles de jóvenes, que permiten abordar los conflictos desde una perspectiva formativa y no meramente sancionatoria.</p>
+
+<div class="highlight-box">
+  <p><strong>Definición operativa:</strong> La justicia restaurativa en la escuela busca reparar el daño que los problemas de convivencia generan, promoviendo la participación activa de víctimas, ofensores y comunidad en la búsqueda de soluciones que restauren las relaciones y prevengan la reincidencia (Corporación Excelencia en la Justicia, 2006) (citation:1)(citation:4).</p>
+</div>
+
+<p>Los principios rectores de la justicia restaurativa aplicados a la convivencia escolar son:</p>
+
+<ol>
+  <li><strong>Reparación del daño:</strong> Reconocer el impacto de las acciones en la víctima y en la comunidad, y buscar activamente su reparación.</li>
+  <li><strong>Involucramiento de todas las partes:</strong> La víctima, el ofensor y la comunidad participan en el proceso de resolución.</li>
+  <li><strong>Transformación del conflicto:</strong> El conflicto se entiende como una oportunidad de aprendizaje y no como una amenaza al orden.</li>
+  <li><strong>Responsabilización:</strong> El ofensor asume activamente las consecuencias de sus actos y se compromete con acciones concretas de reparación.</li>
+  <li><strong>Prevención:</strong> Las prácticas restaurativas buscan prevenir la reincidencia mediante el fortalecimiento de vínculos comunitarios (Castellanos Angulo, 2018) (citation:5).</li>
+</ol>
+
+<p>En contextos de posconflicto como el colombiano, la justicia restaurativa adquiere una dimensión adicional: se convierte en un mecanismo de <em>justicia del reconocimiento</em> que permite a las comunidades rurales y urbanas tramitar las afectaciones del conflicto armado desde la memoria, la empatía y la construcción colectiva de paz (Arias, 2017; Bautista y González, 2019) (citation:5).</p>
+
+<h3>2.3. Enfoque pedagógico: Secuencias didácticas</h3>
+
+<p>Cada sesión del programa está diseñada como una <strong>secuencia didáctica</strong> que sigue un orden lógico de aprendizaje: (1) activación de saberes previos, (2) construcción conceptual, (3) práctica guiada, (4) reflexión metacognitiva y (5) compromiso de aplicación. Este diseño pedagógico garantiza que los participantes no solo adquieran conocimientos teóricos, sino que desarrollen habilidades prácticas y actitudes transformadoras (Creswell, 2012) (citation:5).</p>
+
+<div class="divider">◆ ◆ ◆</div>
+
+<!-- ═══════════════════════════════════════════ 3. OBJETIVOS ═══════════════════════════════════════════ -->
+<h2>3. Objetivos</h2>
+
+<h3>3.1. Objetivo general</h3>
+<p>Fortalecer las competencias conceptuales, procedimentales y actitudinales de los gestores de convivencia y mediación escolar de la Institución Educativa Rafael Uribe Uribe, mediante un programa de capacitación de 10 sesiones mensuales fundamentado en la justicia restaurativa, para promover entornos escolares seguros, respetuosos y participativos en los grados 1.° a 11.°.</p>
+
+<h3>3.2. Objetivos específicos</h3>
+<ol>
+  <li>Comprender los fundamentos de la justicia restaurativa y su aplicación en la gestión de la convivencia escolar (citation:4).</li>
+  <li>Desarrollar habilidades de mediación y facilitación de círculos restaurativos siguiendo las directrices del Manual «Hagamos las Paces» (citation:11).</li>
+  <li>Identificar y abordar las problemáticas contemporáneas de convivencia: juegos bruscos, justicia por mano propia, intolerancia, adicción al celular, uso ético de la IA, falta de escucha y respeto por las pertenencias ajenas.</li>
+  <li>Promover el reconocimiento emocional como herramienta fundamental en la gestión de conflictos (citation:2).</li>
+  <li>Articular la gestión de la convivencia con la construcción de paz territorial y el reconocimiento de los derechos de niños, niñas y adolescentes (citation:5).</li>
+</ol>
+
+<div class="divider">◆ ◆ ◆</div>
+
+<!-- ═══════════════════════════════════════════ 4. PLAN DE SESIONES ═══════════════════════════════════════════ -->
+<h2>4. Plan de Sesiones — Secuencia Didáctica</h2>
+
+<p>El programa se organiza en <strong>10 sesiones mensuales de 1 hora</strong>, estructuradas como secuencias didácticas progresivas. Las primeras sesiones establecen los fundamentos conceptuales y actitudinales; las intermedias abordan problemáticas específicas; las finales integran aprendizajes y proyectan la práctica institucional.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:8%">Sesión</th>
+      <th style="width:22%">Nombre</th>
+      <th style="width:20%">Eje temático</th>
+      <th style="width:18%">Tipo de aprendizaje</th>
+      <th style="width:32%">Resultado esperado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>«Raíces del CONVIVE»</td>
+      <td>Convivencia y justicia restaurativa</td>
+      <td><span class="pill conceptual">Conceptual</span></td>
+      <td>Los participantes comprenden el marco normativo y los principios de la justicia restaurativa.</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>«El termómetro emocional»</td>
+      <td>Reconocimiento emocional</td>
+      <td><span class="pill attitudinal">Actitudinal</span></td>
+      <td>Los participantes identifican sus propias emociones y las de los estudiantes como factor clave en los conflictos.</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>«Jugar sin dañar»</td>
+      <td>Juegos bruscos vs. juego seguro</td>
+      <td><span class="pill procedural">Procedimental</span></td>
+      <td>Los participantes diseñan estrategias para transformar los juegos bruscos en juego cooperativo.</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>«La balanza justa»</td>
+      <td>Justicia por mano propia</td>
+      <td><span class="pill conceptual">Conceptual</span> <span class="pill procedural">Procedimental</span></td>
+      <td>Los participantes comprenden por qué la justicia por mano propia perpetúa la violencia y diseñan alternativas restaurativas.</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>«El otro existe»</td>
+      <td>Intolerancia y diversidad</td>
+      <td><span class="pill attitudinal">Actitudinal</span></td>
+      <td>Los participantes desarrollan sensibilidad hacia la diversidad y herramientas para abordar la intolerancia.</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>«Desconectados para conectar»</td>
+      <td>Adicción al celular</td>
+      <td><span class="pill procedural">Procedimental</span> <span class="pill attitudinal">Actitudinal</span></td>
+      <td>Los participantes diseñan acuerdos de uso responsable de dispositivos móviles en el aula.</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>«IA con conciencia»</td>
+      <td>Uso ético de la inteligencia artificial</td>
+      <td><span class="pill conceptual">Conceptual</span> <span class="pill procedural">Procedimental</span></td>
+      <td>Los participantes establecen criterios éticos para el uso de IA en el contexto escolar.</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>«Escuchar es un acto de amor»</td>
+      <td>Falta de escucha en el aula</td>
+      <td><span class="pill procedural">Procedimental</span> <span class="pill attitudinal">Actitudinal</span></td>
+      <td>Los participantes practican técnicas de escucha activa y las aplican en simulaciones de mediación.</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>«Lo mío, lo tuyo, lo nuestro»</td>
+      <td>Respeto por las pertenencias ajenas</td>
+      <td><span class="pill conceptual">Conceptual</span> <span class="pill procedural">Procedimental</span></td>
+      <td>Los participantes identifican las causas de la apropiación indebida y diseñan respuestas restaurativas.</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>«Círculo de cierre: nuestro plan de paz»</td>
+      <td>Integración y proyección</td>
+      <td><span class="pill procedural">Procedimental</span> <span class="pill attitudinal">Actitudinal</span></td>
+      <td>Los participantes co-construyen un plan de acción institucional y realizan un círculo restaurativo integrador.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ──────────────────────────────── SESIÓN 1 ──────────────────────────────── -->
+<div class="session-card" data-session="Sesión 1 — Mes 1">
+  <h3 class="session-title">«Raíces del CONVIVE»</h3>
+  <div class="session-meta">Eje temático: Convivencia escolar y justicia restaurativa · 1 hora</div>
+
+  <p class="objective"><strong>Objetivo:</strong> Que los participantes comprendan el marco normativo de la convivencia escolar en Colombia y los fundamentos de la justicia restaurativa como enfoque transformador de los conflictos.</p>
+
+  <h4>Secuencia didáctica</h4>
+
+  <div class="sequence-step">
+    <div class="step-time">0–10 min</div>
+    <div class="step-content">
+      <p><strong>Activación — «Mi mejor y mi peor recuerdo escolar»:</strong> En parejas, los participantes comparten un recuerdo positivo y uno negativo de su experiencia escolar relacionados con la convivencia. Se socializan 3-4 experiencias en plenaria. El facilitador registra en el tablero las palabras clave que emergen (justicia, castigo, reparación, diálogo).</p>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">10–30 min</div>
+    <div class="step-content">
+      <p><strong>Construcción conceptual — «Del castigo a la reparación»:</strong> Exposición dialogada sobre:</p>
+      <ul>
+        <li>La <em>Política Nacional de Convivencia Educativa 2024–2030</em> y su énfasis en el sentido formativo de la convivencia (Ministerio de Educación Nacional, 2024) (citation:8).</li>
+        <li>La Ley 1620 de 2013 y el Sistema Nacional de Convivencia Escolar.</li>
+        <li>Los principios de la justicia restaurativa: reparación del daño, involucramiento de todas las partes, responsabilización y prevención (Ariza, 2007; Castellanos Angulo, 2018) (citation:4)(citation:5).</li>
+        <li>Diferencias entre justicia retributiva (castigar) y justicia restaurativa (reparar).</li>
+      </ul>
+      <p>Se proyectan ejemplos del <em>Manual «Hagamos las Paces»</em> de la Alcaldía de Medellín (citation:11).</p>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">30–50 min</div>
+    <div class="step-content">
+      <p><strong>Práctica guiada — «¿Qué harías tú?»:</strong> Se presentan 3 casos breves de conflictos escolares (un robo de útiles, una agresión en el recreo, una exclusión grupal). En grupos de 4, los participantes proponen una respuesta desde la lógica retributiva y otra desde la lógica restaurativa. Cada grupo socializa una comparación.</p>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">50–60 min</div>
+    <div class="step-content">
+      <p><strong>Reflexión y compromiso:</strong> Cada participante escribe en una tarjeta: «Hoy entendí que la convivencia escolar es…». Se leen en voz alta y se pegan en un mural que acompañará el programa durante todo el año. Se entrega la lectura anticipada para la Sesión 2.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <p><strong>Materiales:</strong> Proyector, tarjetas de colores, marcadores, fragmentos del Manual «Hagamos las Paces», casos impresos.</p>
+    <p><strong>Evaluación:</strong> Observación participativa; calidad de las propuestas restaurativas en el ejercicio de casos.</p>
+  </div>
+</div>
+
+<!-- ──────────────────────────────── SESIÓN 2 ──────────────────────────────── -->
+<div class="session-card" data-session="Sesión 2 — Mes 2">
+  <h3 class="session-title">«El termómetro emocional»</h3>
+  <div class="session-meta">Eje temático: Reconocimiento emocional · 1 hora</div>
+
+  <p class="objective"><strong>Objetivo:</strong> Que los participantes desarrollen habilidades de reconocimiento y regulación emocional propias y de los estudiantes, como base para la gestión efectiva de conflictos.</p>
+
+  <h4>Secuencia didáctica</h4>
+
+  <div class="sequence-step">
+    <div class="step-time">0–10 min</div>
+    <div class="step-content">
+      <p><strong>Activación — «El semáforo emocional»:</strong> Cada participante coloca un adhesivo verde (estoy bien), amarillo (estoy inquieto) o rojo (estoy tenso) en un semáforo de cartulina. Se observa la distribución grupal sin juicio. El facilitador normaliza la diversidad emocional.</p>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">10–25 min</div>
+    <div class="step-content">
+      <p><strong>Construcción conceptual — «Las emociones como mensajeras»:</strong></p>
+      <ul>
+        <li>El reconocimiento emocional como competencia docente fundamental (citation:2).</li>
+        <li>El <em>Trastorno de Desregulación Disruptiva del Estado de Ánimo (TDDEA)</em>: comprender que los arrebatos intensos y la irritabilidad crónica en niños y adolescentes pueden ser síntomas de un trastorno clínico, no simplemente «mal comportamiento» (citation:17).</li>
+        <li>Diferencia entre irritabilidad típica y irritabilidad grave: los arrebatos que no son proporcionales a la situación y ocurren con frecuencia requieren una intervención diferenciada (citation:17).</li>
+        <li>La perspectiva de los padres: algunas veces perciben el comportamiento explosivo como manipulación, cuando en realidad los niños que reaccionan con violencia generalmente no pueden manejar sus emociones (citation:16).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">25–50 min</div>
+    <div class="step-content">
+      <p><strong>Práctica guiada — «Lectura emocional de escenas»:</strong> Se proyectan 4 videoclips breves (o se leen viñetas) de situaciones escolares con conflictos emocionales. Los participantes, en equipos, identifican: (a) la emoción del estudiante, (b) la necesidad subyacente, (c) una respuesta empática del docente mediador. Se socializa y el facilitador retroalimenta.</p>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">50–60 min</div>
+    <div class="step-content">
+      <p><strong>Reflexión y compromiso:</strong> Cada participante identifica una emoción que le cuesta gestionar en el aula y escribe una estrategia personal de regulación. Se comparten en tríos. Se introduce el «diario emocional del mediador» como herramienta de seguimiento mensual.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <p><strong>Materiales:</strong> Semáforo de cartulina, adhesivos de colores, videoclips o viñetas impresas, ficha del «diario emocional».</p>
+    <p><strong>Evaluación:</strong> Ficha de identificación emocional completada; calidad de las respuestas empáticas propuestas.</p>
+  </div>
+</div>
+
+<!-- ──────────────────────────────── SESIÓN 3 ──────────────────────────────── -->
+<div class="session-card" data-session="Sesión 3 — Mes 3">
+  <h3 class="session-title">«Jugar sin dañar»</h3>
+  <div class="session-meta">Eje temático: Juegos bruscos y juego seguro · 1 hora</div>
+
+  <p class="objective"><strong>Objetivo:</strong> Que los participantes distingan entre juego brusco y juego violento, comprendan las dinámicas que los generan y diseñen estrategias para transformarlos en juego cooperativo y seguro.</p>
+
+  <h4>Secuencia didáctica</h4>
+
+  <div class="sequence-step">
+    <div class="step-time">0–10 min</div>
+    <div class="step-content">
+      <p><strong>Activación — «El juego de mi infancia»:</strong> Los participantes comparten en parejas un juego de su infancia que involucrara contacto físico. Se reflexiona: ¿cuándo el juego deja de ser juego y se convierte en agresión?</p>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">10–25 min</div>
+    <div class="step-content">
+      <p><strong>Construcción conceptual — «La línea entre jugar y agredir»:</strong></p>
+      <ul>
+        <li>Diferencias entre juego brusco (consentido, simétrico, con risa) y juego violento (no consentido, asimétrico, con dolor).</li>
+        <li>Factores de riesgo: desigualdad de tamaño o edad, ausencia de supervisión, normalización de la violencia.</li>
+        <li>Estrategias de intervención documentadas en programas de mediación escolar (citation:18).</li>
+        <li>Enfoque restaurativo: cuando un juego brusco causa daño, el proceso busca que quien causó el daño reconozca el impacto y ofrezca reparación, sin etiquetarlo como «agresor» (citation:4).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">25–50 min</div>
+    <div class="step-content">
+      <p><strong>Práctica guiada — «Diseña un recreo seguro»:</strong> En grupos de 4 (un grupo por cada ciclo: preescolar-primaria baja, primaria alta, básica secundaria, media), los participantes diseñan un «kit de recreo» con 5 juegos cooperativos adaptados a la edad, que sustituyan los juegos bruscos. Cada grupo presenta su propuesta con una mini-demostración.</p>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">50–60 min</div>
+    <div class="step-content">
+      <p><strong>Reflexión y compromiso:</strong> Se acuerda que cada participante implementará un juego cooperativo nuevo en su aula o espacio de recreo durante el próximo mes y documentará la experiencia (foto, reflexión breve).</p>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <p><strong>Materiales:</strong> Ficha de diseño de «kit de recreo», materiales lúdicos variados, cámara o celular para documentación.</p>
+    <p><strong>Evaluación:</strong> Pertinencia y creatividad de los juegos cooperativos diseñados; registro fotográfico del mes siguiente.</p>
+  </div>
+</div>
+
+<!-- ──────────────────────────────── SESIÓN 4 ──────────────────────────────── -->
+<div class="session-card" data-session="Sesión 4 — Mes 4">
+  <h3 class="session-title">«La balanza justa»</h3>
+  <div class="session-meta">Eje temático: Justicia por mano propia · 1 hora</div>
+
+  <p class="objective"><strong>Objetivo:</strong> Que los participantes comprendan las causas y consecuencias de la justicia por mano propia en el contexto escolar, y desarrollen alternativas restaurativas para su prevención y atención.</p>
+
+  <h4>Secuencia didáctica</h4>
+
+  <div class="sequence-step">
+    <div class="step-time">0–10 min</div>
+    <div class="step-content">
+      <p><strong>Activación — «El dilema del recreo»:</strong> Se lee un caso: «Un estudiante le quita el almuerzo a otro. El afectado, en lugar de reportar, decide golpearlo al día siguiente. ¿Quién tiene la razón?». Los participantes se ubican en un continuo físico (de «totalmente de acuerdo» a «totalmente en desacuerdo») y argumentan su posición.</p>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">10–25 min</div>
+    <div class="step-content">
+      <p><strong>Construcción conceptual — «Cuando la víctima se vuelve victimario»:</strong></p>
+      <ul>
+        <li>Causas de la justicia por mano propia: desconfianza en los mecanismos institucionales, desigualdad de poder, normalización de la retaliación.</li>
+        <li>Consecuencias: escalada de violencia, victimización secundaria, ruptura del tejido comunitario.</li>
+        <li>La perspectiva restaurativa: crear canales confiables de denuncia y mediación que desincentiven la retaliación (Corporación Excelencia en la Justicia, 2006) (citation:5).</li>
+        <li>Artículo 10 del Código de la Infancia y la Adolescencia: derecho a ser protegido contra toda forma de violencia.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">25–50 min</div>
+    <div class="step-content">
+      <p><strong>Práctica guiada — «Conferencia restaurativa simulada»:</strong> Se realiza una conferencia restaurativa simulada siguiendo el modelo del Manual «Hagamos las Paces» (citation:11). Roles: víctima, ofensor, facilitador, comunidad (padres, docentes). Se practica el guion restaurativo: (1) ¿Qué pasó?, (2) ¿Qué pensaste/sentiste?, (3) ¿A quién más afectó?, (4) ¿Qué necesitas para reparar?, (5) ¿Qué podemos hacer juntos?</p>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">50–60 min</div>
+    <div class="step-content">
+      <p><strong>Reflexión y compromiso:</strong> Los participantes identifican situaciones de justicia por mano propia en sus aulas y proponen un mecanismo de mediación preventivo para cada una. Se comprometen a aplicarlo y registrar resultados.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <p><strong>Materiales:</strong> Caso impreso, guion de conferencia restaurativa, roles impresos, cronómetro.</p>
+    <p><strong>Evaluación:</strong> Calidad de la facilitación en la simulación; pertinencia de los mecanismos preventivos propuestos.</p>
+  </div>
+</div>
+
+<!-- ──────────────────────────────── SESIÓN 5 ──────────────────────────────── -->
+<div class="session-card" data-session="Sesión 5 — Mes 5">
+  <h3 class="session-title">«El otro existe»</h3>
+  <div class="session-meta">Eje temático: Intolerancia y diversidad · 1 hora</div>
+
+  <p class="objective"><strong>Objetivo:</strong> Que los participantes desarrollen sensibilidad hacia la diversidad cultural, étnica, de género y de capacidades, y adquieran herramientas para abordar actitudes intolerantes desde un enfoque restaurativo.</p>
+
+  <h4>Secuencia didáctica</h4>
+
+  <div class="sequence-step">
+    <div class="step-time">0–10 min</div>
+    <div class="step-content">
+      <p><strong>Activación — «La etiqueta invisible»:</strong> A cada participante se le pega en la espalda una etiqueta con una identidad ficticia («migrante», «estudiante con discapacidad», «estudiante de otra religión», etc.). Durante 5 minutos interactúan libremente. Luego revelan sus etiquetas y reflexionan: ¿cómo me trataron? ¿cómo me sentí?</p>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">10–25 min</div>
+    <div class="step-content">
+      <p><strong>Construcción conceptual — «Intolerancia: la violencia silenciosa»:</strong></p>
+      <ul>
+        <li>Manifestaciones de intolerancia en la escuela: exclusión, burlas, estereotipos, microagresiones.</li>
+        <li>El informe de la Comisión de la Verdad sobre niños, niñas y adolescentes en el conflicto armado y la importancia del reconocimiento del otro (Comisión de la Verdad, 2022) (citation:5).</li>
+        <li>Segregación dentro de las escuelas: cuando las asignaciones de grupos o espacios reproducen dinámicas de exclusión (citation:3).</li>
+        <li>Enfoque restaurativo: los círculos de diálogo como espacio para escuchar la experiencia del otro y construir empatía.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">25–50 min</div>
+    <div class="step-content">
+      <p><strong>Práctica guiada — «Círculo de empatía»:</strong> Se realiza un círculo restaurativo con un caso de intolerancia (ejemplo: burlas por acento regional). El facilitador guía con preguntas restaurativas. Cada participante practica el rol de facilitador al menos una vez. Se observan y retroalimentan las intervenciones.</p>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">50–60 min</div>
+    <div class="step-content">
+      <p><strong>Reflexión y compromiso:</strong> Cada participante escribe una carta a un estudiante hipotético que ha sido víctima de intolerancia, ofreciendo palabras de reconocimiento y reparación. Se seleccionan 3 para socializar. Compromiso: observar y registrar una situación de intolerancia en el aula durante el mes.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <p><strong>Materiales:</strong> Etiquetas adhesivas, caso de intolerancia impreso, guion de círculo restaurativo, papel y lápices.</p>
+    <p><strong>Evaluación:</strong> Calidad de la facilitación del círculo; profundidad de la reflexión en las cartas.</p>
+  </div>
+</div>
+
+<!-- ──────────────────────────────── SESIÓN 6 ──────────────────────────────── -->
+<div class="session-card" data-session="Sesión 6 — Mes 6">
+  <h3 class="session-title">«Desconectados para conectar»</h3>
+  <div class="session-meta">Eje temático: Adicción al uso del celular · 1 hora</div>
+
+  <p class="objective"><strong>Objetivo:</strong> Que los participantes comprendan el fenómeno de la adicción a los dispositivos móviles en el contexto escolar y diseñen acuerdos de uso responsable basados en el diálogo y la participación estudiantil.</p>
+
+  <h4>Secuencia didáctica</h4>
+
+  <div class="sequence-step">
+    <div class="step-time">0–10 min</div>
+    <div class="step-content">
+      <p><strong>Activación — «El experimento del apagón»:</strong> Se pide a los participantes que apaguen su celular y lo coloquen boca abajo en la mesa. Durante 10 minutos trabajan sin dispositivos. Se reflexiona: ¿cuántas veces sentí el impulso de revisarlo? ¿Qué emociones surgieron?</p>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">10–25 min</div>
+    <div class="step-content">
+      <p><strong>Construcción conceptual — «Pantallas que atrapan»:</strong></p>
+      <ul>
+        <li>Datos sobre el uso de dispositivos móviles en adolescentes colombianos (DANE, 2023) (citation:5).</li>
+        <li>Impacto en la convivencia: distracción, ciberbullying, aislamiento, conflictos por el uso en clase.</li>
+        <li>Estrategias de evasión que usan los niños con dificultades de regulación: berrinches, discusiones, actitud desafiante cuando se les limita el acceso a pantallas (citation:19).</li>
+        <li>Enfoque restaurativo: no prohibir, sino construir acuerdos colectivos. El círculo de diálogo como espacio para negociar normas de uso.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">25–50 min</div>
+    <div class="step-content">
+      <p><strong>Práctica guiada — «Asamblea de acuerdos digitales»:</strong> Se simula una asamblea estudiantil donde se negocian acuerdos de uso del celular en la escuela. Los participantes asumen roles: estudiantes de distintos grados, padres, docentes, directivos. Se utiliza la metodología de círculos restaurativos para llegar a consensos (citation:11). Producto: un borrador de «Acuerdo de Convivencia Digital» para cada ciclo.</p>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">50–60 min</div>
+    <div class="step-content">
+      <p><strong>Reflexión y compromiso:</strong> Socialización de los acuerdos por ciclo. Compromiso: presentar el acuerdo a los estudiantes de su grupo y recoger sus aportes durante el mes.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <p><strong>Materiales:</strong> Proyector con datos estadísticos, fichas de roles, formato de «Acuerdo de Convivencia Digital», marcadores.</p>
+    <p><strong>Evaluación:</strong> Viabilidad y pertinencia de los acuerdos diseñados; registro de la socialización con estudiantes.</p>
+  </div>
+</div>
+
+<!-- ──────────────────────────────── SESIÓN 7 ──────────────────────────────── -->
+<div class="session-card" data-session="Sesión 7 — Mes 7">
+  <h3 class="session-title">«IA con conciencia»</h3>
+  <div class="session-meta">Eje temático: Uso ético de la inteligencia artificial · 1 hora</div>
+
+  <p class="objective"><strong>Objetivo:</strong> Que los participantes reflexionen sobre los dilemas éticos del uso de la inteligencia artificial en el contexto escolar y establezcan criterios para orientar a los estudiantes en su uso responsable.</p>
+
+  <h4>Secuencia didáctica</h4>
+
+  <div class="sequence-step">
+    <div class="step-time">0–10 min</div>
+    <div class="step-content">
+      <p><strong>Activación — «¿Lo escribió un humano o una IA?»:</strong> Se presentan 4 textos (2 escritos por estudiantes, 2 generados por IA). Los participantes intentan identificar el origen. Se revela la respuesta y se reflexiona: ¿importa quién lo escribió? ¿Por qué?</p>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">10–25 min</div>
+    <div class="step-content">
+      <p><strong>Construcción conceptual — «Ética en la era de las máquinas inteligentes»:</strong></p>
+      <ul>
+        <li>¿Qué es la inteligencia artificial y cómo funciona en el contexto educativo?</li>
+        <li>Dilemas éticos: plagio, dependencia cognitiva, sesgos algorítmicos, privacidad de datos.</li>
+        <li>La perspectiva de la justicia restaurativa: cuando un estudiante usa IA para copiar, el problema no es solo el acto, sino la relación con el aprendizaje. El enfoque restaurativo pregunta: ¿qué necesidad no estás cubriendo? ¿Cómo podemos ayudarte a aprender auténticamente?</li>
+        <li>Lineamientos internacionales y nacionales sobre IA y educación.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">25–50 min</div>
+    <div class="step-content">
+      <p><strong>Práctica guiada — «El tribunal ético»:</strong> Se presentan 3 casos de uso de IA en la escuela (un estudiante que usa ChatGPT para toda la tarea, un docente que usa IA para calificar sin revisar, un estudiante que usa IA para generar imágenes de un compañero). En grupos, los participantes analizan cada caso desde tres perspectivas: legal, ética y restaurativa. Se realiza un debate estructurado.</p>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">50–60 min</div>
+    <div class="step-content">
+      <p><strong>Reflexión y compromiso:</strong> Co-construcción de un «Decálogo del uso ético de la IA» para la institución. Cada participante se compromete a socializarlo con su grupo y recoger observaciones.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <p><strong>Materiales:</strong> Textos para el juego inicial, casos impresos, formato para el decálogo, proyector.</p>
+    <p><strong>Evaluación:</strong> Profundidad del análisis ético en el debate; calidad del decálogo co-construido.</p>
+  </div>
+</div>
+
+<!-- ──────────────────────────────── SESIÓN 8 ──────────────────────────────── -->
+<div class="session-card" data-session="Sesión 8 — Mes 8">
+  <h3 class="session-title">«Escuchar es un acto de amor»</h3>
+  <div class="session-meta">Eje temático: Falta de escucha en el aula · 1 hora</div>
+
+  <p class="objective"><strong>Objetivo:</strong> Que los participantes practiquen técnicas de escucha activa y comprendan su papel central en la mediación escolar y la construcción de confianza.</p>
+
+  <h4>Secuencia didáctica</h4>
+
+  <div class="sequence-step">
+    <div class="step-time">0–10 min</div>
+    <div class="step-content">
+      <p><strong>Activación — «El teléfono descompuesto emocional»:</strong> En cadena, un participante susurra una frase con carga emocional al oído del siguiente. Al final, se compara el mensaje original con el recibido. Reflexión: ¿qué se pierde cuando no escuchamos con atención?</p>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">10–25 min</div>
+    <div class="step-content">
+      <p><strong>Construcción conceptual — «Escuchar para comprender, no para responder»:</strong></p>
+      <ul>
+        <li>Barreras para la escucha activa: prisa, juicio previo, distracciones, necesidad de tener la razón.</li>
+        <li>Técnicas de escucha activa: parafraseo, reflejo emocional, preguntas abiertas, silencio respetuoso.</li>
+        <li>La escucha como herramienta de mediación: en los círculos restaurativos, la escucha es el acto fundacional (citation:11).</li>
+        <li>Actividades de reconocimiento emocional junto con docentes para fortalecer la escucha empática (citation:2).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">25–50 min</div>
+    <div class="step-content">
+      <p><strong>Práctica guiada — «Triángulo de la escucha»:</strong> En tríos rotativos (narrador, oyente, observador), cada participante practica las técnicas de escucha activa durante 5 minutos. El observador retroalimenta con una rúbrica sencilla (¿parafraseó?, ¿reflejó emociones?, ¿hizo preguntas abiertas?, ¿mantuvo contacto visual?). Se rotan los roles 3 veces.</p>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">50–60 min</div>
+    <div class="step-content">
+      <p><strong>Reflexión y compromiso:</strong> Cada participante identifica su principal barrera para escuchar y se compromete a trabajarla. Se entrega una «tarjeta de escucha activa» de bolsillo con las 4 técnicas para consultar en momentos de conflicto.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <p><strong>Materiales:</strong> Rúbrica de observación de escucha activa, tarjetas de bolsillo impresas, cronómetro.</p>
+    <p><strong>Evaluación:</strong> Rúbrica de escucha activa completada por los observadores; autoevaluación del participante.</p>
+  </div>
+</div>
+
+<!-- ──────────────────────────────── SESIÓN 9 ──────────────────────────────── -->
+<div class="session-card" data-session="Sesión 9 — Mes 9">
+  <h3 class="session-title">«Lo mío, lo tuyo, lo nuestro»</h3>
+  <div class="session-meta">Eje temático: Respeto por las pertenencias ajenas · 1 hora</div>
+
+  <p class="objective"><strong>Objetivo:</strong> Que los participantes comprendan las causas de la apropiación indebida de pertenencias ajenas en el contexto escolar y diseñen respuestas restaurativas que aborden tanto el acto como la necesidad subyacente.</p>
+
+  <h4>Secuencia didáctica</h4>
+
+  <div class="sequence-step">
+    <div class="step-time">0–10 min</div>
+    <div class="step-content">
+      <p><strong>Activación — «El objeto significativo»:</strong> Cada participante trae un objeto personal significativo. En parejas, uno le cuenta al otro por qué es importante. Luego se reflexiona: ¿cómo te sentirías si alguien lo tomara sin permiso?</p>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">10–25 min</div>
+    <div class="step-content">
+      <p><strong>Construcción conceptual — «Robar, tomar prestado, apropiarse: matices del conflicto»:</strong></p>
+      <ul>
+        <li>Diferencias entre hurto, préstamo no autorizado y apropiación temporal.</li>
+        <li>Causas subyacentes: necesidad material, deseo de pertenencia, imitación de conductas, falta de límites claros.</li>
+        <li>Impacto en la víctima: sensación de vulneración, desconfianza, pérdida de seguridad.</li>
+        <li>Enfoque restaurativo: más allá de «devolver y pedir perdón», se busca comprender la causa, reconocer el daño y construir acuerdos de no repetición (Corporación Excelencia en la Justicia, 2006) (citation:5).</li>
+        <li>Estrategias de investigación institucional: visita institucional, observación, entrevista individual (citation:20).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">25–50 min</div>
+    <div class="step-content">
+      <p><strong>Práctica guiada — «Círculo restaurativo: el caso del cuaderno perdido»:</strong> Se realiza un círculo restaurativo completo con un caso simulado: una estudiante toma el cuaderno de otra porque no tiene para comprar. Se practican todas las fases: (1) preparación, (2) círculo de diálogo, (3) acuerdo restaurativo, (4) seguimiento. Se rotan los roles.</p>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">50–60 min</div>
+    <div class="step-content">
+      <p><strong>Reflexión y compromiso:</strong> Cada participante diseña un protocolo de atención restaurativa para casos de apropiación indebida en su aula, incluyendo pasos, preguntas restaurativas y criterios de derivación.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <p><strong>Materiales:</strong> Caso simulado impreso, guion de círculo restaurativo completo, formato de protocolo, roles impresos.</p>
+    <p><strong>Evaluación:</strong> Calidad de la facilitación del círculo; completitud del protocolo diseñado.</p>
+  </div>
+</div>
+
+<!-- ──────────────────────────────── SESIÓN 10 ──────────────────────────────── -->
+<div class="session-card" data-session="Sesión 10 — Mes 10">
+  <h3 class="session-title">«Círculo de cierre: nuestro plan de paz»</h3>
+  <div class="session-meta">Eje temático: Integración y proyección · 1 hora</div>
+
+  <p class="objective"><strong>Objetivo:</strong> Que los participantes integren los aprendizajes del programa, co-construyan un plan de acción institucional para el siguiente año escolar y vivan una experiencia restaurativa de cierre que fortalezca los vínculos del equipo.</p>
+
+  <h4>Secuencia didáctica</h4>
+
+  <div class="sequence-step">
+    <div class="step-time">0–10 min</div>
+    <div class="step-content">
+      <p><strong>Activación — «El mural de los 10 meses»:</strong> Se despliega el mural del programa (con las tarjetas de cada sesión, fotos, productos). Los participantes recorren el mural y añaden post-its con aprendizajes que quieran destacar.</p>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">10–30 min</div>
+    <div class="step-content">
+      <p><strong>Integración — «Nuestro plan de paz institucional»:</strong> En 4 grupos (uno por cada problemática transversal: violencia física, violencia simbólica, violencia digital, desvinculación), los participantes diseñan una estrategia institucional para el siguiente año escolar. Cada estrategia incluye: (a) diagnóstico, (b) objetivos, (c) actividades, (d) responsables, (e) indicadores. Se socializa y se consolida un documento único.</p>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">30–50 min</div>
+    <div class="step-content">
+      <p><strong>Círculo restaurativo de cierre — «Lo que me llevo, lo que dejo, lo que propongo»:</strong> Se realiza un círculo restaurativo de cierre donde cada participante comparte: (1) el aprendizaje más significativo que se lleva, (2) una actitud o práctica que decide dejar, (3) una propuesta concreta para el siguiente año. El facilitador cierra con una reflexión sobre el camino recorrido y el horizonte compartido de paz escolar.</p>
+    </div>
+  </div>
+
+  <div class="sequence-step">
+    <div class="step-time">50–60 min</div>
+    <div class="step-content">
+      <p><strong>Ceremonia de cierre:</strong> Entrega simbólica de certificados de participación. Cada participante recibe una semilla de árbol como metáfora: «La paz, como la semilla, necesita tiempo, cuidado y comunidad para crecer». Foto grupal.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <p><strong>Materiales:</strong> Mural acumulado del programa, post-its, formato de plan de acción, semillas de árbol, certificados, cámara.</p>
+    <p><strong>Evaluación:</strong> Plan de acción co-construido; calidad de la participación en el círculo de cierre; encuesta de satisfacción del programa.</p>
+  </div>
+</div>
+
+<div class="divider">◆ ◆ ◆</div>
+
+<!-- ═══════════════════════════════════════════ 5. METODOLOGÍA ═══════════════════════════════════════════ -->
+<h2>5. Metodología</h2>
+
+<p>El programa CONVIVE adopta una metodología <strong>experiencial y participativa</strong> fundamentada en los siguientes principios:</p>
+
+<ol>
+  <li><strong>Aprendizaje basado en la práctica:</strong> Cada sesión dedica al menos el 50% del tiempo a actividades prácticas (simulaciones, círculos restaurativos, diseño de estrategias), garantizando que los participantes no solo comprendan los conceptos, sino que los apliquen.</li>
+  <li><strong>Enfoque de secuencia didáctica:</strong> Las sesiones siguen un orden lógico progresivo: activación de saberes previos → construcción conceptual → práctica guiada → reflexión metacognitiva → compromiso de aplicación (Creswell, 2012) (citation:5).</li>
+  <li><strong>Aprendizaje entre pares:</strong> La mayor parte del trabajo se realiza en parejas, tríos o grupos pequeños, promoviendo el aprendizaje colaborativo y el intercambio de experiencias.</li>
+  <li><strong>Reflexión continua:</strong> Cada sesión cierra con un momento de reflexión y compromiso, y se implementa un «diario del mediador» como herramienta de seguimiento entre sesiones.</li>
+  <li><strong>Articulación con la práctica institucional:</strong> Los productos de cada sesión (juegos cooperativos, acuerdos digitales, decálogos, protocolos) se diseñan para ser implementados directamente en la institución, cerrando la brecha entre la formación y la acción.</li>
+</ol>
+
+<div class="divider">◆ ◆ ◆</div>
+
+<!-- ═══════════════════════════════════════════ 6. EVALUACIÓN ═══════════════════════════════════════════ -->
+<h2>6. Sistema de Evaluación</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tipo</th>
+      <th>Herramienta</th>
+      <th>Momento</th>
+      <th>Propósito</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Diagnóstica</td>
+      <td>Encuesta inicial de saberes y expectativas</td>
+      <td>Antes de la Sesión 1</td>
+      <td>Conocer el punto de partida de los participantes</td>
+    </tr>
+    <tr>
+      <td>Formativa</td>
+      <td>Observación participativa, rúbricas de prácticas, diario del mediador</td>
+      <td>Durante cada sesión</td>
+      <td>Retroalimentar el proceso de aprendizaje continuamente</td>
+    </tr>
+    <tr>
+      <td>De producto</td>
+      <td>Revisión de los productos diseñados en cada sesión (juegos, acuerdos, protocolos, decálogos)</td>
+      <td>Al final de cada sesión</td>
+      <td>Verificar la aplicabilidad de las producciones</td>
+    </tr>
+    <tr>
+      <td>Sumativa</td>
+      <td>Encuesta de satisfacción final, socialización del plan de acción institucional</td>
+      <td>Sesión 10</td>
+      <td>Valorar el impacto global del programa y proyectar continuidad</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="divider">◆ ◆ ◆</div>
+
+<!-- ═══════════════════════════════════════════ 7. RECURSOS ═══════════════════════════════════════════ -->
+<h2>7. Recursos Necesarios</h2>
+
+<h4>Recursos humanos</h4>
+<ul>
+  <li>1 facilitador principal (gestor de convivencia o docente con formación en mediación).</li>
+  <li>1 co-facilitador (para apoyo logístico y dinámicas grupales).</li>
+</ul>
+
+<h4>Recursos materiales</h4>
+<ul>
+  <li>Proyector y computador.</li>
+  <li>Papelería: cartulinas, marcadores, tarjetas de colores, post-its, papel kraft.</li>
+  <li>Impresiones: casos, guiones de círculos restaurativos, fichas de trabajo, rúbricas.</li>
+  <li>Material lúdico para juegos cooperativos (pelotas suaves, cuerdas, aros).</li>
+  <li>Manual de Mediación «Hagamos las Paces» — Alcaldía de Medellín (formato digital o impreso) (citation:11).</li>
+  <li>Certificados de participación.</li>
+  <li>Semillas de árbol para la ceremonia de cierre.</li>
+</ul>
+
+<h4>Recursos bibliográficos clave</h4>
+<ul>
+  <li>Ariza, R. (2007). <em>La justicia restaurativa para adolescentes en Colombia</em>. Editorial Civis.</li>
+  <li>Castellanos Angulo, M. A. (2018). <em>Ideas y potencialidades de la justicia restaurativa para la convivencia escolar pacífica</em> [Tesis de maestría]. Pontificia Universidad Javeriana.</li>
+  <li>Corporación Excelencia en la Justicia. (2006). <em>De la justicia restaurativa a la disciplina restaurativa</em>.</li>
+  <li>Ministerio de Educación Nacional. (2024). <em>Política Nacional de Convivencia Educativa 2024–2030</em>.</li>
+  <li>Alcaldía de Medellín. (1996). <em>Herramientas para Mediadores. Programa de Mediación en la Escuela Hagamos las Paces</em>.</li>
+</ul>
+
+<div class="divider">◆ ◆ ◆</div>
+
+<!-- ═══════════════════════════════════════════ 8. CRONOGRAMA ═══════════════════════════════════════════ -->
+<h2>8. Cronograma General</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Mes</th>
+      <th>Sesión</th>
+      <th>Nombre</th>
+      <th>Producto esperado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>1</td><td>«Raíces del CONVIVE»</td><td>Mural de conceptos; comprensión del marco normativo</td></tr>
+    <tr><td>2</td><td>2</td><td>«El termómetro emocional»</td><td>Diario emocional del mediador; estrategias de regulación</td></tr>
+    <tr><td>3</td><td>3</td><td>«Jugar sin dañar»</td><td>Kits de recreo seguro por ciclo</td></tr>
+    <tr><td>4</td><td>4</td><td>«La balanza justa»</td><td>Protocolo de mediación para justicia por mano propia</td></tr>
+    <tr><td>5</td><td>5</td><td>«El otro existe»</td><td>Guion de círculo de empatía; cartas de reconocimiento</td></tr>
+    <tr><td>6</td><td>6</td><td>«Desconectados para conectar»</td><td>Acuerdos de Convivencia Digital por ciclo</td></tr>
+    <tr><td>7</td><td>7</td><td>«IA con conciencia»</td><td>Decálogo del uso ético de la IA</td></tr>
+    <tr><td>8</td><td>8</td><td>«Escuchar es un acto de amor»</td><td>Tarjeta de bolsillo de escucha activa; rúbrica de observación</td></tr>
+    <tr><td>9</td><td>9</td><td>«Lo mío, lo tuyo, lo nuestro»</td><td>Protocolo de atención restaurativa para apropiación indebida</td></tr>
+    <tr><td>10</td><td>10</td><td>«Círculo de cierre»</td><td>Plan de acción institucional de convivencia</td></tr>
+  </tbody>
+</table>
+
+<div class="divider">◆ ◆ ◆</div>
+
+<!-- ═══════════════════════════════════════════ 9. REFERENCIAS ═══════════════════════════════════════════ -->
+<h2>9. Referencias</h2>
+
+<div class="references">
+  <p>Alcaldía de Medellín. (1996). <em>Herramientas para Mediadores. Programa de Mediación en la Escuela Hagamos las Paces</em>. Ministerio de Justicia y del Derecho.</p>
+
+  <p>Arias, J. (2017). Problemas y retos de la educación rural colombiana. <em>Educación y Ciudad</em>, (33), 53–62. https://doi.org/10.36737/01230425.v0.n33.2017.1647</p>
+
+  <p>Ariza, R. (2007). <em>La justicia restaurativa para adolescentes en Colombia</em>. Editorial Civis.</p>
+
+  <p>Bautista, M., & González, G. (2019). <em>Docencia rural en Colombia: Educar para la paz en medio del conflicto</em>. Fundación Compartir. https://doi.org/10.29043/liminar.v20i1.901</p>
+
+  <p>Castellanos Angulo, M. A. (2018). <em>Ideas y potencialidades de la justicia restaurativa para la convivencia escolar pacífica</em> [Tesis de maestría]. Pontificia Universidad Javeriana. https://doi.org/10.11144/Javeriana.10554.35075</p>
+
+  <p>Comisión para el Esclarecimiento de la Verdad, la Convivencia y la No Repetición. (2022). <em>Informe Final: Hay futuro si hay verdad. No es un mal menor. Niños, niñas y adolescentes en el conflicto armado</em> (Tomo 8). CEV. https://www.comisiondelaverdad.co/no-es-un-mal-menor</p>
+
+  <p>Corporación Excelencia en la Justicia. (2006). <em>De la justicia restaurativa a la disciplina restaurativa: La justicia restaurativa aplicada a la resolución de conflictos en el colegio</em>. CEJ-CAM. https://cej.org.co/wp-content/uploads/2006/03/De-la-justicia-restaurativa-a-la-disciplina-restaurativa_-la-justicia-restaurativa-aplicada-a-la-resoluci%C3%B3n-de-con%EF%AC%82ictos-en-el-colegio.pdf</p>
+
+  <p>Creswell, J. W. (2012). <em>Qualitative inquiry &amp; research design: Choosing among five approaches</em> (4.ª ed.). Sage Publications.</p>
+
+  <p>DANE. (2023). <em>Encuesta Nacional de Hogares</em>. https://microdatos.dane.gov.co/index.php/catalog/782</p>
+
+  <p>Ministerio de Educación Nacional. (2024). <em>Política Nacional de Convivencia Educativa (PNCE) 2024–2030</em>. Gobierno de Colombia.</p>
+</div>
+
+<div class="divider">◆ ◆ ◆</div>
+
+<!-- ═══════════════════════════════════════════ FOOTER ═══════════════════════════════════════════ -->
+<footer class="doc-footer">
+  <p>Programa CONVIVE — Construyendo Opciones No Violentas para la Vida Escolar</p>
+  <p>Institución Educativa Rafael Uribe Uribe · Distrito Especial de Ciencia, Tecnología e Innovación de Medellín · 2026</p>
+</footer>
+
+</body>
+</html>

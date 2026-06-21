@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mallas Curriculares Ciencias Sociales 1°-11° — IE Rafael Uribe Uribe</title>
+<style>
+:root {
+  --azul-1: #0a1628;
+  --azul-2: #1a3a5c;
+  --azul-3: #2a5a8c;
+  --azul-4: #3a7abc;
+  --azul-5: #4a9aec;
+  --azul-6: #6ab4ff;
+  --azul-7: #8aceff;
+  --azul-8: #aad8ff;
+  --azul-9: #cae6ff;
+  --azul-10: #eaf4ff;
+  --rojo: #C41E3A;
+  --amarillo: #FFD700;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: linear-gradient(135deg, var(--azul-1) 0%, var(--azul-2) 50%, #0d2137 100%);
+  color: #e0e8f0;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ANIMATED BACKGROUND */
+.bg-animation {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0; overflow: hidden;
+}
+.circle {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle, rgba(106,180,255,0.08) 0%, transparent 70%);
+  animation: pulse-float 15s infinite ease-in-out;
+}
+@keyframes pulse-float {
+  0%, 100% { transform: scale(1) translateY(0); opacity: 0.3; }
+  50% { transform: scale(1.2) translateY(-30px); opacity: 0.6; }
+}
+
+/* HEADER */
+.header {
+  background: linear-gradient(135deg, var(--azul-2) 0%, var(--azul-4) 100%);
+  padding: 60px 48px; text-align: center; position: relative; overflow: hidden; z-index: 1;
+}
+.header::before {
+  content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+  background: radial-gradient(ellipse at center, rgba(255,215,0,0.1) 0%, transparent 60%);
+  animation: header-glow 10s ease-in-out infinite alternate;
+}
+@keyframes header-glow {
+  0% { transform: translate(-15%, -15%) rotate(0deg); }
+  100% { transform: translate(15%, 15%) rotate(5deg); }
+}
+.header h1 {
+  font-size: 2.8em; font-weight: 800; color: #fff;
+  text-shadow: 0 4px 30px rgba(0,0,0,0.4); position: relative;
+  animation: slide-in-top 1s ease-out;
+}
+.header .subtitle {
+  font-size: 1.2em; color: var(--azul-8); margin-top: 12px; position: relative;
+  animation: slide-in-top 1s ease-out 0.3s both;
+}
+.header .institution {
+  font-size: 0.95em; color: var(--amarillo); margin-top: 8px; position: relative;
+  animation: slide-in-top 1s ease-out 0.5s both;
+}
+@keyframes slide-in-top { from { opacity:0; transform:translateY(-40px); } to { opacity:1; transform:translateY(0); } }
+
+/* CONTAINER */
+.container {
+  max-width: 1200px; margin: 0 auto; padding: 40px 24px;
+  position: relative; z-index: 1;
+}
+
+/* INTRO */
+.intro {
+  text-align: center; margin-bottom: 48px; animation: fade-in 1s ease-out 0.8s both;
+}
+.intro p { font-size: 1.05em; color: var(--azul-8); max-width: 700px; margin: 0 auto; }
+@keyframes fade-in { from { opacity:0; } to { opacity:1; } }
+
+/* GRID DE GRADOS */
+.grados-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* TARJETA DE GRADO */
+.grado-card {
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 28px 24px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  animation: card-in 0.6s ease-out both;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.grado-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, var(--rojo), var(--amarillo), var(--azul-5));
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+}
+.grado-card:hover::before { transform: scaleX(1); }
+.grado-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(74,154,236,0.15);
+  border-color: rgba(106,180,255,0.3);
+  background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+}
+.grado-card:active { transform: translateY(-4px) scale(1.01); }
+
+/* Número DEL GRADO */
+.grado-number {
+  font-size: 3em; font-weight: 800; line-height: 1;
+  background: linear-gradient(135deg, var(--azul-5), var(--azul-7));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+  transition: all 0.3s;
+}
+.grado-card:hover .grado-number {
+  background: linear-gradient(135deg, var(--amarillo), var(--azul-5));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transform: scale(1.1);
+}
+
+/* TÍTULO DEL GRADO */
+.grado-title {
+  font-size: 1.1em; font-weight: 700; color: #fff; margin-bottom: 12px;
+}
+
+/* PERIODOS */
+.grado-periodos {
+  display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.periodo-badge {
+  padding: 3px 10px; border-radius: 10px; font-size: 0.72em; font-weight: 600;
+  transition: all 0.3s;
+}
+.periodo-badge.p1 { background: rgba(232,168,124,0.2); color: #e8a87c; border: 1px solid rgba(232,168,124,0.3); }
+.periodo-badge.p2 { background: rgba(74,154,236,0.2); color: #4a9aec; border: 1px solid rgba(74,154,236,0.3); }
+.periodo-badge.p3 { background: rgba(124,184,124,0.2); color: #7cb87c; border: 1px solid rgba(124,184,124,0.3); }
+.grado-card:hover .periodo-badge { transform: scale(1.05); }
+
+/* DESCRIPCIÓN */
+.grado-desc {
+  font-size: 0.82em; color: rgba(255,255,255,0.5); line-height: 1.4;
+}
+
+/* FLECHA */
+.grado-arrow {
+  position: absolute; right: 20px; bottom: 20px;
+  font-size: 1.5em; color: rgba(255,255,255,0.2);
+  transition: all 0.3s;
+}
+.grado-card:hover .grado-arrow {
+  color: var(--azul-5);
+  transform: translateX(5px);
+}
+
+/* ANIMACIÓN DE ENTRADA */
+.grado-card:nth-child(1) { animation-delay: 0.1s; }
+.grado-card:nth-child(2) { animation-delay: 0.15s; }
+.grado-card:nth-child(3) { animation-delay: 0.2s; }
+.grado-card:nth-child(4) { animation-delay: 0.25s; }
+.grado-card:nth-child(5) { animation-delay: 0.3s; }
+.grado-card:nth-child(6) { animation-delay: 0.35s; }
+.grado-card:nth-child(7) { animation-delay: 0.4s; }
+.grado-card:nth-child(8) { animation-delay: 0.45s; }
+.grado-card:nth-child(9) { animation-delay: 0.5s; }
+.grado-card:nth-child(10) { animation-delay: 0.55s; }
+.grado-card:nth-child(11) { animation-delay: 0.6s; }
+@keyframes card-in {
+  from { opacity:0; transform: translateY(30px) scale(0.95); }
+  to { opacity:1; transform: translateY(0) scale(1); }
+}
+
+/* FOOTER */
+.footer {
+  text-align: center; padding: 40px 20px; color: rgba(255,255,255,0.3); font-size: 0.85em;
+  position: relative; z-index: 1;
+}
+
+/* RESPONSIVE */
+@media (max-width: 700px) {
+  .grados-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+  .header h1 { font-size: 1.8em; }
+  .header { padding: 40px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ANIMATED BACKGROUND -->
+<div class="bg-animation">
+  <div class="circle" style="width:500px;height:500px;left:5%;top:10%;animation-delay:0s;"></div>
+  <div class="circle" style="width:300px;height:300px;left:60%;top:30%;animation-delay:3s;"></div>
+  <div class="circle" style="width:400px;height:400px;left:30%;top:60%;animation-delay:6s;"></div>
+  <div class="circle" style="width:250px;height:250px;left:80%;top:70%;animation-delay:9s;"></div>
+  <div class="circle" style="width:350px;height:350px;left:10%;top:80%;animation-delay:12s;"></div>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="institution">🏫 INSTITUCIÓN EDUCATIVA RAFAEL URIBE URIBE</div>
+  <h1>Mallas Curriculares</h1>
+  <div class="subtitle">Ciencias Sociales · Historia · Geografía · Constitución y Democracia</div>
+</div>
+
+<div class="container">
+
+  <div class="intro">
+    <p>Selecciona un grado para visualizar la malla curricular completa con DBA, contenidos, competencias, indicadores y ajustes de inclusión.</p>
+  </div>
+
+  <div class="grados-grid">
+
+    <a href="grado-01.html" class="grado-card">
+      <div class="grado-number">1°</div>
+      <div class="grado-title">Grado Primero</div>
+      <div class="grado-periodos">
+        <span class="periodo-badge p1">P1: Mi familia</span>
+        <span class="periodo-badge p2">P2: Mi municipio</span>
+        <span class="periodo-badge p3">P3: Colombia</span>
+      </div>
+      <div class="grado-desc">Entorno familiar, escolar y comunitario. Geografía local. Identidad colombiana.</div>
+      <div class="grado-arrow">→</div>
+    </a>
+
+    <a href="grado-02.html" class="grado-card">
+      <div class="grado-number">2°</div>
+      <div class="grado-title">Grado Segundo</div>
+      <div class="grado-periodos">
+        <span class="periodo-badge p1">P1: Comunidad</span>
+        <span class="periodo-badge p2">P2: Regiones</span>
+        <span class="periodo-badge p3">P3: Diversidad</span>
+      </div>
+      <div class="grado-desc">Instituciones comunitarias. Regiones de Colombia. Diversidad cultural.</div>
+      <div class="grado-arrow">→</div>
+    </a>
+
+    <a href="grado-03.html" class="grado-card">
+      <div class="grado-number">3°</div>
+      <div class="grado-title">Grado Tercero</div>
+      <div class="grado-periodos">
+        <span class="periodo-badge p1">P1: Geografía</span>
+        <span class="periodo-badge p2">P2: Historia regional</span>
+        <span class="periodo-badge p3">P3: Territorio</span>
+      </div>
+      <div class="grado-desc">Geografía del departamento. Historia regional. Territorio y cultura.</div>
+      <div class="grado-arrow">→</div>
+    </a>
+
+    <a href="grado-04.html" class="grado-card">
+      <div class="grado-number">4°</div>
+      <div class="grado-title">Grado Cuarto</div>
+      <div class="grado-periodos">
+        <span class="periodo-badge p1">P1: Organización política</span>
+        <span class="periodo-badge p2">P2: Regiones naturales</span>
+        <span class="periodo-badge p3">P3: Diversidad</span>
+      </div>
+      <div class="grado-desc">Organización política de Colombia. Regiones naturales. Diversidad cultural.</div>
+      <div class="grado-arrow">→</div>
+    </a>
+
+    <a href="grado-05.html" class="grado-card">
+      <div class="grado-number">5°</div>
+      <div class="grado-title">Grado Quinto</div>
+      <div class="grado-periodos">
+        <span class="periodo-badge p1">P1: Civilizaciones</span>
+        <span class="periodo-badge p2">P2: Conquista</span>
+        <span class="periodo-badge p3">P3: Derechos</span>
+      </div>
+      <div class="grado-desc">Primeras civilizaciones. Conquista de América. Derechos de los niños.</div>
+      <div class="grado-arrow">→</div>
+    </a>
+
+    <a href="grado-06.html" class="grado-card">
+      <div class="grado-number">6°</div>
+      <div class="grado-title">Grado Sexto</div>
+      <div class="grado-periodos">
+        <span class="periodo-badge p1">P1: Civilizaciones antiguas</span>
+        <span class="periodo-badge p2">P2: Estado colombiano</span>
+        <span class="periodo-badge p3">P3: Participación</span>
+      </div>
+      <div class="grado-desc">Civilizaciones antiguas. Estado colombiano. Participación ciudadana.</div>
+      <div class="grado-arrow">→</div>
+    </a>
+
+    <a href="grado-07.html" class="grado-card">
+      <div class="grado-number">7°</div>
+      <div class="grado-title">Grado Séptimo</div>
+      <div class="grado-periodos">
+        <span class="periodo-badge p1">P1: Edad Media</span>
+        <span class="periodo-badge p2">P2: Independencias</span>
+        <span class="periodo-badge p3">P3: Geografía de América</span>
+      </div>
+      <div class="grado-desc">Edad Media y Renacimiento. Independencias en América Latina. Geografía de América.</div>
+      <div class="grado-arrow">→</div>
+    </a>
+
+    <a href="grado-08.html" class="grado-card">
+      <div class="grado-number">8°</div>
+      <div class="grado-title">Grado Octavo</div>
+      <div class="grado-periodos">
+        <span class="periodo-badge p1">P1: Siglo XIX</span>
+        <span class="periodo-badge p2">P2: Medio ambiente</span>
+        <span class="periodo-badge p3">P3: Conflictos y paz</span>
+      </div>
+      <div class="grado-desc">Siglo XIX en Colombia. Problemáticas ambientales. Conflictos y construcción de paz.</div>
+      <div class="grado-arrow">→</div>
+    </a>
+
+    <a href="grado-09.html" class="grado-card">
+      <div class="grado-number">9°</div>
+      <div class="grado-title">Grado Noveno</div>
+      <div class="grado-periodos">
+        <span class="periodo-badge p1">P1: Territorio y ciudadanía</span>
+        <span class="periodo-badge p2">P2: América Latina</span>
+        <span class="periodo-badge p3">P3: Mundo global</span>
+      </div>
+      <div class="grado-desc">Territorio, identidad y ciudadanía. América Latina. Desafíos del siglo XXI.</div>
+      <div class="grado-arrow">→</div>
+    </a>
+
+    <a href="grado-10.html" class="grado-card">
+      <div class="grado-number">10°</div>
+      <div class="grado-title">Grado Décimo</div>
+      <div class="grado-periodos">
+        <span class="periodo-badge p1">P1: Siglo XX colombiano</span>
+        <span class="periodo-badge p2">P2: Economía latinoamericana</span>
+        <span class="periodo-badge p3">P3: Geopolítica</span>
+      </div>
+      <div class="grado-desc">Historia de Colombia siglo XX. Economía latinoamericana. Geopolítica mundial.</div>
+      <div class="grado-arrow">→</div>
+    </a>
+
+    <a href="grado-11.html" class="grado-card">
+      <div class="grado-number">11°</div>
+      <div class="grado-title">Grado Undécimo</div>
+      <div class="grado-periodos">
+        <span class="periodo-badge p1">P1: Colombia global</span>
+        <span class="periodo-badge p2">P2: Ciudadanía global</span>
+        <span class="periodo-badge p3">P3: Proyecto de vida</span>
+      </div>
+      <div class="grado-desc">Colombia en el contexto global. Derechos humanos y desarrollo sostenible. Proyecto de vida.</div>
+      <div class="grado-arrow">→</div>
+    </a>
+
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>📚 Malla Curricular Ciencias Sociales 1°-11° · IE Rafael Uribe Uribe · Año 2025</p>
+  <p style="margin-top:4px;">Enfoque Constructivista-Humanista · Alineado a DBA y Estándares del MEN</p>
+</div>
+
+</body>
+</html>

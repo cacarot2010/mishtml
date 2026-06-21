@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marco Teórico y Conceptual · NotebookLM · Grado 10</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   RESET + BASE — azul oscuro profundo
+   ═══════════════════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:#060d1a;
+  color:#e2e8f0;
+  overflow:hidden;
+  height:100vh;
+  width:100vw;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ═══ CANVAS PARTÍCULAS ═══ */
+#bg-canvas {
+  position:fixed; inset:0; z-index:0;
+  width:100%; height:100%;
+}
+#particles-container { position:fixed; inset:0; z-index:2; pointer-events:none; }
+
+/* ═══ ESCENA (contenedor 3D para zoom Prezi) ═══ */
+#scene {
+  position:fixed; inset:0; z-index:1;
+  width:100%; height:100%;
+  perspective:1500px;
+  transform-style:preserve-3d;
+  transition:transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events:none;
+}
+
+/* ═══ CADA SLIDE — oculto por defecto ═══ */
+.slide {
+  position:absolute; top:0; left:0;
+  width:100vw; height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  flex-direction:column;
+  padding:4vh 6vw;
+  opacity:0;
+  visibility:hidden;
+  transition:opacity 0.5s ease, visibility 0s 0.5s;
+  transform:translateZ(0);
+}
+.slide.active {
+  opacity:1;
+  visibility:visible;
+  transition:opacity 0.6s ease 0.1s, visibility 0s 0s;
+  pointer-events:auto;
+}
+
+/* ═══ TARJETA GLASS — más grande, más legible ═══ */
+.glass {
+  background:rgba(255,255,255,0.035);
+  backdrop-filter:blur(28px) saturate(1.3);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:32px;
+  padding:3.5em 4em;
+  max-width:1000px;
+  width:100%;
+  box-shadow:0 40px 100px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+  position:relative;
+  overflow:hidden;
+  transform:translateY(20px) scale(0.96);
+  opacity:0;
+  transition:all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.glass::before {
+  content:''; position:absolute; top:-50%; left:-50%;
+  width:200%; height:200%;
+  background:radial-gradient(circle at 25% 20%, rgba(56,189,248,0.04), transparent 55%),
+             radial-gradient(circle at 75% 80%, rgba(129,140,248,0.04), transparent 55%);
+  pointer-events:none;
+}
+.slide.active .glass {
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+
+/* ═══ TIPOGRAFÍA — más grande ═══ */
+h1 {
+  font-size:clamp(2.6rem, 5.5vw, 4.8rem);
+  font-weight:900;
+  line-height:1.05;
+  letter-spacing:-0.03em;
+  background:linear-gradient(135deg, #f0f9ff 20%, #38bdf8 50%, #818cf8 80%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:0.3em;
+}
+h2 {
+  font-size:clamp(1.8rem, 3.8vw, 3.2rem);
+  font-weight:800;
+  line-height:1.2;
+  letter-spacing:-0.02em;
+  background:linear-gradient(135deg, #e0f2fe, #38bdf8);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:0.35em;
+}
+h3 {
+  font-size:clamp(1.2rem, 2.2vw, 1.8rem);
+  font-weight:600;
+  color:#38bdf8;
+  margin-bottom:0.5em;
+  letter-spacing:-0.01em;
+}
+.subtitle {
+  font-size:clamp(1.1rem, 1.8vw, 1.4rem);
+  font-weight:400;
+  color:rgba(255,255,255,0.55);
+  letter-spacing:0.01em;
+  margin-bottom:0.7em;
+  line-height:1.5;
+}
+p, li {
+  font-size:clamp(1.05rem, 1.5vw, 1.25rem);
+  line-height:1.75;
+  color:rgba(255,255,255,0.72);
+  margin-bottom:0.6em;
+}
+.small { font-size:clamp(0.85rem, 1.1vw, 1rem); color:rgba(255,255,255,0.4); }
+strong { color:#e2e8f0; }
+
+/* ═══ BADGES ═══ */
+.badge {
+  display:inline-block;
+  padding:0.35em 1.2em;
+  border-radius:100px;
+  font-size:clamp(0.75rem, 0.9vw, 0.85rem);
+  font-weight:600;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  margin-bottom:0.8em;
+}
+.badge-cyan { background:rgba(56,189,248,0.12); color:#38bdf8; border:1px solid rgba(56,189,248,0.2); }
+.badge-indigo { background:rgba(129,140,248,0.12); color:#818cf8; border:1px solid rgba(129,140,248,0.2); }
+.badge-amber { background:rgba(251,191,36,0.12); color:#fbbf24; border:1px solid rgba(251,191,36,0.2); }
+.badge-rose { background:rgba(244,63,94,0.12); color:#f43f5e; border:1px solid rgba(244,63,94,0.2); }
+
+/* ═══ TARJETAS INTERNAS ═══ */
+.card-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+  gap:1.2em;
+  margin-top:1em;
+  width:100%;
+}
+.mini-card {
+  background:rgba(255,255,255,0.035);
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:18px;
+  padding:1.3em 1.5em;
+  transition:all 0.3s ease;
+}
+.mini-card:hover {
+  background:rgba(255,255,255,0.06);
+  transform:translateY(-3px);
+  border-color:rgba(56,189,248,0.15);
+}
+.mini-card .icon { font-size:2rem; margin-bottom:0.3em; }
+.mini-card h4 {
+  font-size:clamp(1rem, 1.3vw, 1.1rem);
+  font-weight:600;
+  color:#f0f9ff;
+  margin-bottom:0.3em;
+}
+.mini-card p {
+  font-size:clamp(0.85rem, 1.1vw, 0.95rem);
+  color:rgba(255,255,255,0.5);
+  margin-bottom:0;
+}
+
+/* ═══ LISTA DE PASOS ═══ */
+.steps {
+  list-style:none;
+  counter-reset:step;
+  width:100%;
+  padding:0;
+}
+.steps li {
+  counter-increment:step;
+  display:flex;
+  gap:1em;
+  align-items:flex-start;
+  padding:0.7em 0;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+  margin-bottom:0;
+}
+.steps li:last-child { border-bottom:none; }
+.steps li::before {
+  content:counter(step);
+  flex-shrink:0;
+  width:34px; height:34px;
+  border-radius:50%;
+  background:linear-gradient(135deg, #38bdf8, #6366f1);
+  color:#fff;
+  font-weight:700;
+  font-size:0.9rem;
+  display:flex; align-items:center; justify-content:center;
+  margin-top:0.1em;
+}
+.steps li .highlight { color:#38bdf8; font-weight:500; }
+
+/* ═══ TIMELINE ═══ */
+.timeline {
+  position:relative;
+  padding-left:2em;
+  margin-top:0.8em;
+  width:100%;
+}
+.timeline::before {
+  content:'';
+  position:absolute; left:8px; top:0; bottom:0;
+  width:2.5px;
+  background:linear-gradient(to bottom, #38bdf8, #818cf8, #fbbf24, #f43f5e, #38bdf8);
+}
+.timeline-item {
+  position:relative;
+  padding:0.7em 0 0.7em 1.2em;
+}
+.timeline-item::before {
+  content:'';
+  position:absolute; left:-1.35em; top:1em;
+  width:12px; height:12px;
+  border-radius:50%;
+  background:#38bdf8;
+  border:3px solid rgba(6,13,26,0.95);
+}
+.timeline-item:nth-child(2)::before { background:#818cf8; }
+.timeline-item:nth-child(3)::before { background:#fbbf24; }
+.timeline-item:nth-child(4)::before { background:#f43f5e; }
+.timeline-item:nth-child(5)::before { background:#38bdf8; }
+.timeline-item strong { color:#f0f9ff; display:block; margin-bottom:0.1em; font-size:clamp(0.95rem, 1.2vw, 1.1rem); }
+.timeline-item p { font-size:clamp(0.85rem, 1vw, 0.95rem); margin-bottom:0; color:rgba(255,255,255,0.55); }
+
+/* ═══ CALLOUT ═══ */
+.callout {
+  background:linear-gradient(135deg, rgba(56,189,248,0.08), rgba(129,140,248,0.08));
+  border-left:3px solid #38bdf8;
+  border-radius:14px;
+  padding:1em 1.5em;
+  margin:1em 0;
+  width:100%;
+}
+.callout p { margin-bottom:0; font-size:clamp(0.9rem, 1.1vw, 1rem); }
+.callout strong { color:#fbbf24; }
+
+/* ═══ COMPARACIÓN (Marco Teórico vs Conceptual) ═══ */
+.split-row {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1.5em;
+  margin-top:0.8em;
+  width:100%;
+}
+.split-card {
+  border-radius:18px;
+  padding:1.5em;
+  border:1px solid rgba(255,255,255,0.05);
+}
+.split-card.left { background:linear-gradient(135deg, rgba(56,189,248,0.06), transparent); border-color:rgba(56,189,248,0.12); }
+.split-card.right { background:linear-gradient(135deg, rgba(129,140,248,0.06), transparent); border-color:rgba(129,140,248,0.12); }
+.split-card h4 { color:#f0f9ff; font-size:clamp(1.1rem, 1.4vw, 1.2rem); font-weight:700; margin-bottom:0.4em; }
+.split-card p { font-size:clamp(0.9rem, 1.1vw, 1rem); margin-bottom:0.3em; }
+.split-card .label {
+  display:inline-block; font-size:clamp(0.65rem, 0.8vw, 0.75rem);
+  font-weight:600; text-transform:uppercase; letter-spacing:0.06em;
+  padding:0.2em 0.7em; border-radius:8px; margin-bottom:0.5em;
+}
+.split-card.left .label { background:rgba(56,189,248,0.12); color:#38bdf8; }
+.split-card.right .label { background:rgba(129,140,248,0.12); color:#818cf8; }
+
+/* ═══ MOCKUP NOTEBOOKLM ═══ */
+.notebooklm-mock {
+  background:rgba(129,140,248,0.05);
+  border:1px solid rgba(129,140,248,0.1);
+  border-radius:14px;
+  padding:1em 1.3em;
+  margin:0.8em 0;
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:0.8em;
+  font-size:clamp(0.85rem, 1vw, 0.95rem);
+  color:rgba(255,255,255,0.65);
+}
+.notebooklm-mock .nm-icon {
+  width:40px; height:40px;
+  border-radius:10px;
+  background:linear-gradient(135deg, #6366f1, #38bdf8);
+  display:flex; align-items:center; justify-content:center;
+  color:#fff;
+  font-weight:700;
+  font-size:1rem;
+  flex-shrink:0;
+}
+.notebooklm-mock .nm-text { flex:1; }
+.notebooklm-mock .nm-text strong { color:#f0f9ff; display:block; margin-bottom:0.1em; }
+.notebooklm-mock .nm-text span { font-size:clamp(0.75rem, 0.9vw, 0.85rem); color:rgba(255,255,255,0.4); }
+
+/* ═══ DECORACIONES ═══ */
+.decor {
+  position:absolute; border-radius:50%; pointer-events:none; z-index:0; opacity:0.1;
+}
+.decor-1 {
+  width:350px; height:350px;
+  background:radial-gradient(circle, #38bdf8, transparent);
+  top:-12%; right:-8%;
+  animation:float1 10s ease-in-out infinite;
+}
+.decor-2 {
+  width:280px; height:280px;
+  background:radial-gradient(circle, #818cf8, transparent);
+  bottom:-8%; left:-8%;
+  animation:float2 12s ease-in-out infinite;
+}
+.decor-3 {
+  width:200px; height:200px;
+  background:radial-gradient(circle, #6366f1, transparent);
+  top:45%; left:55%;
+  animation:float3 14s ease-in-out infinite;
+}
+@keyframes float1 {
+  0%,100% { transform:translate(0,0) scale(1); }
+  50% { transform:translate(-35px, 25px) scale(1.08); }
+}
+@keyframes float2 {
+  0%,100% { transform:translate(0,0) scale(1); }
+  50% { transform:translate(25px, -35px) scale(1.12); }
+}
+@keyframes float3 {
+  0%,100% { transform:translate(0,0) scale(1); }
+  50% { transform:translate(-25px, -25px) scale(1.06); }
+}
+
+/* ═══ PARTÍCULAS ═══ */
+@keyframes particleFloat {
+  0% { opacity:0; transform:translateY(0) translateX(0) scale(0); }
+  20% { opacity:0.8; }
+  80% { opacity:0.8; }
+  100% { opacity:0; transform:translateY(-130px) translateX(40px) scale(1.2); }
+}
+.particle {
+  position:fixed; z-index:2;
+  width:5px; height:5px;
+  border-radius:50%;
+  pointer-events:none;
+  opacity:0;
+}
+
+/* ═══ NAVEGACIÓN ═══ */
+.nav-bar {
+  position:fixed; z-index:100;
+  bottom:3vh; left:50%;
+  transform:translateX(-50%);
+  display:flex; gap:1em;
+  align-items:center;
+  background:rgba(6,13,26,0.7);
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:60px;
+  padding:0.5em 1em;
+}
+.nav-btn {
+  width:48px; height:48px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.04);
+  color:#e2e8f0;
+  font-size:1.2rem;
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:all 0.3s ease;
+}
+.nav-btn:hover {
+  background:rgba(56,189,248,0.15);
+  border-color:#38bdf8;
+  transform:scale(1.1);
+}
+.nav-btn:disabled { opacity:0.15; cursor:default; pointer-events:none; }
+.nav-dots { display:flex; gap:0.45em; }
+.nav-dot {
+  width:8px; height:8px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.15);
+  transition:all 0.5s ease;
+  cursor:pointer;
+}
+.nav-dot.active { background:#38bdf8; width:28px; border-radius:4px; }
+.nav-counter {
+  font-size:clamp(0.7rem, 0.9vw, 0.8rem);
+  color:rgba(255,255,255,0.3);
+  font-weight:500;
+  letter-spacing:0.04em;
+  min-width:55px;
+  text-align:center;
+}
+
+/* ═══ PORTADA ═══ */
+.slide-cover .grade {
+  font-size:clamp(0.8rem, 1vw, 0.95rem);
+  color:rgba(255,255,255,0.35);
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  margin-top:1.5em;
+}
+.slide-cover .logos {
+  display:flex; gap:1.2em; justify-content:center; margin-top:1.2em; flex-wrap:wrap;
+}
+.slide-cover .logos span {
+  font-size:clamp(0.75rem, 0.9vw, 0.85rem);
+  color:rgba(255,255,255,0.25);
+  padding:0.35em 0.9em;
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:10px;
+  background:rgba(255,255,255,0.02);
+}
+
+/* ═══ SVG MAPA ═══ */
+.map-container {
+  width:100%; margin-top:0.8em; display:flex; justify-content:center;
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width:768px) {
+  .glass { padding:2em 1.8em; border-radius:24px; }
+  .slide { padding:3vh 4vw; }
+  .split-row { grid-template-columns:1fr; }
+  .card-grid { grid-template-columns:1fr; }
+  .nav-btn { width:40px; height:40px; font-size:1rem; }
+  .nav-bar { padding:0.4em 0.7em; gap:0.6em; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ CANVAS PARTÍCULAS ═══ -->
+<canvas id="bg-canvas"></canvas>
+<div id="particles-container"></div>
+
+<!-- ═══ DECORACIONES ═══ -->
+<div class="decor decor-1"></div>
+<div class="decor decor-2"></div>
+<div class="decor decor-3"></div>
+
+<!-- ═══ ESCENA ═══ -->
+<div id="scene">
+
+  <!-- ─── SLIDE 0: PORTADA ─── -->
+  <div class="slide slide-cover active" data-index="0">
+    <div class="glass">
+      <div class="badge badge-cyan">🎯 Grado 10 · Ciencias Sociales</div>
+      <h1>Construye tu<br>Marco Teórico y Conceptual</h1>
+      <p class="subtitle">Con la ayuda de <strong>Google NotebookLM</strong> — tu asistente de investigación con IA</p>
+      <div style="margin-top:0.8em;">
+        <span style="display:inline-block; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); border-radius:14px; padding:0.5em 1.4em; font-size:clamp(0.8rem, 1vw, 0.9rem); color:rgba(255,255,255,0.45);">
+          🧠 Aprende a investigar como todo un académico
+        </span>
+      </div>
+      <div class="logos">
+        <span>📚 Google NotebookLM</span>
+        <span>🔍 Investigación</span>
+        <span>✍️ Marco Teórico</span>
+        <span>📐 Marco Conceptual</span>
+      </div>
+      <div class="grade">Usa las flechas o las teclas ← → para navegar</div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 1: ¿MARCO TEÓRICO? ¿MARCO CONCEPTUAL? ─── -->
+  <div class="slide" data-index="1">
+    <div class="glass">
+      <h2>🤔 ¿Marco Teórico o Marco Conceptual?</h2>
+      <p class="subtitle">No son lo mismo, pero trabajan juntos. Aquí la diferencia:</p>
+      <div class="split-row">
+        <div class="split-card left">
+          <div class="label">📖 Marco Teórico</div>
+          <h4>Las teorías que sostienen tu trabajo</h4>
+          <p>Es el conjunto de <strong style="color:#38bdf8;">teorías, autores y enfoques</strong> que ya existen sobre tu tema.</p>
+          <p>Responde a: <em style="color:rgba(255,255,255,0.5);">"¿Qué han dicho los expertos sobre esto?"</em></p>
+          <p style="font-size:clamp(0.8rem, 0.95vw, 0.9rem); color:rgba(255,255,255,0.35); margin-top:0.5em;">Ej: Teoría del conflicto · Constructivismo · Pensamiento crítico</p>
+        </div>
+        <div class="split-card right">
+          <div class="label">🧩 Marco Conceptual</div>
+          <h4>Tus propios conceptos clave</h4>
+          <p>Son los <strong style="color:#818cf8;">conceptos específicos</strong> que tú defines y usas en tu investigación.</p>
+          <p>Responde a: <em style="color:rgba(255,255,255,0.5);">"¿Qué significan estos términos para mi trabajo?"</em></p>
+          <p style="font-size:clamp(0.8rem, 0.95vw, 0.9rem); color:rgba(255,255,255,0.35); margin-top:0.5em;">Ej: Identidad cultural · Participación ciudadana · Desarrollo sostenible</p>
+        </div>
+      </div>
+      <div class="callout">
+        <p>💡 <strong>En una frase:</strong> El marco teórico es el <strong>piso</strong> de teorías donde te paras; el marco conceptual son las <strong>herramientas</strong> con las que construyes.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 2: GOOGLE NOTEBOOKLM ─── -->
+  <div class="slide" data-index="2">
+    <div class="glass">
+      <div class="badge badge-indigo">🚀 La herramienta estrella</div>
+      <h2>¿Qué es Google NotebookLM?</h2>
+      <p class="subtitle">Un asistente de IA diseñado para <strong>investigadores</strong> como tú</p>
+      <div class="card-grid" style="grid-template-columns:repeat(3,1fr);">
+        <div class="mini-card">
+          <div class="icon">📤</div>
+          <h4>Sube tus fuentes</h4>
+          <p>PDFs, textos, videos de YouTube, Google Docs. Hasta 50 fuentes por cuaderno.</p>
+        </div>
+        <div class="mini-card">
+          <div class="icon">🤖</div>
+          <h4>IA que entiende</h4>
+          <p>No solo busca palabras clave: <em>comprende</em> el contenido y lo relaciona.</p>
+        </div>
+        <div class="mini-card">
+          <div class="icon">📝</div>
+          <h4>Responde con citas</h4>
+          <p>Cada respuesta incluye la fuente exacta. Siempre puedes verificar.</p>
+        </div>
+      </div>
+      <div class="notebooklm-mock" style="margin-top:0.8em;">
+        <div class="nm-icon">N</div>
+        <div class="nm-text">
+          <strong>NotebookLM</strong>
+          <span>→ notebooklm.google.com · Gratis con tu cuenta de Google</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 3: PASO 1 ─── -->
+  <div class="slide" data-index="3">
+    <div class="glass">
+      <div class="badge badge-cyan">📌 Paso 1 de 5</div>
+      <h2>Reúne tus fuentes</h2>
+      <p class="subtitle">Todo marco teórico empieza con <strong>buena materia prima</strong></p>
+      <p style="margin-bottom:0.3em;">Antes de abrir NotebookLM, consigue tus fuentes:</p>
+      <div class="card-grid" style="grid-template-columns:repeat(2,1fr);">
+        <div class="mini-card">
+          <div class="icon">📚</div>
+          <h4>Libros y capítulos</h4>
+          <p>De tu biblioteca escolar, PDFs académicos o Google Books.</p>
+        </div>
+        <div class="mini-card">
+          <div class="icon">📄</div>
+          <h4>Artículos académicos</h4>
+          <p>Google Académico, Redalyc, SciELO, Dialnet. ¡Filtra por autor!</p>
+        </div>
+        <div class="mini-card">
+          <div class="icon">🏛️</div>
+          <h4>Documentos oficiales</h4>
+          <p>MEN, UNESCO, leyes, planes de desarrollo. Fuentes institucionales.</p>
+        </div>
+        <div class="mini-card">
+          <div class="icon">🎬</div>
+          <h4>Videos y conferencias</h4>
+          <p>YouTube (NotebookLM los procesa), podcasts académicos.</p>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:0.6em;">
+        <p>🎯 <strong>Consejo:</strong> Busca al menos <strong>3 autores distintos</strong> que hablen de tu tema. Mientras más diversos, más rico será tu marco.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 4: PASO 2 ─── -->
+  <div class="slide" data-index="4">
+    <div class="glass">
+      <div class="badge badge-cyan">📌 Paso 2 de 5</div>
+      <h2>Sube tus fuentes a NotebookLM</h2>
+      <p class="subtitle">Convierte tu material en un <strong>cuaderno inteligente</strong></p>
+      <ol class="steps">
+        <li><strong>Abre</strong> <span class="highlight">notebooklm.google.com</span> e inicia sesión con tu cuenta del colegio</li>
+        <li><strong>Crea un nuevo cuaderno</strong> y asígnale el nombre de tu proyecto de investigación</li>
+        <li><strong>Sube tus fuentes</strong> — PDF, texto, YouTube, Google Docs. NotebookLM los procesa al instante</li>
+        <li><strong>¡Listo!</strong> Ahora puedes hacerle preguntas sobre todo lo que subiste y te responderá citando cada fuente</li>
+      </ol>
+      <div class="notebooklm-mock" style="margin-top:0.6em;">
+        <div class="nm-icon" style="background:linear-gradient(135deg, #fbbf24, #f43f5e);">+</div>
+        <div class="nm-text">
+          <strong>Nuevo cuaderno</strong>
+          <span>Ej: "Marco teórico - Conflicto armado en Colombia"</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 5: PASO 3 ─── -->
+  <div class="slide" data-index="5">
+    <div class="glass">
+      <div class="badge badge-cyan">📌 Paso 3 de 5</div>
+      <h2>Extrae conceptos clave con IA</h2>
+      <p class="subtitle">Pregúntale a NotebookLM y <strong>obtén respuestas con fuentes</strong></p>
+      <p style="margin-bottom:0.4em;">Estas son las preguntas mágicas que puedes hacerle:</p>
+      <div class="timeline">
+        <div class="timeline-item">
+          <strong>🔍 "Extrae los conceptos principales de todas mis fuentes"</strong>
+          <p>NotebookLM te devuelve una lista organizada con citas</p>
+        </div>
+        <div class="timeline-item">
+          <strong>👤 "¿Qué autores hablan sobre [tu tema] y qué dice cada uno?"</strong>
+          <p>Obtienes un mapa de autores con sus posturas — ideal para el marco teórico</p>
+        </div>
+        <div class="timeline-item">
+          <strong>🔗 "¿Qué relaciones hay entre los conceptos de mis fuentes?"</strong>
+          <p>Te ayuda a encontrar conexiones que quizá no habías visto</p>
+        </div>
+        <div class="timeline-item">
+          <strong>📋 "Crea un glosario de términos clave con definiciones de mis fuentes"</strong>
+          <p>¡Tu marco conceptual empieza a escribirse solo!</p>
+        </div>
+        <div class="timeline-item">
+          <strong>⚠️ "¿Hay contradicciones entre los autores que subí?"</strong>
+          <p>Identifica debates académicos — eso enriquece tu marco teórico</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 6: PASO 4 ─── -->
+  <div class="slide" data-index="6">
+    <div class="glass">
+      <div class="badge badge-amber">✍️ Paso 4 de 5</div>
+      <h2>Construye tu Marco Teórico</h2>
+      <p class="subtitle">Organiza las teorías en una <strong>narrativa coherente</strong></p>
+      <p>Con lo que NotebookLM te ayudó a extraer, ahora:</p>
+      <ol class="steps">
+        <li><strong>Agrupa autores afines</strong> — los que piensan parecido van juntos</li>
+        <li><strong>Identifica debates</strong> — ¿hay autores que discrepan? ¡Eso es oro para tu marco!</li>
+        <li><strong>Construye una narrativa:</strong> "Mientras [Autor A] plantea que..., [Autor B] sostiene que..., en este trabajo adoptamos una postura intermedia porque..."</li>
+        <li><strong>Cita siempre:</strong> NotebookLM te da la fuente exacta. Úsala con APA 7ª ed.</li>
+      </ol>
+      <div class="callout">
+        <p>📖 <strong>Recuerda:</strong> El marco teórico no es una lista de autores. Es una <strong>conversación</strong> entre ellos que le da sentido a tu investigación.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 7: PASO 5 ─── -->
+  <div class="slide" data-index="7">
+    <div class="glass">
+      <div class="badge badge-amber">✍️ Paso 5 de 5</div>
+      <h2>Construye tu Marco Conceptual</h2>
+      <p class="subtitle">Define 5–8 conceptos clave con <strong>tus propias palabras</strong></p>
+      <p>Para cada concepto, responde estas 3 preguntas:</p>
+      <div class="card-grid" style="grid-template-columns:repeat(3,1fr);">
+        <div class="mini-card" style="border-color:rgba(56,189,248,0.12);">
+          <h4 style="color:#38bdf8;">📌 ¿Qué significa?</h4>
+          <p>Definición clara, en tus palabras, basada en lo que dicen los autores.</p>
+        </div>
+        <div class="mini-card" style="border-color:rgba(129,140,248,0.12);">
+          <h4 style="color:#818cf8;">👤 ¿Quién lo define?</h4>
+          <p>Cita al autor o autores que usas como referencia para ese concepto.</p>
+        </div>
+        <div class="mini-card" style="border-color:rgba(99,102,241,0.12);">
+          <h4 style="color:#6366f1;">🎯 ¿Cómo lo usas TÚ?</h4>
+          <p>Explica cómo aplicas ese concepto específicamente en tu trabajo.</p>
+        </div>
+      </div>
+      <div class="notebooklm-mock" style="margin-top:0.6em;">
+        <div class="nm-icon" style="background:linear-gradient(135deg, #38bdf8, #fbbf24);">✨</div>
+        <div class="nm-text">
+          <strong>Tip pro:</strong>
+          <span>Pídele a NotebookLM: "Dame una definición para cada concepto clave, con su autor y una cita textual"</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 8: EJEMPLO VISUAL ─── -->
+  <div class="slide" data-index="8">
+    <div class="glass">
+      <div class="badge badge-amber">🎨 Ejemplo visual</div>
+      <h2>Tu investigación en un mapa</h2>
+      <p class="subtitle">Así se conectan los elementos de tu marco</p>
+      <div class="map-container">
+        <svg viewBox="0 0 700 380" style="width:100%; max-width:700px; height:auto;">
+          <!-- Líneas conectoras -->
+          <line x1="350" y1="30" x2="350" y2="80" stroke="rgba(255,255,255,0.12)" stroke-width="2"/>
+          <line x1="350" y1="80" x2="140" y2="160" stroke="rgba(56,189,248,0.2)" stroke-width="1.5"/>
+          <line x1="350" y1="80" x2="560" y2="160" stroke="rgba(129,140,248,0.2)" stroke-width="1.5"/>
+          <line x1="140" y1="160" x2="95" y2="235" stroke="rgba(56,189,248,0.15)" stroke-width="1"/>
+          <line x1="140" y1="160" x2="140" y2="235" stroke="rgba(56,189,248,0.15)" stroke-width="1"/>
+          <line x1="140" y1="160" x2="185" y2="235" stroke="rgba(56,189,248,0.15)" stroke-width="1"/>
+          <line x1="560" y1="160" x2="515" y2="235" stroke="rgba(129,140,248,0.15)" stroke-width="1"/>
+          <line x1="560" y1="160" x2="560" y2="235" stroke="rgba(129,140,248,0.15)" stroke-width="1"/>
+          <line x1="560" y1="160" x2="605" y2="235" stroke="rgba(129,140,248,0.15)" stroke-width="1"/>
+          <line x1="140" y1="300" x2="560" y2="300" stroke="rgba(251,191,36,0.15)" stroke-width="1.5"/>
+          <circle cx="350" cy="330" r="40" fill="rgba(251,191,36,0.08)" stroke="rgba(251,191,36,0.2)" stroke-width="1.5"/>
+          <!-- Nodo central -->
+          <rect x="280" y="30" width="140" height="50" rx="25" fill="rgba(99,102,241,0.15)" stroke="rgba(99,102,241,0.3)" stroke-width="1.5"/>
+          <text x="350" y="62" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600" font-family="Inter,sans-serif">🧠 TEMA CENTRAL</text>
+          <!-- Marco Teórico -->
+          <rect x="55" y="150" width="170" height="45" rx="12" fill="rgba(56,189,248,0.08)" stroke="rgba(56,189,248,0.15)" stroke-width="1"/>
+          <text x="140" y="177" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="600" font-family="Inter,sans-serif">📖 MARCO TEÓRICO</text>
+          <!-- Marco Conceptual -->
+          <rect x="475" y="150" width="170" height="45" rx="12" fill="rgba(129,140,248,0.08)" stroke="rgba(129,140,248,0.15)" stroke-width="1"/>
+          <text x="560" y="177" text-anchor="middle" fill="#818cf8" font-size="12" font-weight="600" font-family="Inter,sans-serif">🧩 MARCO CONCEPTUAL</text>
+          <!-- Sub-teorías -->
+          <rect x="55" y="235" width="80" height="35" rx="8" fill="rgba(56,189,248,0.04)" stroke="rgba(56,189,248,0.08)"/>
+          <text x="95" y="257" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="9.5" font-family="Inter,sans-serif">Autor A</text>
+          <rect x="100" y="235" width="80" height="35" rx="8" fill="rgba(56,189,248,0.04)" stroke="rgba(56,189,248,0.08)"/>
+          <text x="140" y="257" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="9.5" font-family="Inter,sans-serif">Autor B</text>
+          <rect x="145" y="235" width="80" height="35" rx="8" fill="rgba(56,189,248,0.04)" stroke="rgba(56,189,248,0.08)"/>
+          <text x="185" y="257" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="9.5" font-family="Inter,sans-serif">Autor C</text>
+          <!-- Sub-conceptos -->
+          <rect x="475" y="235" width="80" height="35" rx="8" fill="rgba(129,140,248,0.04)" stroke="rgba(129,140,248,0.08)"/>
+          <text x="515" y="257" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="9.5" font-family="Inter,sans-serif">Concepto 1</text>
+          <rect x="520" y="235" width="80" height="35" rx="8" fill="rgba(129,140,248,0.04)" stroke="rgba(129,140,248,0.08)"/>
+          <text x="560" y="257" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="9.5" font-family="Inter,sans-serif">Concepto 2</text>
+          <rect x="565" y="235" width="80" height="35" rx="8" fill="rgba(129,140,248,0.04)" stroke="rgba(129,140,248,0.08)"/>
+          <text x="605" y="257" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="9.5" font-family="Inter,sans-serif">Concepto 3</text>
+          <!-- Nodo final -->
+          <text x="350" y="336" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="600" font-family="Inter,sans-serif">🎯 TU MARCO</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SLIDE 9: CIERRE ─── -->
+  <div class="slide" data-index="9">
+    <div class="glass">
+      <h2>🎯 Consejos finales</h2>
+      <p class="subtitle">Para que tu marco brille</p>
+      <div class="card-grid" style="grid-template-columns:repeat(2,1fr);">
+        <div class="mini-card">
+          <div class="icon">✅</div>
+          <h4>Parafrasea, no copies</h4>
+          <p>NotebookLM te da ideas, pero escríbelas con TU voz. Cita siempre.</p>
+        </div>
+        <div class="mini-card">
+          <div class="icon">🔗</div>
+          <h4>Conecta las ideas</h4>
+          <p>No pongas autores uno tras otro. Muéstranos cómo conversan entre ellos.</p>
+        </div>
+        <div class="mini-card">
+          <div class="icon">📏</div>
+          <h4>Sé claro y preciso</h4>
+          <p>Define cada concepto como si se lo explicaras a un compañero que no sabe del tema.</p>
+        </div>
+        <div class="mini-card">
+          <div class="icon">🤖</div>
+          <h4>NotebookLM es tu asistente</h4>
+          <p>No hace el trabajo por ti. Tú eres el investigador. La IA solo te ayuda a llegar más lejos.</p>
+        </div>
+      </div>
+      <div style="margin-top:1.5em; text-align:center;">
+        <div style="font-size:3rem; margin-bottom:0.2em;">🚀</div>
+        <h2 style="font-size:2rem; background:linear-gradient(135deg, #38bdf8, #818cf8, #fbbf24); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">¡Manos a la obra!</h2>
+        <p style="font-size:clamp(0.8rem, 1vw, 0.9rem); color:rgba(255,255,255,0.35);">Grado 10 · Ciencias Sociales · Profe Carlos Caro</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ BARRA DE NAVEGACIÓN ═══ -->
+<div class="nav-bar">
+  <button class="nav-btn" id="prevBtn" aria-label="Anterior">◀</button>
+  <div class="nav-dots" id="navDots"></div>
+  <span class="nav-counter" id="navCounter">1 / 10</span>
+  <button class="nav-btn" id="nextBtn" aria-label="Siguiente">▶</button>
+</div>
+
+<script>
+// ─── CONFIGURACIÓN ───
+const slides = document.querySelectorAll('.slide');
+const scene = document.getElementById('scene');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const navDots = document.getElementById('navDots');
+const navCounter = document.getElementById('navCounter');
+let current = 0;
+const total = slides.length;
+
+// ─── CREAR DOTS ───
+for (let i = 0; i < total; i++) {
+  const dot = document.createElement('div');
+  dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+  dot.dataset.index = i;
+  dot.addEventListener('click', () => goTo(i));
+  navDots.appendChild(dot);
+}
+
+// ─── IR A SLIDE ───
+function goTo(index) {
+  if (index < 0) index = 0;
+  if (index >= total) index = total - 1;
+  if (index === current) return;
+
+  // Cambiar clase active en slides
+  slides.forEach((s, i) => s.classList.toggle('active', i === index));
+
+  // Calcular transformación Prezi (zoom/pan 3D)
+  const t = getTransform(index);
+  scene.style.transform = `translate3d(${t.x}px, ${t.y}px, ${t.z}px) scale(${t.scale})`;
+
+  current = index;
+
+  // Actualizar dots
+  document.querySelectorAll('.nav-dot').forEach((dot, i) => {
+    dot.classList.toggle('active', i === current);
+  });
+
+  // Actualizar contador
+  navCounter.textContent = `${current + 1} / ${total}`;
+
+  // Botones
+  prevBtn.disabled = current === 0;
+  nextBtn.disabled = current === total - 1;
+
+  // Partículas
+  spawnParticles();
+}
+
+// ─── TRANSFORMACIONES POR SLIDE ───
+function getTransform(i) {
+  const map = [
+    { z: 0, x: 0, y: 0, scale: 1 },
+    { z: -180, x: 0, y: 0, scale: 0.95 },
+    { z: 120, x: 0, y: 0, scale: 1 },
+    { z: -50, x: -70, y: 0, scale: 0.97 },
+    { z: 80, x: 0, y: 0, scale: 1 },
+    { z: -120, x: 0, y: 25, scale: 0.93 },
+    { z: 140, x: 0, y: 0, scale: 1.02 },
+    { z: -30, x: 60, y: 0, scale: 0.96 },
+    { z: -280, x: 0, y: 0, scale: 0.88 },
+    { z: 180, x: 0, y: 0, scale: 1.04 },
+  ];
+  return map[i] || { z: 0, x: 0, y: 0, scale: 1 };
+}
+
+// ─── EVENTOS ───
+prevBtn.addEventListener('click', () => goTo(current - 1));
+nextBtn.addEventListener('click', () => goTo(current + 1));
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+    e.preventDefault();
+    goTo(current + 1);
+  } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    goTo(current - 1);
+  }
+});
+
+// Touch
+let touchStartX = 0;
+document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; });
+document.addEventListener('touchend', (e) => {
+  const dx = e.changedTouches[0].screenX - touchStartX;
+  if (Math.abs(dx) > 50) {
+    if (dx < 0) goTo(current + 1);
+    else goTo(current - 1);
+  }
+});
+
+// Scroll con rueda (con debounce)
+let scrollLock = false;
+document.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  if (scrollLock) return;
+  scrollLock = true;
+  if (e.deltaY > 0) goTo(current + 1);
+  else goTo(current - 1);
+  setTimeout(() => { scrollLock = false; }, 600);
+}, { passive: false });
+
+// ─── PARTÍCULAS ───
+function spawnParticles() {
+  const container = document.getElementById('particles-container');
+  const colors = ['#38bdf8', '#818cf8', '#fbbf24', '#f43f5e', '#e2e8f0'];
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = (5 + Math.random() * 90) + 'vw';
+    p.style.top = (35 + Math.random() * 40) + 'vh';
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.width = (3 + Math.random() * 5) + 'px';
+    p.style.height = p.style.width;
+    p.style.animation = `particleFloat ${1.2 + Math.random() * 1.8}s ease-out forwards`;
+    p.style.animationDelay = Math.random() * 0.4 + 's';
+    container.appendChild(p);
+    setTimeout(() => p.remove(), 3500);
+  }
+}
+
+// ─── CANVAS DE FONDO ───
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let bgParticles = [];
+let animId;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class BgParticle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2.5 + 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.25;
+    this.speedY = (Math.random() - 0.5) * 0.25;
+    this.opacity = Math.random() * 0.4 + 0.08;
+    this.pulse = Math.random() * Math.PI * 2;
+  }
+  update() {
+    this.pulse += 0.008;
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+  }
+  draw() {
+    const o = this.opacity * (0.4 + 0.6 * Math.sin(this.pulse));
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(148, 163, 184, ${o})`;
+    ctx.fill();
+  }
+}
+
+for (let i = 0; i < 70; i++) bgParticles.push(new BgParticle());
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  bgParticles.forEach(p => { p.update(); p.draw(); });
+  // Líneas entre partículas cercanas
+  for (let i = 0; i < bgParticles.length; i++) {
+    for (let j = i + 1; j < bgParticles.length; j++) {
+      const dx = bgParticles[i].x - bgParticles[j].x;
+      const dy = bgParticles[i].y - bgParticles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 130) {
+        ctx.beginPath();
+        ctx.moveTo(bgParticles[i].x, bgParticles[i].y);
+        ctx.lineTo(bgParticles[j].x, bgParticles[j].y);
+        ctx.strokeStyle = `rgba(148,163,184,${0.025 * (1 - dist / 130)})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+  animId = requestAnimationFrame(animate);
+}
+animate();
+
+// ─── INICIO ───
+// Mostrar primera diapositiva con animación
+document.querySelector('.slide.active .glass').style.opacity = '1';
+document.querySelector('.slide.active .glass').style.transform = 'translateY(0) scale(1)';
+spawnParticles();
+</script>
+</body>
+</html>

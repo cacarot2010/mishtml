@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Malla Curricular Ciencias Sociales Grado 9° — IE Rafael Uribe Uribe</title>
+<style>
+:root {
+  --rojo: #C41E3A;
+  --amarillo: #FFD700;
+  --azul-claro: #87CEEB;
+  --azul-medio: #4682B4;
+  --azul-oscuro: #1a3a5c;
+  --blanco: #FFFFFF;
+  --gris-fondo: #f8f9fa;
+  --gris-borde: #dee2e6;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--gris-fondo);
+  color: #333;
+  line-height: 1.6;
+  padding: 20px;
+}
+.container { max-width: 1400px; margin: 0 auto; }
+
+/* ENCABEZADO */
+.header {
+  background: linear-gradient(135deg, var(--rojo) 0%, var(--azul-oscuro) 100%);
+  border-radius: 12px;
+  padding: 32px 40px;
+  margin-bottom: 24px;
+  color: var(--blanco);
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -30%; right: -10%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(255,215,0,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.header h1 {
+  font-size: 1.8em;
+  font-weight: 800;
+  margin-bottom: 4px;
+  letter-spacing: -0.5px;
+}
+.header .subtitle {
+  font-size: 1.1em;
+  opacity: 0.9;
+  font-weight: 300;
+}
+.header .meta {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.header .meta span {
+  background: rgba(255,255,255,0.18);
+  padding: 5px 14px;
+  border-radius: 16px;
+  font-size: 0.82em;
+  backdrop-filter: blur(4px);
+}
+
+/* SECCIONES TRANSVERSALES */
+.transversales {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.card {
+  background: var(--blanco);
+  border: 1px solid var(--gris-borde);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.card h3 {
+  color: var(--rojo);
+  font-size: 1em;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--amarillo);
+}
+.card ul { padding-left: 20px; }
+.card li { margin-bottom: 5px; font-size: 0.92em; }
+.card p { font-size: 0.92em; }
+
+/* TABLA PRINCIPAL */
+.tabla-wrapper {
+  overflow-x: auto;
+  margin-bottom: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88em;
+  table-layout: fixed;
+  min-width: 1200px;
+}
+thead th {
+  background: var(--azul-oscuro);
+  color: var(--blanco);
+  padding: 14px 10px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.9em;
+}
+thead th:nth-child(1) { width: 80px; text-align: left; }
+thead th:nth-child(2) { width: 60px; }
+thead th:nth-child(3) { width: 200px; }
+.fila-label {
+  background: var(--rojo);
+  color: var(--blanco);
+  font-weight: 700;
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 0.85em;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}
+.fila-sublabel {
+  background: #e8e8e8;
+  color: #444;
+  font-weight: 600;
+  font-size: 0.82em;
+  padding: 6px 10px;
+  text-align: left;
+}
+td {
+  padding: 10px;
+  border: 1px solid var(--gris-borde);
+  vertical-align: top;
+}
+td.periodo {
+  background: var(--blanco);
+}
+/* Colores alternados por periodo */
+td.p1 { background: #fff9f0; }
+td.p2 { background: #f0f8ff; }
+td.p3 { background: #f5fff0; }
+.fila-label.p1 { background: #e8a87c; }
+.fila-label.p2 { background: #7cace8; }
+.fila-label.p3 { background: #7cb87c; }
+.fila-label.general { background: var(--rojo); }
+
+/* PREGUNTAS GENERADORAS */
+.pregunta-box {
+  border-left: 4px solid var(--amarillo);
+  padding: 12px 16px;
+  margin: 8px 0;
+  background: #fffdf0;
+  border-radius: 0 8px 8px 0;
+}
+.pregunta-box strong { color: var(--azul-oscuro); }
+
+/* INCLUSIÓN */
+.inclusion-box {
+  background: #f0f4ff;
+  border: 1px solid var(--azul-claro);
+  border-radius: 8px;
+  padding: 12px;
+  margin: 6px 0;
+  font-size: 0.85em;
+}
+.inclusion-box h4 {
+  color: var(--azul-medio);
+  font-size: 0.9em;
+  margin-bottom: 5px;
+}
+.inclusion-box ul { padding-left: 16px; }
+.inclusion-box li { margin-bottom: 3px; }
+
+/* IMPRESIÓN */
+@media print {
+  body { background: #fff; padding: 10px; }
+  .header { -webkit-print-color-adjust: exact; }
+  .tabla-wrapper { box-shadow: none; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ENCABEZADO -->
+<div class="header">
+  <h1>INSTITUCIÓN EDUCATIVA RAFAEL URIBE URIBE</h1>
+  <div class="subtitle">Malla Curricular — Área de Ciencias Sociales, Historia, Geografía, Constitución y Democracia</div>
+  <div class="meta">
+    <span>📘 Grado 9°</span>
+    <span>📅 Año 2025</span>
+    <span>⏰ 4 horas semanales</span>
+    <span>📊 3 Periodos (40 semanas)</span>
+    <span>🧠 Constructivista-Humanista</span>
+  </div>
+</div>
+
+<!-- COMPONENTES TRANSVERSALES -->
+<div class="transversales">
+
+  <div class="card">
+    <h3>🔗 Competencias Macro (Saber Ser — Pruebas Saber)</h3>
+    <ul>
+      <li><strong>Pensamiento social:</strong> Uso de categorías de las ciencias sociales para comprender fenómenos sociales, políticos, económicos, culturales y geográficos. Conocimiento de principios constitucionales y mecanismos de participación ciudadana.</li>
+      <li><strong>Interpretación y análisis de perspectivas:</strong> Análisis crítico de información sobre asuntos públicos. Valoración de argumentos. Identificación de intereses y perspectivas de diferentes grupos sociales.</li>
+      <li><strong>Pensamiento reflexivo y sistémico:</strong> Identificación de dimensiones de problemáticas sociales y sus relaciones. Evaluación de modelos conceptuales para la toma de decisiones.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>🌍 Dimensiones de la Formación</h3>
+    <ul>
+      <li><strong>Relaciones Ético-Políticas:</strong> Ciudadanía, democracia, derechos humanos, participación, ordenamiento político, construcción de paz.</li>
+      <li><strong>Relaciones con la Historia y las Culturas:</strong> Procesos históricos de Colombia, diversidad étnica y cultural (cátedra de afrocolombianidad), identidades y memoria histórica.</li>
+      <li><strong>Relaciones Espaciales y Ambientales:</strong> Geografía de Colombia, problemas ambientales, desarrollo territorial, sociedad-naturaleza.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>📐 Enfoque Pedagógico</h3>
+    <p><strong>Constructivismo Humanista:</strong> El estudiante es sujeto activo. El aprendizaje se construye desde la experiencia, el contexto y la identidad. Desarrollo del pensamiento crítico, autonomía, identidad cultural y formación ciudadana.</p>
+    <p style="margin-top:8px;"><strong>Recorrido:</strong> Lo local → regional → nacional → global</p>
+  </div>
+
+  <div class="card">
+    <h3>♿ Inclusión Educativa</h3>
+    <div class="inclusion-box">
+      <h4>TEA (Trastorno del Espectro Autista)</h4>
+      <ul>
+        <li>Guías visuales estructuradas con instrucciones paso a paso</li>
+        <li>Adaptación de espacios sensoriales</li>
+        <li>Flexibilidad en tiempos y evaluación diferenciada</li>
+      </ul>
+    </div>
+    <div class="inclusion-box">
+      <h4>TDAH</h4>
+      <ul>
+        <li>División de actividades en tareas cortas con descansos</li>
+        <li>Materiales didácticos dinámicos (videos, juegos, mapas interactivos)</li>
+        <li>Roles específicos en trabajos grupales</li>
+      </ul>
+    </div>
+    <div class="inclusion-box">
+      <h4>Déficit cognitivo</h4>
+        <ul>
+        <li>Lenguaje sencillo, ejemplos concretos vinculados a la realidad</li>
+        <li>Evaluaciones adaptadas: reducción de ítems, opción múltiple, material de consulta</li>
+        <li>Apoyo de docente de educación inclusiva</li>
+      </ul>
+    </div>
+    <div class="inclusion-box">
+      <h4>Riesgo psicosocial</h4>
+      <ul>
+        <li>Espacios de escucha activa al inicio y final de clase</li>
+        <li>Contenidos sensibles con enfoque de resiliencia, sin revictimización</li>
+        <li>Articulación con psicorientación</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- TABLA HORIZONTAL PRINCIPAL -->
+<div class="tabla-wrapper">
+<table>
+  <thead>
+    <tr>
+      <th>Componente</th>
+      <th>Sem.</th>
+      <th>📅 Periodo 1 — Colombia: Territorio, Identidad y Ciudadanía (13 semanas)</th>
+      <th>📅 Periodo 2 — América Latina: Historia, Integración y Transformaciones (13 semanas)</th>
+      <th>📅 Periodo 3 — El Mundo Global: Desafíos del Siglo XXI (14 semanas)</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <!-- DBA -->
+    <tr>
+      <td class="fila-label general" colspan="2">📜 Derechos Básicos de Aprendizaje (DBA)</td>
+      <td class="p1">
+        <strong>DBA 1:</strong> Explico las características del ordenamiento político colombiano, sus principios fundamentales y los mecanismos de participación ciudadana establecidos en la Constitución Política de 1991.<br><br>
+        <strong>DBA 2:</strong> Analizo críticamente problemáticas sociales, políticas, económicas y ambientales de mi contexto local, regional y nacional, reconociendo la diversidad cultural, étnica y de género que caracteriza a Colombia.
+      </td>
+      <td class="p2">
+        <strong>DBA 3:</strong> Identifico las relaciones entre los procesos históricos de Colombia y su impacto en la configuración del territorio, la sociedad y las identidades culturales contemporáneas.<br><br>
+        <strong>DBA 4:</strong> Evalúo el impacto de las acciones individuales y colectivas en la construcción de una sociedad más justa, equitativa y sostenible, en el marco de los derechos humanos y los deberes ciudadanos.
+      </td>
+      <td class="p3">
+        <strong>DBA 5:</strong> Comparo la posición de Colombia en el contexto global, reconociendo sus retos y oportunidades en materia de desarrollo, relaciones internacionales y cumplimiento de acuerdos internacionales.<br><br>
+        <strong>DBA 6:</strong> Analizo las causas y consecuencias de los procesos migratorios en Colombia y América Latina, evaluando su impacto en la configuración de identidades culturales y territoriales.
+      </td>
+    </tr>
+
+    <!-- ÁMBITO CONCEPTUAL -->
+    <tr>
+      <td class="fila-label general" colspan="2">🌍 Ámbito Conceptual (Contenidos)</td>
+      <td class="p1">
+        <strong>Local:</strong> Mi territorio, identidad territorial, geografía local<br>
+        <strong>Regional:</strong> Regiones naturales de Colombia, división política<br>
+        <strong>Nacional:</strong> Historia del siglo XX, Constitución 1991, Estado colombiano, participación ciudadana, conflicto armado, proceso de paz, economía colombiana, multiculturalidad
+      </td>
+      <td class="p2">
+        <strong>Regional (Latinoamérica):</strong> Definición de AL, colonización, independencias, sistemas políticos, economía regional, derechos humanos, movimientos sociales, integración regional, cultura e identidad, medio ambiente, migración
+      </td>
+      <td class="p3">
+        <strong>Global:</strong> Globalización, economía global, geopolítica, cambio climático, ODS, revolución tecnológica e IAGen, ciudadanía global, género y diversidad, salud global, alimentación, futuro del trabajo, paz mundial, Colombia en el mundo
+      </td>
+    </tr>
+
+    <!-- DIMENSIONES -->
+    <tr>
+      <td class="fila-label general" colspan="2">📐 Dimensiones de Formación</td>
+      <td class="p1">
+        <strong>Relaciones Espaciales y Ambientales:</strong> Geografía física y política de Colombia, regiones naturales, problemas ambientales locales y nacionales.<br><br>
+        <strong>Relaciones con la Historia y las Culturas:</strong> Historia del siglo XX, Constitución 1991, multiculturalidad, cátedra de afrocolombianidad, memoria histórica.<br><br>
+        <strong>Relaciones Ético-Políticas:</strong> Estado colombiano, participación ciudadana, conflicto y paz, economía y equidad.
+      </td>
+      <td class="p2">
+        <strong>Relaciones con la Historia y las Culturas:</strong> Colonización, independencias, dictaduras y transiciones, movimientos sociales, cultura e identidad latinoamericana.<br><br>
+        <strong>Relaciones Ético-Políticas:</strong> Derechos humanos, integración regional, migración, economía y desigualdad.<br><br>
+        <strong>Relaciones Espaciales y Ambientales:</strong> Geografía latinoamericana, extractivismo, deforestación de la Amazonía.
+      </td>
+      <td class="p3">
+        <strong>Relaciones Ético-Políticas:</strong> Geopolítica, derechos humanos, ciudadanía global, género y diversidad, paz mundial.<br><br>
+        <strong>Relaciones Espaciales y Ambientales:</strong> Cambio climático, ODS, soberanía alimentaria, futuro del trabajo.<br><br>
+        <strong>Relaciones con la Historia y las Culturas:</strong> Globalización, revolución tecnológica e IAGen, salud global, Colombia en el mundo.
+      </td>
+    </tr>
+
+    <!-- COMPETENCIAS ESPECÍFICAS -->
+    <tr>
+      <td class="fila-label general" colspan="2">🎯 Competencias Específicas</td>
+      <td class="p1">
+        • Competencia geográfica: lectura e interpretación del territorio<br>
+        • Competencia constitucional: principios, derechos y deberes de la Constitución 1991<br>
+        • Competencia de afrocolombianidad: reconocimiento de comunidades afrodescendientes<br>
+        • Competencia ciudadana: participación democrática
+      </td>
+      <td class="p2">
+        • Competencia histórica: comprensión de procesos históricos latinoamericanos<br>
+        • Competencia ciudadana: análisis de movimientos sociales y DDHH<br>
+        • Competencia geográfica: análisis de problemas ambientales regionales
+      </td>
+      <td class="p3">
+        • Competencia ciudadana: ciudadanía global y participación<br>
+        • Competencia geográfica: análisis de problemáticas globales (clima, economía, tecnología)<br>
+        • Competencia histórica: comprensión de fenómenos globales contemporáneos
+      </td>
+    </tr>
+
+    <!-- PREGUNTA GENERADORA -->
+    <tr>
+      <td class="fila-label general" colspan="2">❓ Pregunta Generadora</td>
+      <td class="p1">
+        <div class="pregunta-box">
+          <strong>¿Cómo han construido los habitantes de Colombia, en sus diferentes territorios y a lo largo de la historia, su proyecto de sociedad, y qué papel juego yo como ciudadano para transformar las problemáticas que afectan mi comunidad?</strong>
+        </div>
+      </td>
+      <td class="p2">
+        <div class="pregunta-box">
+          <strong>¿De qué manera los procesos históricos, las luchas sociales y los acuerdos de integración han configurado la identidad latinoamericana, y qué desafíos compartimos como región para construir una sociedad más justa y sostenible?</strong>
+        </div>
+      </td>
+      <td class="p3">
+        <div class="pregunta-box">
+          <strong>¿Cómo los fenómenos globales del siglo XXI —la globalización, el cambio climático, la revolución tecnológica y los derechos humanos— impactan mi vida cotidiana y mi territorio, y qué acciones puedo emprender desde lo local para contribuir a un mundo más equitativo y sostenible?</strong>
+        </div>
+      </td>
+    </tr>
+
+    <!-- INDICADORES SABER -->
+    <tr>
+      <td class="fila-label p1" rowspan="3">SABER</td>
+      <td class="fila-sublabel">Indicador 1</td>
+      <td class="p1">Identifica y explica textualmente 5 principios fundamentales de la Constitución Política de 1991 y 3 mecanismos de participación ciudadana, relacionándolos con problemáticas de su contexto local.</td>
+      <td class="p2">Describe las características principales de los procesos de colonización e independencia en América Latina, estableciendo relaciones causales con las problemáticas sociales actuales de la región.</td>
+      <td class="p3">Explica las dimensiones económica, cultural, tecnológica y política de la globalización, identificando sus efectos en la vida cotidiana y en el territorio colombiano.</td>
+    </tr>
+    <tr>
+      <td class="fila-sublabel">Indicador 2</td>
+      <td class="p1">Clasifica y describe las 5 regiones naturales de Colombia, vinculando sus características geográficas con los procesos históricos de ocupación del territorio y la diversidad cultural.</td>
+      <td class="p2">Compara los modelos económicos implementados en América Latina (ISI, neoliberalismo, alternativos), evaluando su impacto en la desigualdad y el desarrollo de los países de la región.</td>
+      <td class="p3">Analiza las causas y consecuencias del cambio climático global, identificando los acuerdos internacionales (Kioto, París, COP) y el papel de Colombia en su cumplimiento.</td>
+    </tr>
+    <tr>
+      <td class="fila-sublabel">Indicador 3</td>
+      <td class="p1">Reconoce los actores, causas y consecuencias del conflicto armado colombiano, comprendiendo la importancia del proceso de paz de 2016 como oportunidad de transformación social.</td>
+      <td class="p2">Identifica los principales organismos de integración latinoamericana (CELAC, MERCOSUR, CAN, ALBA), explicando sus objetivos, logros y limitaciones.</td>
+      <td class="p3">Evalúa el impacto de la revolución tecnológica y la Inteligencia Artificial Generativa en la sociedad contemporánea, identificando oportunidades, riesgos y dilemas éticos.</td>
+    </tr>
+
+    <!-- INDICADORES HACER -->
+    <tr>
+      <td class="fila-label p2" rowspan="3">HACER</td>
+      <td class="fila-sublabel">Indicador 1</td>
+      <td class="p1">Elabora un mapa conceptual que relaciona las causas y consecuencias de un proceso histórico colombiano (La Violencia, el Conflicto Armado) con la situación actual de su municipio.</td>
+      <td class="p2">Diseña una infografía comparativa sobre 3 organismos de integración latinoamericana, incluyendo países miembros, objetivos y un logro concreto de cada uno.</td>
+      <td class="p3">Construye un diagrama de flujo que muestra la ruta de producción global de un producto de uso cotidiano, identificando actores, impactos ambientales y desigualdades en la cadena de valor.</td>
+    </tr>
+    <tr>
+      <td class="fila-sublabel">Indicador 2</td>
+      <td class="p1">Diseña una propuesta de acción ciudadana para resolver una problemática ambiental o social de su comunidad, aplicando mecanismos de participación constitucional (tutela, acción popular, cabildo abierto).</td>
+      <td class="p2">Elabora un podcast o video corto (3-5 min) presentando un movimiento social latinoamericano activo, explicando sus causas, logros y vigencia actual.</td>
+      <td class="p3">Desarrolla una campaña de concientización (afiche, video o post) sobre un Objetivo de Desarrollo Sostenible, proponiendo acciones concretas aplicables al contexto local.</td>
+    </tr>
+    <tr>
+      <td class="fila-sublabel">Indicador 3</td>
+      <td class="p1">Organiza un debate simulado sobre un tema de interés público local o nacional, aplicando mecanismos de participación democrática y respetando diversas perspectivas.</td>
+      <td class="p2">Analiza una noticia reciente sobre un conflicto ambiental en América Latina, identificando actores involucrados, derechos en juego y posibles soluciones desde la ciudadanía.</td>
+      <td class="p3">Diseña una "Propuesta de Cultura de Paz" para su institución educativa, incluyendo 3 acciones concretas para promover la convivencia pacífica y la resolución de conflictos.</td>
+    </tr>
+
+    <!-- INDICADORES SER -->
+    <tr>
+      <td class="fila-label p3" rowspan="2">SER</td>
+      <td class="fila-sublabel">Indicador 1</td>
+      <td class="p1">Reconoce y valora la diversidad étnica, cultural y de género de su comunidad, sin reproducir estereotipos o discriminaciones en sus interacciones cotidianas y académicas.</td>
+      <td class="p2">Asume una postura empática y solidaria frente a las problemáticas sociales y humanitarias de América Latina (migración, desigualdad, violencia), reconociendo la dignidad de todas las personas.</td>
+      <td class="p3">Demuestra compromiso con la sostenibilidad ambiental y la equidad social, adoptando prácticas cotidianas responsables (reducción de huella de carbono, consumo crítico, participación ciudadana).</td>
+    </tr>
+    <tr>
+      <td class="fila-sublabel">Indicador 2</td>
+      <td class="p1">Asume una postura crítica y responsable frente a los problemas de su territorio, demostrando compromiso con la construcción de una sociedad más equitativa y en paz.</td>
+      <td class="p2">Valora la diversidad cultural latinoamericana como riqueza regional, respetando las cosmovisiones de pueblos indígenas, afrodescendientes y otras comunidades.</td>
+      <td class="p3">Se reconoce como ciudadano global, comprendiendo que sus acciones locales tienen impacto en el mundo y asumiendo responsabilidad ética frente a los desafíos del siglo XXI.</td>
+    </tr>
+
+  </tbody>
+</table>
+</div>
+
+<!-- NOTAS FINALES -->
+<div class="card" style="margin-top: 20px;">
+  <h3>📌 Notas de implementación</h3>
+  <ul>
+    <li>Los DBA están transcritos textualmente del documento oficial del MEN (DBA Ciencias Sociales, versión 2).</li>
+    <li>La cátedra de afrocolombianidad se integra transversalmente en los tres periodos.</li>
+    <li>La Constitución Política de 1991 se trabaja como eje transversal en ciudadanía y organización del Estado.</li>
+    <li>Los ajustes de inclusión se aplican a todas las actividades según el perfil de cada estudiante.</li>
+    <li>Las preguntas generadoras son el hilo conductor de cada periodo y se retoman en las actividades de cierre.</li>
+  </ul>
+</div>
+
+</div>
+</body>
+</html>

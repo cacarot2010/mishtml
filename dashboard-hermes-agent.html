@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🚀 Hermes Agent — Dashboard de Aprendizaje</title>
+<style>
+  :root {
+    --bg-main: #0d1117;
+    --bg-card: #161b22;
+    --bg-code: #1c2128;
+    --bg-hover: #1c2333;
+    --border: #30363d;
+    --text: #c9d1d9;
+    --text-muted: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --orange: #d29922;
+    --red: #f85149;
+    --purple: #bc8cff;
+    --pink: #f778ba;
+    --sidebar-w: 260px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg-main);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg-main); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  /* === LAYOUT === */
+  .layout { display: flex; min-height: 100vh; }
+  .sidebar {
+    width: var(--sidebar-w);
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    background: var(--bg-card);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    z-index: 100;
+    padding-bottom: 40px;
+  }
+  .sidebar-logo {
+    padding: 20px 16px 12px;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+  }
+  .sidebar-logo h1 { font-size: 1rem; font-weight: 700; }
+  .sidebar-logo .ver { font-size: .65rem; color: var(--text-muted); margin-top: 2px; }
+  .sidebar-search {
+    padding: 12px;
+  }
+  .sidebar-search input {
+    width: 100%;
+    padding: 8px 12px;
+    background: var(--bg-main);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: .78rem;
+    outline: none;
+  }
+  .sidebar-search input:focus { border-color: var(--accent); }
+  .sidebar-search input::placeholder { color: var(--text-muted); }
+
+  .nav { list-style: none; }
+  .nav li { border-bottom: 1px solid var(--border); }
+  .nav a, .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: .82rem;
+    transition: all .15s;
+    cursor: pointer;
+  }
+  .nav a:hover, .nav-btn:hover { background: var(--bg-hover); color: var(--text); }
+  .nav-btn { background: none; border: none; width: 100%; text-align: left; font-family: inherit; font-size: .82rem; color: var(--text-muted); cursor: pointer; }
+  .nav a.active, .nav-btn.active { background: rgba(88,166,255,.1); color: var(--accent); border-right: 2px solid var(--accent); }
+  .nav a .ico, .nav-btn .ico { font-size: 1rem; width: 20px; text-align: center; }
+
+  .main {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    padding: 32px 40px 80px;
+    max-width: 100%;
+  }
+
+  /* === HERO === */
+  .hero {
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #0d1117 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px 36px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--green), var(--orange));
+  }
+  .hero h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
+  .hero h1 span { color: var(--accent); }
+  .hero p { color: var(--text-muted); font-size: .95rem; max-width: 600px; }
+  .hero .tags { margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .hero .tags span {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: .7rem;
+    font-weight: 600;
+    background: rgba(88,166,255,.12);
+    color: var(--accent);
+  }
+
+  /* === SECTION === */
+  .section { display: none; }
+  .section.active { display: block; }
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title .ico { font-size: 1.4rem; }
+
+  /* === CARDS === */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .card h3 .badge {
+    font-size: .6rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+  .badge.bg-accent { background: rgba(88,166,255,.15); color: var(--accent); }
+  .badge.bg-green { background: rgba(63,185,80,.15); color: var(--green); }
+  .badge.bg-orange { background: rgba(210,153,34,.15); color: var(--orange); }
+  .badge.bg-purple { background: rgba(188,140,255,.15); color: var(--purple); }
+  .badge.bg-pink { background: rgba(247,120,186,.15); color: var(--pink); }
+
+  /* === CODE === */
+  code, pre {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  }
+  pre {
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    font-size: .78rem;
+    line-height: 1.5;
+    margin: 8px 0;
+    position: relative;
+  }
+  pre .copy-btn {
+    position: absolute;
+    top: 6px; right: 6px;
+    padding: 3px 8px;
+    font-size: .65rem;
+    background: var(--border);
+    border: none;
+    border-radius: 4px;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: inherit;
+  }
+  pre .copy-btn:hover { background: #444c56; color: var(--text); }
+  code { background: rgba(88,166,255,.1); padding: 1px 4px; border-radius: 3px; font-size: .82em; }
+  pre code { background: none; padding: 0; border-radius: 0; }
+
+  /* === TABLES === */
+  .table-wrap { overflow-x: auto; margin: 8px 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .82rem;
+  }
+  th, td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    background: var(--bg-code);
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+  tr:nth-child(even) td { background: rgba(255,255,255,.02); }
+  tr:hover td { background: var(--bg-hover); }
+
+  /* === COLLAPSIBLE === */
+  .collapsible { margin-bottom: 12px; }
+  .collapsible-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: .88rem;
+    transition: background .15s;
+  }
+  .collapsible-header:hover { background: var(--bg-hover); }
+  .collapsible-header .arrow { margin-left: auto; transition: transform .2s; }
+  .collapsible.open .collapsible-header { border-radius: 8px 8px 0 0; }
+  .collapsible.open .collapsible-header .arrow { transform: rotate(180deg); }
+  .collapsible-body {
+    display: none;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    background: rgba(255,255,255,.015);
+  }
+  .collapsible.open .collapsible-body { display: block; }
+
+  /* === GRID === */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media (max-width: 800px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+  /* === SEARCH HIGHLIGHT === */
+  .highlight { background: rgba(210,153,34,.3); padding: 0 2px; border-radius: 2px; }
+
+  /* === BACK TO TOP === */
+  .back-top {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: all .2s;
+    z-index: 50;
+  }
+  .back-top:hover { background: var(--bg-hover); color: var(--text); border-color: var(--accent); }
+  .back-top.show { display: flex; }
+
+  /* === FOOTER === */
+  .footer {
+    margin-top: 48px;
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--text-muted);
+    font-size: .78rem;
+  }
+  .footer a { color: var(--accent); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .sidebar { width: 100%; position: relative; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+    .sidebar .nav { display: flex; flex-wrap: wrap; }
+    .sidebar .nav li { border: none; }
+    .sidebar .nav a, .sidebar .nav-btn { padding: 8px 12px; font-size: .75rem; }
+    .main { margin-left: 0; padding: 20px 16px; }
+    .hero { padding: 24px 20px; }
+    .hero h1 { font-size: 1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <h1>🚀 Hermes Agent</h1>
+    <div class="ver">Dashboard de Aprendizaje</div>
+  </div>
+  <div class="sidebar-search">
+    <input type="text" id="searchInput" placeholder="Buscar...">
+  </div>
+  <ul class="nav" id="nav">
+    <li><button class="nav-btn active" onclick="switchTab('inicio')"><span class="ico">🏠</span> Inicio</button></li>
+    <li><button class="nav-btn" onclick="switchTab('cli')"><span class="ico">💻</span> CLI</button></li>
+    <li><button class="nav-btn" onclick="switchTab('config')"><span class="ico">⚙️</span> Configuración</button></li>
+    <li><button class="nav-btn" onclick="switchTab('tools')"><span class="ico">🛠️</span> Herramientas</button></li>
+    <li><button class="nav-btn" onclick="switchTab('skills')"><span class="ico">📦</span> Skills</button></li>
+    <li><button class="nav-btn" onclick="switchTab('mcp')"><span class="ico">🔌</span> MCP</button></li>
+    <li><button class="nav-btn" onclick="switchTab('gateway')"><span class="ico">🌐</span> Gateway</button></li>
+    <li><button class="nav-btn" onclick="switchTab('sessions')"><span class="ico">💾</span> Sesiones & Memoria</button></li>
+    <li><button class="nav-btn" onclick="switchTab('cron')"><span class="ico">⏰</span> Cron Jobs</button></li>
+    <li><button class="nav-btn" onclick="switchTab('slash')"><span class="ico">/</span> Comandos Slash</button></li>
+    <li><button class="nav-btn" onclick="switchTab('profiles')"><span class="ico">👤</span> Perfiles</button></li>
+    <li><button class="nav-btn" onclick="switchTab('security')"><span class="ico">🔒</span> Seguridad</button></li>
+    <li><button class="nav-btn" onclick="switchTab('trouble')"><span class="ico">🔧</span> Troubleshooting</button></li>
+  </ul>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- HERO -->
+<div class="hero">
+  <h1>🚀 <span>Hermes Agent</span></h1>
+  <p>Dashboard interactivo para aprender todo sobre Hermes Agent — el asistente de IA open-source de Nous Research. Ejecuta comandos, automatiza tareas, conecta plataformas y extiende con skills.</p>
+  <div class="tags">
+    <span>⚡ CLI</span>
+    <span>🧠 Skills</span>
+    <span>🌐 Gateway</span>
+    <span>🔌 MCP</span>
+    <span>⏰ Cron</span>
+    <span>👤 Perfiles</span>
+    <span>🔒 Seguridad</span>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECCIÓN: INICIO -->
+<div class="section active" id="sec-inicio">
+  <h2 class="section-title"><span class="ico">🏠</span> ¿Qué es Hermes Agent?</h2>
+
+  <div class="card">
+    <h3>🧠 ¿Qué es Hermes Agent?</h3>
+    <p>Hermes Agent es un <strong>framework de agente de IA open-source</strong> desarrollado por Nous Research. Se ejecuta en tu terminal, plataformas de mensajería e IDEs. Pertenece a la misma categoría que Claude Code, Codex y OpenClaw — agentes autónomos que usan <strong>llamadas a herramientas</strong> para interactuar con tu sistema.</p>
+    <br>
+    <p><strong>¿Qué lo hace diferente?</strong></p>
+    <ul style="padding-left:20px;margin-top:6px;">
+      <li>🧩 <strong>Auto-mejora mediante skills</strong> — aprende de la experiencia guardando procedimientos reutilizables como skills.</li>
+      <li>🧠 <strong>Memoria persistente</strong> entre sesiones — recuerda quién eres, tus preferencias y lecciones aprendidas.</li>
+      <li>🌐 <strong>Gateway multi-plataforma</strong> — el mismo agente funciona en Telegram, Discord, WhatsApp, Slack y más.</li>
+      <li>🔄 <strong>Provider-agnóstico</strong> — cambia de modelo y proveedor sin modificar nada más.</li>
+      <li>👥 <strong>Perfiles</strong> — ejecuta instancias independientes con configuraciones aisladas.</li>
+      <li>🔌 <strong>Extensible</strong> — plugins, servidores MCP, herramientas personalizadas, webhooks, cron.</li>
+    </ul>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>🏗️ Arquitectura</h3>
+      <pre style="font-size:.72rem;line-height:1.4;">Hermes Agent
+├── run_agent.py       ← Bucle de conversación
+├── model_tools.py     ← Descubrimiento de herramientas
+├── cli.py             ← CLI interactiva
+├── hermes_state.py    ← Almacén SQLite de sesiones
+├── agent/             ← Prompt builder, memoria, skills
+├── tools/             ← Una herramienta por archivo
+├── gateway/           ← Gateway de mensajería
+├── cron/              ← Programador de trabajos
+├── skills/            ← Skills instaladas
+└── website/           ← Documentación Docusaurus</pre>
+    </div>
+    <div class="card">
+      <h3>🔑 Conceptos Clave</h3>
+      <div class="collapsible open">
+        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">
+          📦 Skills <span class="arrow">▼</span>
+        </div>
+        <div class="collapsible-body">
+          Procedimientos reutilizables que el agente carga para tareas especializadas. Se guardan como archivos SKILL.md con metadatos YAML.
+        </div>
+      </div>
+      <div class="collapsible open">
+        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">
+          🧠 Memoria <span class="arrow">▼</span>
+        </div>
+        <div class="collapsible-body">
+          Datos persistentes entre sesiones. Dos almacenes: <code>memory</code> (notas personales) y <code>user</code> (perfil del usuario). Se inyectan en cada turno.
+        </div>
+      </div>
+      <div class="collapsible open">
+        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">
+          💾 Sesiones <span class="arrow">▼</span>
+        </div>
+        <div class="collapsible-body">
+          Conversaciones almacenadas en SQLite con búsqueda FTS5. Se pueden reanudar, exportar, comprimir y buscar.
+        </div>
+      </div>
+      <div class="collapsible open">
+        <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">
+          🔌 Providers <span class="arrow">▼</span>
+        </div>
+        <div class="collapsible-body">
+          20+ proveedores: OpenRouter, Anthropic, OpenAI, DeepSeek, Google Gemini, xAI/Grok, HuggingFace, Xiaomi MiMo, Ollama, y más. Cambia con <code>hermes model</code>.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>⚡ Instalación Rápida</h3>
+    <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button># Instalar
+curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
+
+# Iniciar chat interactivo
+hermes
+
+# Consulta única
+hermes chat -q "¿Qué es Hermes Agent?"
+
+# Asistente de configuración
+hermes setup
+
+# Cambiar modelo/proveedor
+hermes model
+
+# Verificar salud del sistema
+hermes doctor</pre>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECCIÓN: CLI -->
+<div class="section" id="sec-cli">
+  <h2 class="section-title"><span class="ico">💻</span> CLI — Comandos Principales</h2>
+
+  <div class="card">
+    <h3>🌐 Global Flags</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>Flag</th><th>Descripción</th></tr>
+      <tr><td><code>-V, --version</code></td><td>Mostrar versión</td></tr>
+      <tr><td><code>-r, --resume ID</code></td><td>Reanudar sesión por ID o título</td></tr>
+      <tr><td><code>-c, --continue [NAME]</code></td><td>Reanudar por nombre o la más reciente</td></tr>
+      <tr><td><code>-w, --worktree</code></td><td>Modo git worktree aislado (agentes paralelos)</td></tr>
+      <tr><td><code>-s, --skills LIST</code></td><td>Precargar skills (separadas por coma)</td></tr>
+      <tr><td><code>-p, --profile NAME</code></td><td>Usar un perfil específico</td></tr>
+      <tr><td><code>--yolo</code></td><td>Saltar aprobación de comandos peligrosos</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>💬 Chat <span class="badge bg-accent">uso diario</span></h3>
+      <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button>hermes chat [flags]
+  -q, --query TEXTO       Consulta única
+  -m, --model MODELO      Especificar modelo
+  -t, --toolsets LISTA    Toolsets separados por coma
+  --provider PROVEEDOR    Forzar proveedor
+  -v, --verbose           Salida detallada
+  -Q, --quiet             Sin banner ni spinner</pre>
+    </div>
+    <div class="card">
+      <h3>⚙️ Configuración <span class="badge bg-green">setup</span></h3>
+      <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button>hermes setup [sección]   Configuración interactiva
+hermes model              Selector de modelo/proveedor
+hermes config             Ver config actual
+hermes config edit        Abrir config.yaml en editor
+hermes config set K V     Cambiar un valor
+hermes config check       Verificar configuración
+hermes doctor [--fix]     Verificar dependencias</pre>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>🧰 Tools & Skills <span class="badge bg-orange">extensión</span></h3>
+      <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button>hermes tools             UI interactiva de toolsets
+hermes tools list        Listar todas las herramientas
+hermes skills list       Skills instaladas
+hermes skills search Q   Buscar en el hub
+hermes skills install ID Instalar skill
+hermes skills browse     Explorar skills disponibles
+hermes skills tap repo   Añadir GitHub como fuente</pre>
+    </div>
+    <div class="card">
+      <h3>🔌 MCP & Gateway <span class="badge bg-purple">conexión</span></h3>
+      <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button>hermes mcp list          Servidores MCP configurados
+hermes mcp add NOMBRE    Añadir servidor MCP
+hermes gateway run       Iniciar gateway
+hermes gateway install   Instalar como servicio
+hermes gateway restart   Reiniciar gateway
+hermes gateway status    Estado del gateway</pre>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>💾 Sesiones & Cron</h3>
+      <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button>hermes sessions list     Sesiones recientes
+hermes sessions browse   Selector interactivo
+hermes sessions export   Exportar a JSONL
+hermes cron list         Trabajos programados
+hermes cron create SCHED Crear trabajo
+hermes cron edit ID      Editar trabajo</pre>
+    </div>
+    <div class="card">
+      <h3>👤 Perfiles & Auth</h3>
+      <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button>hermes profile list      Listar perfiles
+hermes profile create N  Crear perfil
+hermes profile use N     Usar perfil por defecto
+hermes auth add          Añadir credencial
+hermes auth list         Listar credenciales
+hermes auth remove P I   Eliminar credencial</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECCIÓN: CONFIGURACIÓN -->
+<div class="section" id="sec-config">
+  <h2 class="section-title"><span class="ico">⚙️</span> Configuración</h2>
+
+  <div class="card">
+    <h3>📁 Archivos Clave</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>Archivo</th><th>Propósito</th></tr>
+      <tr><td><code>~/.hermes/config.yaml</code></td><td>Configuración principal (modelo, agente, terminal, seguridad, etc.)</td></tr>
+      <tr><td><code>~/.hermes/.env</code></td><td>API keys y secretos</td></tr>
+      <tr><td><code>$HERMES_HOME/skills/</code></td><td>Skills instaladas</td></tr>
+      <tr><td><code>~/.hermes/state.db</code></td><td>Almacén de sesiones (SQLite + FTS5)</td></tr>
+      <tr><td><code>~/.hermes/auth.json</code></td><td>Tokens OAuth y pools de credenciales</td></tr>
+      <tr><td><code>~/.hermes/logs/</code></td><td>Logs del gateway y errores</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📋 Secciones de config.yaml</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>Sección</th><th>Opciones clave</th></tr>
+      <tr><td><code>model</code></td><td><code>default</code>, <code>provider</code>, <code>base_url</code>, <code>api_key</code>, <code>context_length</code></td></tr>
+      <tr><td><code>agent</code></td><td><code>max_turns</code> (90), <code>tool_use_enforcement</code></td></tr>
+      <tr><td><code>terminal</code></td><td><code>backend</code> (local/docker/ssh/modal), <code>cwd</code>, <code>timeout</code></td></tr>
+      <tr><td><code>compression</code></td><td><code>enabled</code>, <code>threshold</code> (0.50), <code>target_ratio</code> (0.20)</td></tr>
+      <tr><td><code>display</code></td><td><code>skin</code>, <code>tool_progress</code>, <code>show_reasoning</code>, <code>show_cost</code></td></tr>
+      <tr><td><code>stt</code></td><td><code>enabled</code>, <code>provider</code> (local/groq/openai/mistral)</td></tr>
+      <tr><td><code>tts</code></td><td><code>provider</code> (edge/elevenlabs/openai/minimax/mistral/neutts)</td></tr>
+      <tr><td><code>memory</code></td><td><code>enabled</code>, <code>user_profile_enabled</code>, <code>provider</code></td></tr>
+      <tr><td><code>security</code></td><td><code>tirith_enabled</code>, <code>website_blocklist</code>, <code>redact_secrets</code></td></tr>
+      <tr><td><code>delegation</code></td><td><code>model</code>, <code>provider</code>, <code>max_iterations</code> (50)</td></tr>
+      <tr><td><code>checkpoints</code></td><td><code>enabled</code>, <code>max_snapshots</code> (50)</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🔐 Proveedores Soportados</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>Proveedor</th><th>Auth</th><th>Variable de entorno</th></tr>
+      <tr><td>OpenRouter</td><td>API key</td><td><code>OPENROUTER_API_KEY</code></td></tr>
+      <tr><td>Anthropic</td><td>API key</td><td><code>ANTHROPIC_API_KEY</code></td></tr>
+      <tr><td>OpenAI</td><td>API key</td><td><code>OPENAI_API_KEY</code></td></tr>
+      <tr><td>Google Gemini</td><td>API key</td><td><code>GOOGLE_API_KEY</code></td></tr>
+      <tr><td>DeepSeek</td><td>API key</td><td><code>DEEPSEEK_API_KEY</code></td></tr>
+      <tr><td>xAI / Grok</td><td>API key</td><td><code>XAI_API_KEY</code></td></tr>
+      <tr><td>HuggingFace</td><td>Token</td><td><code>HF_TOKEN</code></td></tr>
+      <tr><td>Xiaomi MiMo</td><td>API key</td><td><code>XIAOMI_API_KEY</code></td></tr>
+      <tr><td>Ollama (local)</td><td>Ninguna</td><td>—</td></tr>
+      <tr><td>GitHub Copilot</td><td>OAuth</td><td><code>hermes auth</code></td></tr>
+      <tr><td>Endpoint personalizado</td><td>Config</td><td><code>model.base_url</code> + <code>model.api_key</code></td></tr>
+    </table>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECCIÓN: HERRAMIENTAS -->
+<div class="section" id="sec-tools">
+  <h2 class="section-title"><span class="ico">🛠️</span> Herramientas (Toolsets)</h2>
+
+  <div class="card">
+    <p>Los toolsets son grupos de herramientas que se pueden habilitar/deshabilitar por plataforma. Se gestionan con <code>hermes tools</code> (UI interactiva) o <code>hermes tools enable/disable NOMBRE</code>.</p>
+  </div>
+
+  <div class="card">
+    <h3>📋 Todos los Toolsets</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>Toolset</th><th>Qué proporciona</th></tr>
+      <tr><td><code>web</code></td><td>Búsqueda web y extracción de contenido</td></tr>
+      <tr><td><code>browser</code></td><td>Automatización de navegador (CDP)</td></tr>
+      <tr><td><code>terminal</code></td><td>Comandos shell y gestión de procesos</td></tr>
+      <tr><td><code>file</code></td><td>Lectura/escritura/búsqueda/patch de archivos</td></tr>
+      <tr><td><code>code_execution</code></td><td>Ejecución Python en sandbox</td></tr>
+      <tr><td><code>vision</code></td><td>Análisis de imágenes</td></tr>
+      <tr><td><code>image_gen</code></td><td>Generación de imágenes por IA</td></tr>
+      <tr><td><code>skills</code></td><td>Gestión de skills (ver, instalar, crear)</td></tr>
+      <tr><td><code>memory</code></td><td>Memoria persistente entre sesiones</td></tr>
+      <tr><td><code>session_search</code></td><td>Búsqueda en conversaciones pasadas</td></tr>
+      <tr><td><code>delegation</code></td><td>Delegación de tareas a subagentes</td></tr>
+      <tr><td><code>cronjob</code></td><td>Gestión de tareas programadas</td></tr>
+      <tr><td><code>clarify</code></td><td>Hacer preguntas al usuario</td></tr>
+      <tr><td><code>todo</code></td><td>Planificación y seguimiento de tareas</td></tr>
+      <tr><td><code>kanban</code></td><td>Tablero de trabajo multi-agente</td></tr>
+      <tr><td><code>spotify</code></td><td>Control de reproducción Spotify</td></tr>
+      <tr><td><code>homeassistant</code></td><td>Control de hogar inteligente</td></tr>
+      <tr><td><code>discord</code></td><td>Integración con Discord</td></tr>
+      <tr><td><code>safe</code></td><td>Toolset mínimo de bajo riesgo</td></tr>
+    </table>
+    </div>
+    <p style="margin-top:8px;color:var(--text-muted);font-size:.82rem;">💡 Los cambios de toolsets se aplican en la <strong>próxima sesión</strong> (<code>/reset</code>).</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECCIÓN: SKILLS -->
+<div class="section" id="sec-skills">
+  <h2 class="section-title"><span class="ico">📦</span> Skills</h2>
+
+  <div class="card">
+    <h3>🧩 ¿Cómo funcionan las Skills?</h3>
+    <p>Las skills son <strong>procedimientos reutilizables</strong> que Hermes carga cuando necesita hacer una tarea específica. Se guardan como archivos <code>SKILL.md</code> con metadatos YAML (frontmatter) y pueden incluir scripts, plantillas y referencias.</p>
+    <br>
+    <p><strong>¿Para qué sirven?</strong></p>
+    <ul style="padding-left:20px;">
+      <li>🧠 <strong>Memoria procedural</strong> — el agente recuerda cómo hacer tareas complejas</li>
+      <li>🚀 <strong>Workflows reutilizables</strong> — desde diseño de guías educativas hasta debugging</li>
+      <li>🔄 <strong>Auto-mejora</strong> — si encuentras un error en una skill, el agente la parchea</li>
+    </ul>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>🔍 Ver skills disponibles</h3>
+      <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button># Listar skills instaladas
+hermes skills list
+
+# Ver contenido de una skill
+/skill nombre-de-la-skill
+
+# Buscar en el hub de skills
+hermes skills search "educación"
+
+# Explorar todas las skills disponibles
+hermes skills browse</pre>
+    </div>
+    <div class="card">
+      <h3>📥 Instalar skills</h3>
+      <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button># Desde el hub
+hermes skills install ID
+
+# Desde URL directa
+hermes skills install https://.../SKILL.md
+
+# Añadir repositorio GitHub como fuente
+hermes skills tap add usuario/repo
+
+# Desinstalar
+hermes skills uninstall NOMBRE</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📝 Formato SKILL.md</h3>
+    <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button>---
+name: mi-skill
+description: "Descripción breve"
+version: 1.0.0
+author: Tu Nombre
+---
+
+# Mi Skill
+
+Procedimiento detallado con pasos numerados,
+comandos exactos y verificación.
+
+## Requisitos
+- Python 3.11+
+- Variable: MI_API_KEY
+
+## Pasos
+1. ...
+2. ...</pre>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECCIÓN: MCP -->
+<div class="section" id="sec-mcp">
+  <h2 class="section-title"><span class="ico">🔌</span> MCP (Model Context Protocol)</h2>
+
+  <div class="card">
+    <h3>🔌 ¿Qué es MCP?</h3>
+    <p>MCP (<strong>Model Context Protocol</strong>) es un protocolo que permite conectar servidores externos de herramientas a Hermes. Es como instalar "apps" que el agente puede usar. Hermes tiene un <strong>cliente MCP nativo</strong> integrado.</p>
+  </div>
+
+  <div class="card">
+    <h3>⚙️ Configuración</h3>
+    <p>Los servidores MCP se configuran en <code>config.yaml</code> bajo la sección <code>mcp_servers</code>:</p>
+    <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button># config.yaml
+mcp_servers:
+  my-server:
+    transport: stdio        # o 'http'
+    command: python         # para stdio
+    args: ["-m", "mcp_server"]
+    url: "http://..."       # para HTTP
+    headers:
+      Authorization: "Bearer TOKEN"</pre>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>📋 Comandos MCP</h3>
+      <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button>hermes mcp list           Servidores configurados
+hermes mcp add NOMBRE     Añadir servidor
+hermes mcp remove NOMBRE  Eliminar servidor
+hermes mcp test NOMBRE    Probar conexión
+hermes mcp configure NOM  Activar/desactivar tools
+hermes mcp serve          Ejecutar Hermes como MCP server</pre>
+    </div>
+    <div class="card">
+      <h3>🔍 Convención de nombres</h3>
+      <p>Las herramientas de servidores MCP aparecen con el prefijo del servidor:</p>
+      <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button>mcp_mi_servidor_mi_herramienta
+    ↑    ↑           ↑
+  prefijo servidor  herramienta</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECCIÓN: GATEWAY -->
+<div class="section" id="sec-gateway">
+  <h2 class="section-title"><span class="ico">🌐</span> Gateway — Plataformas de Mensajería</h2>
+
+  <div class="card">
+    <h3>🌐 ¿Qué es el Gateway?</h3>
+    <p>El Gateway permite que Hermes funcione en <strong>múltiples plataformas de mensajería</strong> simultáneamente — Telegram, Discord, WhatsApp, Slack, Signal, Email, SMS, Matrix, y más. Una vez configurado, puedes hablar con Hermes desde cualquier plataforma.</p>
+  </div>
+
+  <div class="card">
+    <h3>📋 Plataformas Soportadas</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>Plataforma</th><th>Características</th></tr>
+      <tr><td>Telegram</td><td>Mensajes enriquecidos, botones, aprobaciones inline</td></tr>
+      <tr><td>Discord</td><td>Slash commands, threads, verificación de mensajes</td></tr>
+      <tr><td>Slack</td><td>Mensajes en canales y DMs, aprobaciones con botones</td></tr>
+      <tr><td>WhatsApp (Baileys + API oficial)</td><td>Bridge no-oficial + API oficial de Meta</td></tr>
+      <tr><td>Signal</td><td>Mensajes cifrados de extremo a extremo</td></tr>
+      <tr><td>Email (IMAP/SMTP)</td><td>Leer y responder correos</td></tr>
+      <tr><td>SMS</td><td>Mensajes de texto vía API</td></tr>
+      <tr><td>iMessage (Photon)</td><td>Sin necesidad de Mac relay</td></tr>
+      <tr><td>Matrix</td><td>Protocolo descentralizado</td></tr>
+      <tr><td>API Server</td><td>Webhooks REST para integraciones</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>🚀 Comandos Gateway</h3>
+      <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button>hermes gateway run        Iniciar en primer plano
+hermes gateway install    Instalar como servicio
+hermes gateway start/stop Controlar servicio
+hermes gateway restart    Reiniciar
+hermes gateway status     Ver estado
+hermes gateway setup      Configurar plataformas</pre>
+    </div>
+    <div class="card">
+      <h3>💬 Slash Commands en Gateway</h3>
+      <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button>/approve        Aprobar comando pendiente
+/deny           Denegar comando pendiente
+/restart        Reiniciar gateway
+/sethome        Marcar chat como "casa"
+/platforms      Mostrar estado de plataformas
+/topic          Temas de DM en Telegram</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECCIÓN: SESIONES Y MEMORIA -->
+<div class="section" id="sec-sessions">
+  <h2 class="section-title"><span class="ico">💾</span> Sesiones & Memoria</h2>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>💾 Gestión de Sesiones</h3>
+      <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button>hermes sessions list        Sesiones recientes
+hermes sessions browse      Selector interactivo
+hermes sessions export OUT  Exportar a JSONL
+hermes sessions rename ID T Renombrar sesión
+hermes sessions delete ID   Eliminar sesión
+hermes sessions prune       Limpiar sesiones viejas
+hermes sessions stats       Estadísticas
+
+# En-sesión
+/new (/reset)     Nueva sesión
+/resume [nombre]  Reanudar sesión
+/compress         Comprimir contexto
+/retry            Reenviar último mensaje</pre>
+    </div>
+    <div class="card">
+      <h3>🧠 Sistema de Memoria</h3>
+      <p>La memoria persiste <strong>entre sesiones</strong>. Hay dos almacenes:</p>
+      <ul style="padding-left:20px;margin-top:8px;">
+        <li><code>memory</code> — Notas personales del agente</li>
+        <li><code>user</code> — Perfil del usuario</li>
+      </ul>
+      <br>
+      <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button># Operaciones de memoria (batch)
+memory(action='add',
+       target='memory|user',
+       content='...')
+
+# Búsqueda en sesiones pasadas
+session_search(query="tema",
+               limit=5)</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🔍 Búsqueda FTS5</h3>
+    <p>Las sesiones se almacenan en SQLite con búsqueda de texto completo (FTS5). Puedes buscar en conversaciones pasadas con <code>session_search</code>. Cuatro modos:</p>
+    <ul style="padding-left:20px;margin-top:8px;">
+      <li><strong>Discovery</strong> — <code>session_search(query="...")</code> busca y devuelve sesiones relevantes</li>
+      <li><strong>Scroll</strong> — <code>session_search(session_id="...", around_message_id=N)</code> navega dentro de una sesión</li>
+      <li><strong>Read</strong> — <code>session_search(session_id="...")</code> lee sesión completa</li>
+      <li><strong>Browse</strong> — <code>session_search()</code> sin args muestra sesiones recientes</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECCIÓN: CRON JOBS -->
+<div class="section" id="sec-cron">
+  <h2 class="section-title"><span class="ico">⏰</span> Cron Jobs (Tareas Programadas)</h2>
+
+  <div class="card">
+    <h3>⏰ ¿Qué son los Cron Jobs?</h3>
+    <p>Hermes puede ejecutar tareas <strong>automáticamente en horarios programados</strong> — como revisar correos cada hora, generar reportes semanales, o monitorear sistemas. Los trabajos se gestionan con el tool <code>cronjob</code> o los comandos CLI.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>📋 Gestión de Jobs</h3>
+      <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button>hermes cron list            Listar trabajos
+hermes cron create SCHED    Crear trabajo
+hermes cron edit ID         Editar trabajo
+hermes cron pause/resume ID Pausar/reanudar
+hermes cron run ID          Ejecutar ahora
+hermes cron remove ID       Eliminar trabajo
+hermes cron status          Estado del scheduler</pre>
+    </div>
+    <div class="card">
+      <h3>📅 Formatos de Schedule</h3>
+      <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button># Duración
+"30m"           Cada 30 minutos
+"every 2h"      Cada 2 horas
+
+# Express
+"every monday 9am"
+"every weekday 6pm"
+
+# Cron clásico
+"0 9 * * *"     Diario a las 9am
+
+# Una vez (ISO)
+"2026-06-01T09:00:00"</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>⚙️ Opciones Avanzadas</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>Opción</th><th>Descripción</th></tr>
+      <tr><td><code>skills</code></td><td>Skills a cargar antes de ejecutar</td></tr>
+      <tr><td><code>model</code>/<code>provider</code></td><td>Override de modelo por job</td></tr>
+      <tr><td><code>script</code></td><td>Script de recolección de datos previo</td></tr>
+      <tr><td><code>no_agent</code></td><td>True = ejecutar script sin LLM</td></tr>
+      <tr><td><code>context_from</code></td><td>Encadenar output de otro job</td></tr>
+      <tr><td><code>deliver</code></td><td>Destino: 'origin', 'local', 'all', o específico</td></tr>
+      <tr><td><code>workdir</code></td><td>Directorio de trabajo para el job</td></tr>
+    </table>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECCIÓN: SLASH COMMANDS -->
+<div class="section" id="sec-slash">
+  <h2 class="section-title"><span class="ico">/</span> Comandos Slash</h2>
+
+  <div class="card">
+    <p>Escribe estos comandos durante una sesión interactiva. Clasificados por categoría. Para la lista completa actualizada, escribe <code>/help</code> en sesión.</p>
+  </div>
+
+  <div class="collapsible open">
+    <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">
+      🎮 Control de Sesión <span class="arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
+      <div class="table-wrap">
+      <table>
+        <tr><th>Comando</th><th>Qué hace</th></tr>
+        <tr><td><code>/new</code> <code>/reset</code></td><td>Nueva sesión en blanco</td></tr>
+        <tr><td><code>/clear</code></td><td>Limpiar pantalla</td></tr>
+        <tr><td><code>/retry</code></td><td>Reenviar último mensaje</td></tr>
+        <tr><td><code>/undo</code></td><td>Deshacer último intercambio</td></tr>
+        <tr><td><code>/title [nombre]</code></td><td>Nombrar la sesión</td></tr>
+        <tr><td><code>/compress</code></td><td>Comprimir contexto manualmente</td></tr>
+        <tr><td><code>/stop</code></td><td>Matar procesos en background</td></tr>
+        <tr><td><code>/rollback [N]</code></td><td>Restaurar checkpoint del filesystem</td></tr>
+        <tr><td><code>/resume [nombre]</code></td><td>Reanudar sesión nombrada</td></tr>
+        <tr><td><code>/goal [texto]</code></td><td>Fijar objetivo permanente</td></tr>
+        <tr><td><code>/background &lt;prompt&gt;</code></td><td>Ejecutar prompt en background</td></tr>
+        <tr><td><code>/steer &lt;prompt&gt;</code></td><td>Inyectar mensaje sin interrumpir</td></tr>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="collapsible open">
+    <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">
+      ⚙️ Configuración <span class="arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
+      <div class="table-wrap">
+      <table>
+        <tr><th>Comando</th><th>Qué hace</th></tr>
+        <tr><td><code>/model [nombre]</code></td><td>Ver o cambiar modelo activo</td></tr>
+        <tr><td><code>/reasoning [nivel]</code></td><td>Nivel de razonamiento (none|minimal|low|medium|high|xhigh)</td></tr>
+        <tr><td><code>/verbose</code></td><td>Ciclar niveles de verbosidad</td></tr>
+        <tr><td><code>/voice [on|off|tts]</code></td><td>Modo de voz</td></tr>
+        <tr><td><code>/yolo</code></td><td>Alternar bypass de aprobación</td></tr>
+        <tr><td><code>/skin [nombre]</code></td><td>Cambiar tema (CLI)</td></tr>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="collapsible open">
+    <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">
+      🧰 Tools & Skills <span class="arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
+      <div class="table-wrap">
+      <table>
+        <tr><th>Comando</th><th>Qué hace</th></tr>
+        <tr><td><code>/tools</code></td><td>Gestionar tools (CLI)</td></tr>
+        <tr><td><code>/skills</code></td><td>Buscar/instalar skills (CLI)</td></tr>
+        <tr><td><code>/skill nombre</code></td><td>Cargar una skill en sesión</td></tr>
+        <tr><td><code>/reload-skills</code></td><td>Re-escanear skills instaladas</td></tr>
+        <tr><td><code>/reload</code></td><td>Recargar variables .env</td></tr>
+        <tr><td><code>/reload-mcp</code></td><td>Recargar servidores MCP</td></tr>
+        <tr><td><code>/cron</code></td><td>Gestionar cron jobs (CLI)</td></tr>
+        <tr><td><code>/curator</code></td><td>Mantenimiento de skills</td></tr>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="collapsible open">
+    <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">
+      ℹ️ Información <span class="arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
+      <div class="table-wrap">
+      <table>
+        <tr><th>Comando</th><th>Qué hace</th></tr>
+        <tr><td><code>/help</code></td><td>Mostrar ayuda</td></tr>
+        <tr><td><code>/commands</code></td><td>Navegar comandos (gateway)</td></tr>
+        <tr><td><code>/usage</code></td><td>Uso de tokens</td></tr>
+        <tr><td><code>/insights [días]</code></td><td>Analíticas de uso</td></tr>
+        <tr><td><code>/status</code></td><td>Info de sesión (gateway)</td></tr>
+        <tr><td><code>/profile</code></td><td>Perfil activo</td></tr>
+        <tr><td><code>/debug</code></td><td>Subir reporte de depuración</td></tr>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="collapsible open">
+    <div class="collapsible-header" onclick="this.parentElement.classList.toggle('open')">
+      🔧 Utilidad <span class="arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
+      <div class="table-wrap">
+      <table>
+        <tr><th>Comando</th><th>Qué hace</th></tr>
+        <tr><td><code>/branch</code> <code>/fork</code></td><td>Bifurcar la sesión actual</td></tr>
+        <tr><td><code>/fast</code></td><td>Alternar procesamiento rápido</td></tr>
+        <tr><td><code>/browser</code></td><td>Abrir conexión CDP</td></tr>
+        <tr><td><code>/history</code></td><td>Mostrar historial (CLI)</td></tr>
+        <tr><td><code>/save</code></td><td>Guardar conversación a archivo (CLI)</td></tr>
+        <tr><td><code>/copy [N]</code></td><td>Copiar última respuesta (CLI)</td></tr>
+        <tr><td><code>/quit</code> <code>/exit</code> <code>/q</code></td><td>Salir del CLI</td></tr>
+      </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECCIÓN: PERFILES -->
+<div class="section" id="sec-profiles">
+  <h2 class="section-title"><span class="ico">👤</span> Perfiles</h2>
+
+  <div class="card">
+    <h3>👤 ¿Qué son los Perfiles?</h3>
+    <p>Los perfiles permiten ejecutar <strong>instancias independientes de Hermes</strong> con configuraciones, sesiones, skills y memoria aisladas. Cada perfil tiene su propio directorio <code>~/.hermes/profiles/&lt;nombre&gt;/</code>.</p>
+  </div>
+
+  <div class="card">
+    <h3>📋 Gestión de Perfiles</h3>
+    <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button>hermes profile list           Listar perfiles
+hermes profile create NOMBRE  Crear perfil
+  --clone PERFIL              Clonar otro perfil
+  --clone-all                 Clonar skills + memoria
+hermes profile use NOMBRE     Fijar como predeterminado
+hermes profile delete NOMBRE  Eliminar perfil
+hermes profile show NOMBRE    Mostrar detalles
+hermes profile rename A B     Renombrar
+hermes profile export NOMBRE  Exportar a tar.gz
+hermes profile import ARCHIVO Importar
+
+# Usar un perfil específico
+hermes -p nombre</pre>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECCIÓN: SEGURIDAD -->
+<div class="section" id="sec-security">
+  <h2 class="section-title"><span class="ico">🔒</span> Seguridad & Privacidad</h2>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>🔴 Redacción de Secretos</h3>
+      <p><strong>Activado por defecto.</strong> El output de herramientas (<code>terminal</code>, <code>read_file</code>, contenido web) se escanea para ocultar API keys, tokens y secretos antes de que entren al contexto de la conversación.</p>
+      <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button># Desactivar (solo para debugging)
+hermes config set security.redact_secrets false</pre>
+      <p style="font-size:.78rem;color:var(--text-muted);margin-top:4px;">⚠️ Se necesita reiniciar la sesión.</p>
+    </div>
+    <div class="card">
+      <h3>🛡️ Aprobación de Comandos</h3>
+      <p>Hermes pide confirmación antes de ejecutar comandos peligrosos (<code>rm -rf</code>, <code>git reset --hard</code>, etc.).</p>
+      <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button>hermes config set approvals.mode manual  # Siempre preguntar
+hermes config set approvals.mode smart   # Auto-aprobar seguros
+hermes config set approvals.mode off     # Sin aprobación
+
+# O en una sola ejecución
+hermes --yolo ...</pre>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>👤 Redacción de PII</h3>
+      <p>Cuando está activado, el gateway hashea IDs de usuario y elimina números de teléfono del contexto antes de que lleguen al modelo.</p>
+      <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button>hermes config set privacy.redact_pii true</pre>
+    </div>
+    <div class="card">
+      <h3>🔗 Shell Hooks Allowlist</h3>
+      <p>Las integraciones de shell hooks requieren aprobación explícita antes de ejecutarse. Gestionado en <code>~/.hermes/shell-hooks-allowlist.json</code>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECCIÓN: TROUBLESHOOTING -->
+<div class="section" id="sec-trouble">
+  <h2 class="section-title"><span class="ico">🔧</span> Troubleshooting</h2>
+
+  <div class="card">
+    <h3>🔍 Diagnóstico Rápido</h3>
+    <pre><button class="copy-btn" onclick="copyText(this)">Copiar</button># Verificar salud del sistema
+hermes doctor [--fix]
+
+# Estado de componentes
+hermes status [--all]
+
+# Verificar configuración
+hermes config check
+
+# Ver logs del gateway
+grep -i "failed to send\|error" ~/.hermes/logs/gateway.log | tail -20</pre>
+  </div>
+
+  <div class="card">
+    <h3>⚠️ Problemas Comunes</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>Problema</th><th>Solución</th></tr>
+      <tr><td>Config desactualizada</td><td><code>hermes doctor --fix</code> → <code>hermes gateway restart</code></td></tr>
+      <tr><td>Gateway crashea al iniciar</td><td><code>systemctl --user reset-failed hermes-gateway</code></td></tr>
+      <tr><td>API key inválida (401)</td><td>Prueba con curl, luego revisa la ruta de configuración</td></tr>
+      <tr><td>Tool no disponible</td><td><code>hermes tools</code> — verifica si está habilitado para tu plataforma</td></tr>
+      <tr><td>Skills no aparecen</td><td><code>hermes skills list</code> → <code>hermes skills config</code> → <code>/reset</code></td></tr>
+      <tr><td>Gateway muere al cerrar SSH</td><td><code>sudo loginctl enable-linger $USER</code></td></tr>
+      <tr><td>Voz no funciona</td><td>Verifica <code>stt.enabled: true</code>, reinstala <code>faster-whisper</code></td></tr>
+      <tr><td>Cambios no se aplican</td><td><code>/reset</code> para tools; <code>/restart</code> para gateway; salir/relaunch para CLI</td></tr>
+      <tr><td>Spam de plataforma no usada</td><td><code>hermes config set gateway.disabled_platforms discord</code></td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📚 Recursos Oficiales</h3>
+    <ul style="padding-left:20px;">
+      <li>📖 <strong>Documentación:</strong> <a href="https://hermes-agent.nousresearch.com/docs/" target="_blank" style="color:var(--accent)">hermes-agent.nousresearch.com/docs</a></li>
+      <li>🐙 <strong>Código fuente:</strong> <a href="https://github.com/NousResearch/hermes-agent" target="_blank" style="color:var(--accent)">github.com/NousResearch/hermes-agent</a></li>
+      <li>📢 <strong>Changelog:</strong> <a href="https://www.hermes-ai.net/changelog/" target="_blank" style="color:var(--accent)">hermes-ai.net/changelog</a></li>
+      <li>💬 <strong>Comunidad:</strong> Discord de Nous Research</li>
+    </ul>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  🚀 <strong>Hermes Agent</strong> — Dashboard de Aprendizaje v0.17+<br>
+  Desarrollado por <a href="https://github.com/NousResearch" target="_blank">Nous Research</a> · 
+  Documentación: <a href="https://hermes-agent.nousresearch.com/docs/" target="_blank">hermes-agent.nousresearch.com</a><br>
+  Generado con información actualizada — Junio 2026
+</div>
+
+</main>
+</div>
+
+<!-- BACK TO TOP -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// === TAB NAVIGATION ===
+function switchTab(tab) {
+  document.querySelectorAll('.nav-btn, .nav a').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  var btn = document.querySelector('.nav-btn[onclick*="' + tab + '"]');
+  if (btn) btn.classList.add('active');
+  var section = document.getElementById('sec-' + tab);
+  if (section) section.classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  return false;
+}
+
+// Also add click listeners for .nav a elements if any remain
+document.querySelectorAll('.nav a').forEach(function(link) {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    switchTab(this.getAttribute('data-tab'));
+  });
+});
+
+// === SEARCH ===
+document.getElementById('searchInput').addEventListener('input', function() {
+  const term = this.value.trim().toLowerCase();
+  if (!term) {
+    document.querySelectorAll('.nav a').forEach(a => a.style.display = 'flex');
+    return;
+  }
+  document.querySelectorAll('.nav-btn, .nav a').forEach(function(el) {
+    if (term === '') {
+      el.style.display = 'flex';
+    } else {
+      el.style.display = el.textContent.toLowerCase().includes(term) ? 'flex' : 'none';
+    }
+  });
+});
+
+// === BACK TO TOP ===
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('backTop');
+  btn.classList.toggle('show', window.scrollY > 400);
+});
+
+// === COPY BUTTON ===
+function copyText(btn) {
+  const pre = btn.closest('pre');
+  const text = pre.textContent.replace('Copiar', '').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✅ Copiado';
+    setTimeout(() => { btn.textContent = 'Copiar'; }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>

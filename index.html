@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📚 Mis HTML — Materiales Educativos</title>
+<meta name="description" content="Dashboard de materiales HTML educativos del IER Rafael Uribe Uribe. Guías, mallas curriculares, simuladores y más.">
+<meta name="author" content="Carlos Caro Taborda — IER Rafael Uribe Uribe">
+<style>
+  :root {
+    --bg: #0d1117; --bg-card: #161b22; --bg-hover: #1c2333;
+    --bg-code: #1c2128; --border: #30363d;
+    --text: #c9d1d9; --text-muted: #8b949e; --text-bright: #f0f6fc;
+    --accent: #58a6ff; --green: #3fb950; --orange: #d29922;
+    --red: #f85149; --purple: #bc8cff; --pink: #f778ba;
+    --teal: #39d353;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.6;
+    min-height: 100vh;
+  }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* === HEADER === */
+  .header {
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 40%, #1a1f2e 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 24px 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--green), var(--orange), var(--purple));
+  }
+  .header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 6px; }
+  .header h1 .emoji { font-size: 2rem; }
+  .header .subtitle { color: var(--text-muted); font-size: 1rem; max-width: 600px; margin: 0 auto; }
+  .header .school { 
+    display: inline-block; margin-top: 12px;
+    padding: 4px 14px; border-radius: 20px;
+    background: rgba(88,166,255,.1); color: var(--accent);
+    font-size: .8rem; font-weight: 600;
+  }
+
+  /* === STATS BAR === */
+  .stats {
+    display: flex; justify-content: center; gap: 32px;
+    padding: 16px 24px;
+    background: var(--bg-card); border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .stat { text-align: center; }
+  .stat .num { font-size: 1.6rem; font-weight: 800; color: var(--accent); }
+  .stat .label { font-size: .72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .05em; }
+
+  /* === CONTROLS === */
+  .controls {
+    max-width: 1100px; margin: 24px auto 0; padding: 0 24px;
+    display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+  }
+  .search-box {
+    flex: 1; min-width: 200px;
+    padding: 10px 16px; background: var(--bg-card);
+    border: 1px solid var(--border); border-radius: 10px;
+    color: var(--text); font-size: .88rem; outline: none;
+    transition: border-color .2s;
+  }
+  .search-box:focus { border-color: var(--accent); }
+  .search-box::placeholder { color: var(--text-muted); }
+  .filter-btn {
+    padding: 8px 16px; border-radius: 20px;
+    background: var(--bg-card); border: 1px solid var(--border);
+    color: var(--text-muted); font-size: .8rem; font-weight: 600;
+    cursor: pointer; transition: all .2s; white-space: nowrap;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--text); }
+  .filter-btn.active { background: rgba(88,166,255,.15); border-color: var(--accent); color: var(--accent); }
+
+  /* === MAIN CONTENT === */
+  .main { max-width: 1100px; margin: 0 auto; padding: 24px 24px 80px; }
+
+  /* === CATEGORY === */
+  .category { margin-bottom: 36px; }
+  .cat-title {
+    font-size: 1.1rem; font-weight: 700; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+    padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  }
+  .cat-title .ico { font-size: 1.2rem; }
+  .cat-count {
+    font-size: .7rem; font-weight: 600;
+    padding: 2px 8px; border-radius: 10px;
+    background: rgba(88,166,255,.12); color: var(--accent);
+  }
+
+  /* === CARDS === */
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+  .card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px;
+    transition: all .2s; cursor: pointer; position: relative;
+    display: flex; flex-direction: column;
+  }
+  .card:hover { border-color: var(--accent); background: var(--bg-hover); transform: translateY(-2px); }
+  .card:active { transform: translateY(0); }
+  .card .card-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+  .card .card-ico { font-size: 1.6rem; flex-shrink: 0; margin-top: 2px; }
+  .card .card-title { font-size: .95rem; font-weight: 700; color: var(--text-bright); line-height: 1.3; }
+  .card .card-desc { font-size: .8rem; color: var(--text-muted); flex: 1; margin-bottom: 12px; }
+  .card .card-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 10px; border-top: 1px solid var(--border);
+    font-size: .72rem; color: var(--text-muted);
+  }
+  .card .badge {
+    padding: 2px 8px; border-radius: 6px;
+    font-size: .65rem; font-weight: 700; text-transform: uppercase;
+  }
+  .badge-colegio { background: rgba(63,185,80,.12); color: var(--green); }
+  .badge-docente { background: rgba(188,140,255,.12); color: var(--purple); }
+  .badge-general { background: rgba(210,153,34,.12); color: var(--orange); }
+  .badge-ref { background: rgba(88,166,255,.12); color: var(--accent); }
+  .badge-todos { background: rgba(247,120,186,.12); color: var(--pink); }
+
+  /* === EMPTY STATE === */
+  .empty {
+    text-align: center; padding: 60px 20px; color: var(--text-muted);
+    display: none;
+  }
+  .empty.show { display: block; }
+  .empty .ico { font-size: 3rem; margin-bottom: 12px; }
+
+  /* === FOOTER === */
+  .footer {
+    text-align: center; padding: 32px 24px;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted); font-size: .78rem;
+  }
+  .footer a { color: var(--accent); }
+
+  /* === BACK TO TOP === */
+  .back-top {
+    position: fixed; bottom: 24px; right: 24px;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--bg-card); border: 1px solid var(--border);
+    color: var(--text-muted); font-size: 1.2rem;
+    cursor: pointer; display: none; align-items: center; justify-content: center;
+    transition: all .2s; z-index: 50;
+  }
+  .back-top:hover { background: var(--bg-hover); color: var(--accent); border-color: var(--accent); }
+  .back-top.show { display: flex; }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.5rem; }
+    .cards { grid-template-columns: 1fr; }
+    .stats { gap: 16px; }
+    .controls { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <h1><span class="emoji">📚</span> Mis HTML</h1>
+  <p class="subtitle">Materiales educativos interactivos — guías, mallas curriculares, simuladores y herramientas pedagógicas</p>
+  <span class="school">🏫 IE Rafael Uribe Uribe</span>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="num" id="totalCount">14</div><div class="label">Materiales</div></div>
+  <div class="stat"><div class="num">541</div><div class="label">KB totales</div></div>
+  <div class="stat"><div class="num">4</div><div class="label">Categorías</div></div>
+  <div class="stat"><div class="num">2026</div><div class="label">Año</div></div>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <input type="text" class="search-box" id="search" placeholder="🔍 Buscar material...">
+  <button class="filter-btn active" data-filter="todos">Todos</button>
+  <button class="filter-btn" data-filter="colegio">🎓 Colegio</button>
+  <button class="filter-btn" data-filter="docente">👨‍🏫 Formación Docente</button>
+  <button class="filter-btn" data-filter="general">🌍 Interés General</button>
+  <button class="filter-btn" data-filter="ref">🔧 Referencia</button>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="mainContent">
+
+  <!-- CATEGORÍA: COLEGIO -->
+  <div class="category" data-cat="colegio">
+    <h2 class="cat-title">
+      <span class="ico">🎓</span> Colegio — Ciencias Sociales
+      <span class="cat-count">7 materiales</span>
+    </h2>
+    <div class="cards">
+
+      <a href="guia-9-migraciones-colombia.html" class="card" data-cat="colegio" data-search="guía 9 migraciones colombia grado 9 ciencias sociales">
+        <div class="card-header">
+          <span class="card-ico">🗺️</span>
+          <span class="card-title">Guía 9 — Migraciones en Colombia</span>
+        </div>
+        <p class="card-desc">Guía pedagógica completa para grado 9° sobre los procesos migratorios en Colombia: causas, consecuencias, maps interactivos y actividades vivenciales.</p>
+        <div class="card-meta">
+          <span class="badge badge-todos">Grado 9°</span>
+          <span>72 KB</span>
+        </div>
+      </a>
+
+      <a href="salida-pedagogica-comuna13.html" class="card" data-cat="colegio" data-search="salida pedagógica comuna 13 cartografía social intervención pedagógica">
+        <div class="card-header">
+          <span class="card-ico">📍</span>
+          <span class="card-title">Salida Pedagógica — Comuna 13</span>
+        </div>
+        <p class="card-desc">Proyecto de intervención pedagógica para la Comuna 13 de Medellín. Cartografía social, memoria histórica y construcción de paz.</p>
+        <div class="card-meta">
+          <span class="badge badge-todos">Todos los grados</span>
+          <span>121 KB</span>
+        </div>
+      </a>
+
+      <a href="linea-tiempo-edad-moderna.html" class="card" data-cat="colegio" data-search="línea de tiempo edad moderna historia colonial">
+        <div class="card-header">
+          <span class="card-ico">📜</span>
+          <span class="card-title">Línea de Tiempo — Edad Moderna</span>
+        </div>
+        <p class="card-desc">Línea de tiempo horizontal interactiva de la Edad Moderna. Eventos clave de la historia universal y colombiana con navegación visual.</p>
+        <div class="card-meta">
+          <span class="badge badge-todos">Grado 8°</span>
+          <span>30 KB</span>
+        </div>
+      </a>
+
+      <a href="guerra-fria-app.html" class="card" data-cat="colegio" data-search="guerra fría app selección temas interactiva">
+        <div class="card-header">
+          <span class="card-ico">☢️</span>
+          <span class="card-title">Guerra Fría — App Interactiva</span>
+        </div>
+        <p class="card-desc">Aplicación interactiva para la selección de temas de la Guerra Fría. Incluye línea de tiempo, eventos clave y actividades de profundización.</p>
+        <div class="card-meta">
+          <span class="badge badge-todos">Grado 10°</span>
+          <span>12 KB</span>
+        </div>
+      </a>
+
+      <a href="mallas-curriculares-1a11.html" class="card" data-cat="colegio" data-search="mallas curriculares ciencias sociales grados 1 2 3 4 5 6 7 8 9 10 11 ie rafael uribe">
+        <div class="card-header">
+          <span class="card-ico">📋</span>
+          <span class="card-title">Mallas Curriculares 1° a 11°</span>
+        </div>
+        <p class="card-desc">Mallas curriculares de Ciencias Sociales para todos los grados de primaria y bachillerato. Organización por competencias y estándares del MEN.</p>
+        <div class="card-meta">
+          <span class="badge badge-colegio">1° - 11°</span>
+          <span>13 KB</span>
+        </div>
+      </a>
+
+      <a href="malla-ciencias-sociales-grado9.html" class="card" data-cat="colegio" data-search="malla curricular ciencias sociales grado 9 competencias estándares">
+        <div class="card-header">
+          <span class="card-ico">📊</span>
+          <span class="card-title">Malla Detallada — Grado 9°</span>
+        </div>
+        <p class="card-desc">Malla curricular detallada de Ciencias Sociales para grado 9° con competencias, indicadores, estándares y progresión vertical.</p>
+        <div class="card-meta">
+          <span class="badge badge-todos">Grado 9°</span>
+          <span>21 KB</span>
+        </div>
+      </a>
+
+      <a href="programa-convive-mediacion.html" class="card" data-cat="colegio" data-search="programa convive mediación escolar convivencia capacitación">
+        <div class="card-header">
+          <span class="card-ico">🤝</span>
+          <span class="card-title">Programa CONVIVE — Mediación</span>
+        </div>
+        <p class="card-desc">Plan de capacitación en mediación escolar. Estrategias para la convivencia pacífica, resolución de conflictos y formación en derechos.</p>
+        <div class="card-meta">
+          <span class="badge badge-colegio">Institución</span>
+          <span>63 KB</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- CATEGORÍA: FORMACIÓN DOCENTE -->
+  <div class="category" data-cat="docente">
+    <h2 class="cat-title">
+      <span class="ico">👨‍🏫</span> Formación Docente
+      <span class="cat-count">3 materiales</span>
+    </h2>
+    <div class="cards">
+
+      <a href="guia-concurso-docente.html" class="card" data-cat="docente" data-search="guía concurso docente colombia preparación examen">
+        <div class="card-header">
+          <span class="card-ico">📝</span>
+          <span class="card-title">Guía Concurso Docente Colombia</span>
+        </div>
+        <p class="card-desc">Guía de estudio para la preparación del concurso docente en Colombia. Incluye temario, estrategias de estudio y ejercicios prácticos.</p>
+        <div class="card-meta">
+          <span class="badge badge-docente">Docentes</span>
+          <span>11 KB</span>
+        </div>
+      </a>
+
+      <a href="guia-marco-teorico-notebooklm.html" class="card" data-cat="docente" data-search="marco teórico conceptual notebooklm grado 10 presentación interactiva">
+        <div class="card-header">
+          <span class="card-ico">🧠</span>
+          <span class="card-title">Marco Teórico — NotebookLM</span>
+        </div>
+        <p class="card-desc">Presentación interactiva tipo Prezi sobre el marco teórico y conceptual de Ciencias Sociales grado 10°. 10 diapositivas navegables.</p>
+        <div class="card-meta">
+          <span class="badge badge-todos">Grado 10°</span>
+          <span>36 KB</span>
+        </div>
+      </a>
+
+      <a href="curso-tecnologias-siglo-XXI.html" class="card" data-cat="docente" data-search="curso tecnologías siglo XXI ie rafael uribe formación docente digitales">
+        <div class="card-header">
+          <span class="card-ico">💻</span>
+          <span class="card-title">Curso Tecnologías del Siglo XXI</span>
+        </div>
+        <p class="card-desc">Curso de formación docente en tecnologías del siglo XXI para la IE Rafael Uribe Uribe. Herramientas digitales, inteligencia artificial y pedagogía.</p>
+        <div class="card-meta">
+          <span class="badge badge-docente">Docentes</span>
+          <span>47 KB</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- CATEGORÍA: INTERÉS GENERAL -->
+  <div class="category" data-cat="general">
+    <h2 class="cat-title">
+      <span class="ico">🌍</span> Interés General
+      <span class="cat-count">3 materiales</span>
+    </h2>
+    <div class="cards">
+
+      <a href="candidatos-presidencia-2026.html" class="card" data-cat="general" data-search="candidatos presidencia 2026 colombia planes gobierno comparativo">
+        <div class="card-header">
+          <span class="card-ico">🇨🇴</span>
+          <span class="card-title">Planes de Gobierno — Candidatos 2026</span>
+        </div>
+        <p class="card-desc">Dashboard comparativo de los planes de gobierno de los candidatos presidenciales Colombia 2026. Análisis por ejes temáticos.</p>
+        <div class="card-meta">
+          <span class="badge badge-general">Política</span>
+          <span>51 KB</span>
+        </div>
+      </a>
+
+      <a href="mundial2026-simulador.html" class="card" data-cat="general" data-search="mundial 2026 fifa simulator simulador fútbol copa">
+        <div class="card-header">
+          <span class="card-ico">🏆</span>
+          <span class="card-title">Mundial 2026 — Simulador</span>
+        </div>
+        <p class="card-desc">Simulador interactivo del Mundial FIFA 2026. Predice resultados, genera llaves y sigue el torneo en tiempo real.</p>
+        <div class="card-meta">
+          <span class="badge badge-general">Deportes</span>
+          <span>17 KB</span>
+        </div>
+      </a>
+
+      <a href="mundial2026-ingresar-resultados.html" class="card" data-cat="general" data-search="mundial 2026 ingresar resultados registrar goles partidos">
+        <div class="card-header">
+          <span class="card-ico">⚽</span>
+          <span class="card-title">Mundial 2026 — Ingresar Resultados</span>
+        </div>
+        <p class="card-desc">Herramienta para registrar y dar seguimiento a los resultados del Mundial 2026. Tablas de posiciones y estadísticas.</p>
+        <div class="card-meta">
+          <span class="badge badge-general">Deportes</span>
+          <span>48 KB</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- CATEGORÍA: REFERENCIA -->
+  <div class="category" data-cat="ref">
+    <h2 class="cat-title">
+      <span class="ico">🔧</span> Referencia
+      <span class="cat-count">1 material</span>
+    </h2>
+    <div class="cards">
+
+      <a href="dashboard-hermes-agent.html" class="card" data-cat="ref" data-search="dashboard hermes agent inteligencia artificial configuración">
+        <div class="card-header">
+          <span class="card-ico">🤖</span>
+          <span class="card-title">Dashboard Hermes Agent</span>
+        </div>
+        <p class="card-desc">Guía interactiva de aprendizaje de Hermes Agent — configuración, herramientas, skills, gateway y más. Documentación en español.</p>
+        <div class="card-meta">
+          <span class="badge badge-ref">Referencia</span>
+          <span>50 KB</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- EMPTY STATE -->
+  <div class="empty" id="emptyState">
+    <div class="ico">🔍</div>
+    <p>No se encontraron materiales con ese término.</p>
+    <p style="margin-top:8px;font-size:.82rem;">Intenta con otra palabra o <a href="#" onclick="clearSearch()">limpia la búsqueda</a>.</p>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <strong>📚 Mis HTML</strong> — IE Rafael Uribe Uribe<br>
+  Creado por <a href="https://github.com/cacarot2010">Carlos Caro Taborda</a> · 
+  Generado con <a href="https://hermes-agent.nousresearch.com">Hermes Agent</a> · 
+  Junio 2026
+</div>
+
+<!-- BACK TO TOP -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// === SEARCH ===
+const searchInput = document.getElementById('search');
+const cards = document.querySelectorAll('.card');
+const categories = document.querySelectorAll('.category');
+const emptyState = document.getElementById('emptyState');
+const totalCount = document.getElementById('totalCount');
+
+searchInput.addEventListener('input', filterContent);
+
+function filterContent() {
+  const term = searchInput.value.trim().toLowerCase();
+  const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'todos';
+  let visible = 0;
+
+  cards.forEach(card => {
+    const searchText = (card.dataset.search + ' ' + card.textContent).toLowerCase();
+    const cardCat = card.dataset.cat;
+    const matchSearch = !term || searchText.includes(term);
+    const matchFilter = activeFilter === 'todos' || cardCat === activeFilter;
+    
+    card.style.display = (matchSearch && matchFilter) ? '' : 'none';
+    if (matchSearch && matchFilter) visible++;
+  });
+
+  // Show/hide categories
+  categories.forEach(cat => {
+    const catId = cat.dataset.cat;
+    const hasVisible = cat.querySelectorAll('.card:not([style*="display: none"])').length > 0;
+    const matchFilter = activeFilter === 'todos' || catId === activeFilter;
+    cat.style.display = (hasVisible && matchFilter) ? '' : 'none';
+  });
+
+  totalCount.textContent = visible;
+  emptyState.classList.toggle('show', visible === 0);
+}
+
+// === FILTER BUTTONS ===
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterContent();
+  });
+});
+
+function clearSearch() {
+  searchInput.value = '';
+  filterContent();
+  return false;
+}
+
+// === BACK TO TOP ===
+window.addEventListener('scroll', () => {
+  document.getElementById('backTop').classList.toggle('show', window.scrollY > 400);
+});
+</script>
+
+</body>
+</html>

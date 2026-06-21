@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Línea de Tiempo Horizontal - Edad Moderna</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 50%, #9b59b6 100%);
+            min-height: 100vh;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50px;
+            padding: 15px 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .music-btn {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .music-info {
+            font-size: 12px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            margin: 20px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .timeline-container {
+            padding: 40px 20px;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+
+        .timeline {
+            display: flex;
+            align-items: center;
+            min-width: 4000px;
+            height: 400px;
+            position: relative;
+            padding: 50px 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            top: 50%;
+            left: 100px;
+            right: 100px;
+            height: 6px;
+            background: linear-gradient(to right, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #f39c12, #e74c3c);
+            border-radius: 3px;
+            transform: translateY(-50%);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .timeline-item {
+            flex: 0 0 350px;
+            margin: 0 25px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideInUp 0.8s ease forwards;
+        }
+
+        .timeline-item:nth-child(even) .event-card {
+            margin-top: -280px;
+        }
+
+        .timeline-item:nth-child(odd) .event-card {
+            margin-top: 80px;
+        }
+
+        @keyframes slideInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .timeline-marker {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 24px;
+            height: 24px;
+            background: #fff;
+            border: 5px solid;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover .timeline-marker {
+            transform: translate(-50%, -50%) scale(1.3);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .timeline-item:nth-child(1) .timeline-marker { border-color: #e74c3c; }
+        .timeline-item:nth-child(2) .timeline-marker { border-color: #f39c12; }
+        .timeline-item:nth-child(3) .timeline-marker { border-color: #27ae60; }
+        .timeline-item:nth-child(4) .timeline-marker { border-color: #3498db; }
+        .timeline-item:nth-child(5) .timeline-marker { border-color: #9b59b6; }
+        .timeline-item:nth-child(6) .timeline-marker { border-color: #e67e22; }
+        .timeline-item:nth-child(7) .timeline-marker { border-color: #1abc9c; }
+        .timeline-item:nth-child(8) .timeline-marker { border-color: #34495e; }
+        .timeline-item:nth-child(9) .timeline-marker { border-color: #e91e63; }
+        .timeline-item:nth-child(10) .timeline-marker { border-color: #8e44ad; }
+
+        .event-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s ease;
+            border-left: 6px solid;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+        }
+
+        .timeline-item:nth-child(1) .event-card { border-left-color: #e74c3c; }
+        .timeline-item:nth-child(2) .event-card { border-left-color: #f39c12; }
+        .timeline-item:nth-child(3) .event-card { border-left-color: #27ae60; }
+        .timeline-item:nth-child(4) .event-card { border-left-color: #3498db; }
+        .timeline-item:nth-child(5) .event-card { border-left-color: #9b59b6; }
+        .timeline-item:nth-child(6) .event-card { border-left-color: #e67e22; }
+        .timeline-item:nth-child(7) .event-card { border-left-color: #1abc9c; }
+        .timeline-item:nth-child(8) .event-card { border-left-color: #34495e; }
+        .timeline-item:nth-child(9) .event-card { border-left-color: #e91e63; }
+        .timeline-item:nth-child(10) .event-card { border-left-color: #8e44ad; }
+
+        .event-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .event-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .event-card:hover .event-image {
+            transform: scale(1.05);
+        }
+
+        .year {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .event-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            line-height: 1.3;
+            text-align: center;
+        }
+
+        .event-description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .event-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .link-btn {
+            display: inline-block;
+            padding: 8px 14px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .link-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(45deg, #5a67d8, #6b46c1);
+        }
+
+        .scroll-hint {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 25px;
+            border-radius: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            font-weight: 600;
+            color: #333;
+            animation: bounce 2s infinite;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        .period-divider {
+            flex: 0 0 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .period-label {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: rotate(-5deg);
+            transition: transform 0.3s ease;
+        }
+
+        .period-label:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .timeline {
+                min-width: 3000px;
+            }
+
+            .timeline-item {
+                flex: 0 0 280px;
+            }
+
+            .event-card {
+                padding: 20px;
+            }
+
+            .music-control {
+                top: 10px;
+                right: 10px;
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="music-control">
+        <button class="music-btn" id="musicBtn">▶️</button>
+        <div class="music-info">
+            <div>Música Barroca</div>
+            <div style="font-size: 10px; opacity: 0.7;">Canon en Re - Pachelbel</div>
+        </div>
+    </div>
+
+    <audio id="backgroundMusic" loop>
+        <source src="https://cdnjs.cloudflare.com/ajax/libs/sound-kit/1.0.0/audio/classical/pachelbel-canon.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="header">
+        <h1>🏰 La Edad Moderna 🎨</h1>
+        <p>1453 - 1789 | Un viaje horizontal por los acontecimientos que transformaron el mundo</p>
+    </div>
+
+    <div class="timeline-container">
+        <div class="timeline">
+            <div class="timeline-line"></div>
+
+            <div class="timeline-item" style="animation-delay: 0.1s;">
+                <div class="timeline-marker"></div>
+                <div class="event-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Zonaro_GatesofConst.jpg/300px-Zonaro_GatesofConst.jpg" alt="Caída de Constantinopla" class="event-image">
+                    <div class="year">1453</div>
+                    <h3 class="event-title">Caída de Constantinopla</h3>
+                    <p class="event-description">Los turcos otomanos conquistan la última capital bizantina, marcando el fin del Imperio Romano de Oriente y el inicio de la Edad Moderna.</p>
+                    <div class="event-links">
+                        <a href="https://www.ecured.cu/Ca%C3%ADda_de_Constantinopla" class="link-btn" target="_blank">📚 EcuRed</a>
+                        <a href="https://es.wikipedia.org/wiki/Ca%C3%ADda_de_Constantinopla" class="link-btn" target="_blank">🌐 Wikipedia</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item" style="animation-delay: 0.2s;">
+                <div class="timeline-marker"></div>
+                <div class="event-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Columbus_Taking_Possession.jpg/300px-Columbus_Taking_Possession.jpg" alt="Descubrimiento de América" class="event-image">
+                    <div class="year">1492</div>
+                    <h3 class="event-title">Descubrimiento de América</h3>
+                    <p class="event-description">Cristóbal Colón llega a América el 12 de octubre, iniciando el encuentro entre dos mundos y la era de los grandes descubrimientos.</p>
+                    <div class="event-links">
+                        <a href="https://www.banrepcultural.org/biblioteca-virtual/credencial-historia/numero-46/cristobal-colon-y-el-descubrimiento-de-america" class="link-btn" target="_blank">🏛️ Banrep</a>
+                        <a href="https://www.colombiaaprende.edu.co/contenidos/coleccion/el-descubrimiento-de-america" class="link-btn" target="_blank">📖 Colombia Aprende</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="period-divider">
+                <div class="period-label">🎨 Renacimiento</div>
+            </div>
+
+            <div class="timeline-item" style="animation-delay: 0.3s;">
+                <div class="timeline-marker"></div>
+                <div class="event-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/95Thesen.jpg/300px-95Thesen.jpg" alt="Reforma Protestante" class="event-image">
+                    <div class="year">1517</div>
+                    <h3 class="event-title">Reforma Protestante</h3>
+                    <p class="event-description">Martín Lutero publica sus 95 tesis, iniciando la reforma religiosa que dividirá la cristiandad europea para siempre.</p>
+                    <div class="event-links">
+                        <a href="https://www.ecured.cu/Reforma_protestante" class="link-btn" target="_blank">📚 EcuRed</a>
+                        <a href="https://es.wikipedia.org/wiki/Reforma_protestante" class="link-btn" target="_blank">🌐 Wikipedia</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item" style="animation-delay: 0.4s;">
+                <div class="timeline-marker"></div>
+                <div class="event-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/The_Conquest_of_Tenochtitlan.jpg/300px-The_Conquest_of_Tenochtitlan.jpg" alt="Conquista Azteca" class="event-image">
+                    <div class="year">1521</div>
+                    <h3 class="event-title">Conquista del Imperio Azteca</h3>
+                    <p class="event-description">Hernán Cortés conquista Tenochtitlán, la gran capital azteca, estableciendo el dominio español en Mesoamérica.</p>
+                    <div class="event-links">
+                        <a href="https://www.banrepcultural.org/biblioteca-virtual/credencial-historia/numero-133/la-conquista-de-mexico" class="link-btn" target="_blank">🏛️ Banrep</a>
+                        <a href="https://es.wikipedia.org/wiki/Conquista_de_M%C3%A9xico" class="link-btn" target="_blank">🌐 Wikipedia</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item" style="animation-delay: 0.5s;">
+                <div class="timeline-marker"></div>
+                <div class="event-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Pizarro_seizing_the_Inca_of_Peru.jpg/300px-Pizarro_seizing_the_Inca_of_Peru.jpg" alt="Conquista Inca" class="event-image">
+                    <div class="year">1533</div>
+                    <h3 class="event-title">Conquista del Imperio Inca</h3>
+                    <p class="event-description">Francisco Pizarro captura al emperador Atahualpa y conquista el poderoso Imperio Inca en los Andes sudamericanos.</p>
+                    <div class="event-links">
+                        <a href="https://www.banrepcultural.org/biblioteca-virtual/credencial-historia/numero-134/la-conquista-del-peru" class="link-btn" target="_blank">🏛️ Banrep</a>
+                        <a href="https://es.wikipedia.org/wiki/Conquista_del_Imperio_incaico" class="link-btn" target="_blank">🌐 Wikipedia</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="period-divider">
+                <div class="period-label">🔬 Revolución Científica</div>
+            </div>
+
+            <div class="timeline-item" style="animation-delay: 0.6s;">
+                <div class="timeline-marker"></div>
+                <div class="event-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Copernican_heliocentrism.jpg/300px-Copernican_heliocentrism.jpg" alt="Sistema Heliocéntrico" class="event-image">
+                    <div class="year">1543</div>
+                    <h3 class="event-title">Teoría Heliocéntrica</h3>
+                    <p class="event-description">Copérnico publica su revolucionaria teoría: la Tierra gira alrededor del Sol, cambiando nuestra visión del universo.</p>
+                    <div class="event-links">
+                        <a href="https://www.ecured.cu/Nicol%C3%A1s_Cop%C3%A9rnico" class="link-btn" target="_blank">📚 EcuRed</a>
+                        <a href="https://es.wikipedia.org/wiki/Nicol%C3%A1s_Cop%C3%A9rnico" class="link-btn" target="_blank">🌐 Wikipedia</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item" style="animation-delay: 0.7s;">
+                <div class="timeline-marker"></div>
+                <div class="event-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Spanish_Armada.jpg/300px-Spanish_Armada.jpg" alt="Armada Invencible" class="event-image">
+                    <div class="year">1588</div>
+                    <h3 class="event-title">Derrota de la Armada Invencible</h3>
+                    <p class="event-description">Inglaterra derrota a la gran flota española, marcando el declive del poder naval español y el ascenso inglés.</p>
+                    <div class="event-links">
+                        <a href="https://www.ecured.cu/Armada_Invencible" class="link-btn" target="_blank">📚 EcuRed</a>
+                        <a href="https://es.wikipedia.org/wiki/Gran_Armada" class="link-btn" target="_blank">🌐 Wikipedia</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="period-divider">
+                <div class="period-label">👑 Absolutismo</div>
+            </div>
+
+            <div class="timeline-item" style="animation-delay: 0.8s;">
+                <div class="timeline-marker"></div>
+                <div class="event-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Louis_XIV_of_France.jpg/300px-Louis_XIV_of_France.jpg" alt="Luis XIV" class="event-image">
+                    <div class="year">1661-1715</div>
+                    <h3 class="event-title">Reinado de Luis XIV</h3>
+                    <p class="event-description">El "Rey Sol" gobierna Francia durante 54 años, representando el máximo ejemplo del absolutismo monárquico europeo.</p>
+                    <div class="event-links">
+                        <a href="https://www.ecured.cu/Luis_XIV_de_Francia" class="link-btn" target="_blank">📚 EcuRed</a>
+                        <a href="https://es.wikipedia.org/wiki/Luis_XIV_de_Francia" class="link-btn" target="_blank">🌐 Wikipedia</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item" style="animation-delay: 0.9s;">
+                <div class="timeline-marker"></div>
+                <div class="event-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/GodfreyKneller-IsaacNewton-1689.jpg/300px-GodfreyKneller-IsaacNewton-1689.jpg" alt="Newton" class="event-image">
+                    <div class="year">1687</div>
+                    <h3 class="event-title">Principia de Newton</h3>
+                    <p class="event-description">Isaac Newton publica las leyes del movimiento y la gravitación universal, revolucionando la física y las matemáticas.</p>
+                    <div class="event-links">
+                        <a href="https://www.ecured.cu/Isaac_Newton" class="link-btn" target="_blank">📚 EcuRed</a>
+                        <a href="https://es.wikipedia.org/wiki/Isaac_Newton" class="link-btn" target="_blank">🌐 Wikipedia</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="period-divider">
+                <div class="period-label">💡 Ilustración</div>
+            </div>
+
+            <div class="timeline-item" style="animation-delay: 1.0s;">
+                <div class="timeline-marker"></div>
+                <div class="event-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Declaration_independence.jpg/300px-Declaration_independence.jpg" alt="Independencia EEUU" class="event-image">
+                    <div class="year">1776</div>
+                    <h3 class="event-title">Independencia de Estados Unidos</h3>
+                    <p class="event-description">Las Trece Colonias declaran su independencia, creando la primera república moderna basada en principios ilustrados.</p>
+                    <div class="event-links">
+                        <a href="https://www.banrepcultural.org/biblioteca-virtual/credencial-historia/numero-219/la-independencia-de-estados-unidos" class="link-btn" target="_blank">🏛️ Banrep</a>
+                        <a href="https://es.wikipedia.org/wiki/Independencia_de_los_Estados_Unidos" class="link-btn" target="_blank">🌐 Wikipedia</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item" style="animation-delay: 1.1s;">
+                <div class="timeline-marker"></div>
+                <div class="event-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Prise_de_la_Bastille.jpg/300px-Prise_de_la_Bastille.jpg" alt="Revolución Francesa" class="event-image">
+                    <div class="year">1789</div>
+                    <h3 class="event-title">Revolución Francesa</h3>
+                    <p class="event-description">La toma de la Bastilla inicia la Revolución Francesa, marcando el fin del Antiguo Régimen y el inicio de la Edad Contemporánea.</p>
+                    <div class="event-links">
+                        <a href="https://www.banrepcultural.org/biblioteca-virtual/credencial-historia/numero-117/la-revolucion-francesa" class="link-btn" target="_blank">🏛️ Banrep</a>
+                        <a href="https://www.colombiaaprende.edu.co/contenidos/coleccion/la-revolucion-francesa" class="link-btn" target="_blank">📖 Colombia Aprende</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="scroll-hint">
+        👈 Desliza horizontalmente para explorar la historia 👉
+    </div>
+
+    <script>
+        // Control de música
+        const musicBtn = document.getElementById('musicBtn');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        let isPlaying = false;
+
+        // Crear un contexto de audio simple para música barroca
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        // Función para generar una melodía barroca simple
+        function createBaroqueMusic() {
+            const frequencies = [
+                // Canon de Pachelbel - melodía simplificada
+                293.66, 329.63, 369.99, 392.00, 440.00, 493.88, 523.25, 587.33,
+                523.25, 493.88, 440.00, 392.00, 369.99, 329.63, 293.66, 261.63
+            ];
+
+            let currentNote = 0;
+            let oscillator;
+            let gainNode;
+
+            function playNote() {
+                if (oscillator) {
+                    oscillator.stop();
+                }
+
+                oscillator = audioContext.createOscillator();
+                gainNode = audioContext.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                oscillator.frequency.setValueAtTime(frequencies[currentNote], audioContext.currentTime);
+                oscillator.type = 'sine';
+
+                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.1);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.8);
+
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 1);
+
+                currentNote = (currentNote + 1) % frequencies.length;
+
+                if (isPlaying) {
+                    setTimeout(playNote, 800);
+                }
+            }
+
+            return playNote;
+        }
+
+        const playBaroqueMusic = createBaroqueMusic();
+
+        musicBtn.addEventListener('click', function() {
+            if (isPlaying) {
+                isPlaying = false;
+                musicBtn.textContent = '▶️';
+                musicBtn.style.background = 'linear-gradient(45deg, #ff6b6b, #4ecdc4)';
+            } else {
+                isPlaying = true;
+                musicBtn.textContent = '⏸️';
+                musicBtn.style.background = 'linear-gradient(45deg, #e74c3c, #27ae60)';
+                // Reanudar el contexto de audio si está suspendido
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+                playBaroqueMusic();
+            }
+        });
+
+        // Animaciones de entrada
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            observer.observe(item);
+        });
+
+        // Efectos hover mejorados
+        document.querySelectorAll('.event-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-15px) scale(1.03)';
+                this.style.boxShadow = '0 30px 70px rgba(0, 0, 0, 0.3)';
+            });
+
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+                this.style.boxShadow = '0 25px 60px rgba(0, 0, 0, 0.25)';
+            });
+        });
+
+        // Efectos para los botones de enlaces
+        document.querySelectorAll('.link-btn').forEach(btn => {
+            btn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px) scale(1.05)';
+                this.style.boxShadow = '0 10px 30px rgba(102, 126, 234, 0.5)';
+            });
+
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(-2px) scale(1)';
+                this.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.4)';
+            });
+        });
+
+        // Efectos de paralaje suave en las imágenes
+        document.querySelectorAll('.event-image').forEach(img => {
+            img.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.08) rotate(1deg)';
+            });
+
+            img.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1.05) rotate(0deg)';
+            });
+        });
+
+        // Animación de pulsación en los marcadores de tiempo
+        setInterval(() => {
+            document.querySelectorAll('.timeline-marker').forEach((marker, index) => {
+                setTimeout(() => {
+                    marker.style.transform = 'translate(-50%, -50%) scale(1.2)';
+                    setTimeout(() => {
+                        marker.style.transform = 'translate(-50%, -50%) scale(1)';
+                    }, 200);
+                }, index * 100);
+            });
+        }, 5000);
+
+        // Ocultar hint de scroll después de un tiempo
+        setTimeout(() => {
+            const scrollHint = document.querySelector('.scroll-hint');
+            scrollHint.style.opacity = '0';
+            setTimeout(() => {
+                scrollHint.style.display = 'none';
+            }, 1000);
+        }, 8000);
+
+        // Efecto de partículas flotantes (opcional)
+        function createFloatingParticles() {
+            const particles = [];
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'fixed';
+                particle.style.width = '4px';
+                particle.style.height = '4px';
+                particle.style.background = `hsl(${Math.random() * 60 + 200}, 70%, 60%)`;
+                particle.style.borderRadius = '50%';
+                particle.style.pointerEvents = 'none';
+                particle.style.opacity = '0.6';
+                particle.style.zIndex = '1';
+                document.body.appendChild(particle);
+                particles.push(particle);
+            }
+
+            function animateParticles() {
+                particles.forEach(particle => {
+                    const x = Math.random() * window.innerWidth;
+                    const y = Math.random() * window.innerHeight;
+                    const duration = Math.random() * 3000 + 2000;
+
+                    particle.style.left = x + 'px';
+                    particle.style.top = y + 'px';
+                    particle.style.transition = `all ${duration}ms ease-in-out`;
+                });
+            }
+
+            animateParticles();
+            setInterval(animateParticles, 4000);
+        }
+
+        // Inicializar partículas después de cargar la página
+        setTimeout(createFloatingParticles, 2000);
+
+        // Mejorar la experiencia de scroll horizontal
+        const timelineContainer = document.querySelector('.timeline-container');
+        let isScrolling = false;
+
+        timelineContainer.addEventListener('wheel', function(e) {
+            if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+                return; // Permitir scroll horizontal normal
+            }
+
+            e.preventDefault();
+            this.scrollLeft += e.deltaY;
+
+            if (!isScrolling) {
+                isScrolling = true;
+                this.style.scrollBehavior = 'smooth';
+                setTimeout(() => {
+                    isScrolling = false;
+                    this.style.scrollBehavior = 'auto';
+                }, 100);
+            }
+        }, { passive: false });
+    </script>
+</body>
+</html>
