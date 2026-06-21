@@ -365,7 +365,7 @@ let roundNames=['Octavos de Final','Cuartos de Final','Semifinal','Gran Final'];
 let html='<div style="display:flex;gap:20px;padding:10px;overflow-x:auto">';
 for(let r=0;r<=4;r++){
 let matches=knockoutData.brackets[r];
-if(!matches||matches.length===0)continue;
+if(!matches||matches.length===0){continue;}
 let isFinal=(r===4);
 html+=`<div class="b-section"><div class="round-title">${r===4?'🏆 Final':roundNames[r]||('Ronda '+r)}</div>`;
 matches.forEach(m=>{
