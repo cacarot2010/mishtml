@@ -20,6 +20,7 @@
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
     background: var(--bg); color: var(--text); line-height: 1.6;
     min-height: 100vh;
+    -webkit-tap-highlight-color: transparent;
   }
   ::-webkit-scrollbar { width: 8px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
@@ -87,6 +88,11 @@
 
   /* === MAIN CONTENT === */
   .main { max-width: 1100px; margin: 0 auto; padding: 24px 24px 80px; }
+
+ /* === FILTER ROW === */
+ .filter-row {
+ display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+ }
 
   /* === CATEGORY === */
   .category { margin-bottom: 36px; }
@@ -163,7 +169,18 @@
     .header h1 { font-size: 1.5rem; }
     .cards { grid-template-columns: 1fr; }
     .stats { gap: 16px; }
-    .controls { flex-direction: column; }
+    .controls { flex-direction: column; align-items: stretch; gap: 10px; }
+    .search-box { min-width: unset; width: 100%; }
+    .filter-row {
+      flex-wrap: nowrap; overflow-x: auto;
+      -webkit-overflow-scrolling: touch; scrollbar-width: none;
+      padding: 4px 0; gap: 6px;
+    }
+    .filter-row::-webkit-scrollbar { display: none; }
+    .filter-btn {
+      flex-shrink: 0; padding: 10px 14px;
+      font-size: .82rem;
+    }
   }
 </style>
 </head>
@@ -187,11 +204,13 @@
 <!-- CONTROLS -->
 <div class="controls">
   <input type="text" class="search-box" id="search" placeholder="🔍 Buscar material...">
-  <button class="filter-btn active" data-filter="todos">Todos</button>
-  <button class="filter-btn" data-filter="colegio">🎓 Colegio</button>
-  <button class="filter-btn" data-filter="docente">👨‍🏫 Formación Docente</button>
-  <button class="filter-btn" data-filter="general">🌍 Interés General</button>
-  <button class="filter-btn" data-filter="ref">🔧 Referencia</button>
+  <div class="filter-row">
+    <button class="filter-btn active" data-filter="todos">Todos</button>
+    <button class="filter-btn" data-filter="colegio">🎓 Colegio</button>
+    <button class="filter-btn" data-filter="docente">👨‍🏫 Formación Docente</button>
+    <button class="filter-btn" data-filter="general">🌍 Interés General</button>
+    <button class="filter-btn" data-filter="ref">🔧 Referencia</button>
+  </div>
 </div>
 
 <!-- MAIN -->
